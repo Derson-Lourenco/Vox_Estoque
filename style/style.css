@@ -1,0 +1,383 @@
+*{
+  padding: 0px;
+  margin: 0px;
+}
+body{
+  box-sizing: border-box;
+  padding: 0px;
+  margin: 0px;
+}
+/*.bodyCor{
+  background-color: #e2e2f3;
+}*/
+.box-search{
+  display: flex;
+  justify-content: center;
+  gap: .2%;
+  margin: 5px;
+}
+/*Inicio Index*/
+img#imagem{
+  width: 50vw;
+  height: 50vh;
+}
+
+div#teste{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  height: 50vh;
+  background-color: black;
+  float: left;
+  margin: 2px;
+
+}
+.container-teste{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.card-img-top{
+  width: 15vw;
+  height: 25vh;
+}
+.card{
+  width:23%;
+  height:30vh;
+  float: left;
+  margin: 2px; 
+  padding: 0;
+}
+/*.lado-esquerdo-index{
+  float:left; 
+  background:Red;
+  width:23%;
+  height:50vh;
+}
+.lado-direito-index{
+  float:right;
+  background:blue;
+  width:23%;
+  height:50vh;
+}*/
+div#logo-index{
+  background-image: url(/Mix/imag/MixLogo.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+
+}
+div#menu-index-cima{
+  background-color: #dcd6ec;
+  height: 90px;
+
+}
+div#conteudo-index{
+  background: #e2e2f3;
+  height: 770px;
+}
+div#rodape-index{
+  background-color: #dcd6ec;
+  height: 100px;
+}
+@media screen and (max-width: 576px){
+  div#logo-index{
+    height: 60px;
+  }
+  div#menu-index-cima{
+    height:45px;
+  }
+}
+
+/*Inicio Index*/
+/* Inicio do home*/
+div#logo-home{
+  background-image: url(/Mix/imag/MixLogo.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  height: 90px;
+
+}
+/* Não esta usando agr
+div#menu-home-cima{
+  background-color: #dcd6ec;
+  height: 90px;
+
+}
+div#menu-home{
+  background: #dcd6ec;
+  min-height: 770px;
+}
+div#conteudo-home{
+  background: #e2e2f3;
+  min-height: 770px;
+}
+div#rodape-home{
+  background-color: #dcd6ec;
+  height: 100px;
+}
+@media screen and (max-width: 576px){
+  div#logo-home{
+    height: 60px;
+  }
+  div#menu-home-cima{
+    height:45px;
+  }
+}
+*/
+/* Fim do home*/
+
+/* Inicio do cadastro*/
+.principal-cadastro{
+  width: 100vw;
+  height: 100vh;
+  background-color: #e2e2f3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.direito-cadastro{
+  width: 50vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.esquedo-cadastro{
+  width: 50vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.direito-cadastro > h1{
+  font-size: 3vw;
+  color: #f58634;
+}
+.direito-cadastro-img{
+  width: 50vw;
+}
+.card-cadastro{
+  width: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 30px 35px;
+  background-color: #dcd6ec;
+  border-radius: 20px;
+  box-shadow: 0px 10px 40px #00000056;
+}
+.card-cadastro > h1{
+  color: #f58634;
+  font-weight: 800;
+  margin: 0;
+}
+.bt-cadastro{
+  width: 100%;
+  padding: 16px 0px;
+  margin: 25px;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: 3px;
+  color: #efebf3;
+  background: #0a7d20;
+  cursor: pointer;
+  box-shadow: 0px 10px 40px -12px #00ff8052;
+}
+@media only screem and (max-width: 950px){
+  .card-cadastro{
+    width: 85%;
+  }
+}
+@media only screem and (max-width: 600px){
+  .principal-cadastro{
+    flex-direction: column;
+  }
+  .direito-cadastro > h1{
+    display: none;
+  }
+  .direito-cadastro{
+    width: 100%;
+    height: auto;
+  }
+  .esquedo-cadastro{
+    width: 100%;
+    height: auto;
+  }
+  .direito-cadastro-img{
+    width: 50vh;
+  }
+}
+/* Fim do cadastro*/
+/* Inicio do Login*/
+.principal-login{
+  width: 100vw;
+  height: 100vh;
+  background-color: #e2e2f3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.direito-login{
+  width: 50vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.esquedo-login{
+  width: 50vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.direito-login > h1{
+  font-size: 3vw;
+  color: #f58634;
+}
+.direito-login-img{
+  width: 50vw;
+}
+.card-login{
+  width: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 30px 35px;
+  background-color: #dcd6ec;
+  border-radius: 20px;
+  box-shadow: 0px 10px 40px #00000056;
+}
+.card-login > h1{
+  color: #f58634;
+  font-weight: 800;
+  margin: 0;
+}
+.textCard{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  margin: 10px 0px;
+}
+.textCard > input{
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  padding: 15px;
+  background: #d1c9eb;
+  color: #ffffffde;
+  font-size: 18pt;
+  box-shadow: 0px 10px 40px #d4d4d456;
+  outline: none;
+  box-sizing: border-box;
+}
+.textCard > label{
+  color: #f58634;
+  margin-bottom: 10px;
+  font-weight: 800;
+}
+.textCard > input::placeholder{
+  color: #4d5a5a94;
+}
+.bt-login{
+  width: 100%;
+  padding: 16px 0px;
+  margin: 25px;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: 3px;
+  color: #efebf3;
+  background: #0a7d20;
+  cursor: pointer;
+  box-shadow: 0px 10px 40px -12px #00ff8052;
+}
+@media only screem and (max-width: 950px){
+  .card-login{
+    width: 85%;
+  }
+}
+@media only screem and (max-width: 600px){
+  .principal-login{
+    flex-direction: column;
+  }
+  .direito-login > h1{
+    display: none;
+  }
+  .direito-login{
+    width: 100%;
+    height: auto;
+  }
+  .esquedo-login{
+    width: 100%;
+    height: auto;
+  }
+  .direito-login-img{
+    width: 50vh;
+  }
+}
+
+/* Fim do Login*/
+
+/* Inicio do Tabela Principal*/
+.table{
+  background-color: #e9e9e9;
+}
+
+/* Fim do Tabela Principal
+
+$sql = "SELECT * FROM estoque ";
+$result = $conexao->query($sql);
+
+
+*/
+
+/*
+<div class="col-md-9 ml-sm-auto col-lg-10 px-4 bodyCor" id="tabelaPrincipal">
+          <table class="table text-brack">
+            <thead>
+              <tr>
+                <th scope="col">Codigo</th>
+                <th scope="col">Produto</th>
+                <th scope="col">Cod. Barras</th>
+                <th scope="col">Quantidade</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php
+              while ($user_data = mysqli_fetch_assoc($result)) {
+                echo "<tr>";
+                echo "<td>" . $user_data['id'] . "</td>";
+                echo "<td>" . $user_data['Produto'] . "</td>";
+                echo "<td>" . $user_data['Cod'] . "</td>";
+                echo "<td>" . $user_data['QuantAtual'] . "</td>";
+                echo "<td>
+                <a class = 'btn btn-primary' href='editarProdutos.php?id=$user_data[id]'></a>
+                  <svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-pencil' viewBox='0 0 16 16'>
+                  <path d='M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z'/>
+                  </svg>
+                </a> </td>";
+                echo "<tr>";
+              }
+              ?>
+            </tbody>
+          </table>
+        </div>
+
+
+*/

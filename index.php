@@ -1,0 +1,55 @@
+<?php
+require_once('../MixEstoque/script/funcoes.php');
+
+if (!empty($_POST['email']) && !empty($_POST['senha'])) {
+  $email = $_POST['email'];
+  $senha = $_POST['senha'];
+
+  $login = login($conexao, $email, $senha);
+
+  if ($login) {
+    session_start();
+    $_SESSION['login'] = true;
+    header('location:/MixEstoque/home.php');
+  } else {
+    header('location:/MixEstoque/index.php');
+  }
+}
+?>
+<!doctype html>
+<html>
+
+<head>
+  <title>MIX Login</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" type="text/css" href="/MixEstoque/style/style.css" />
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+  <script type="text/javascript" src="js/bootstrap.js"></script>
+</head>
+
+<body>
+  <div class="principal-login">
+    <div class="direito-login">
+      <!--<h1>Faça o login na nossa loja</h1>-->
+      <img src="imag/MixLogo.png" class="direito-login-img" />
+    </div>
+    <form action="" method="POST">
+      <div class="esquedo-login">
+        <div class="card-login">
+          <h1>Login</h1>
+          <div class="textCard">
+            <label for="usuario">Usuário</label>
+            <input id=email type="text" name="email" placeholder="exemplo@email.com">
+          </div>
+          <div class="textCard">
+            <label for="senha">Senha</label>
+            <input id=senha type="password" name="senha" placeholder="senha">
+          </div>
+          <input type="submit" class="bt-login" name="botao" value="Login">
+        </div>
+      </div>
+    </form>
+  </div>
+</body>
+
+</html>
