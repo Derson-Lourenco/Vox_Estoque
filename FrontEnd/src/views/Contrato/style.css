@@ -1,0 +1,11 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+.Descr{
+  color: rgb(56, 59, 235);
+}
+
+.c{
+  border: 1px solid blue;
+}
