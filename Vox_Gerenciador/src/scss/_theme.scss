@@ -1,4 +1,3 @@
-
 body {
   background-color: var(--cui-tertiary-bg);
 }
@@ -52,12 +51,6 @@ body {
   min-height: calc(3rem + 1px); // stylelint-disable-line function-disallowed-list
 }
 
-.required:after {
-  content:" *"; 
-  color: red;
-}
-
-/*
 @if $enable-dark-mode {
   @include color-mode(dark) {
     body {
@@ -69,4 +62,3 @@ body {
     }
   }
 }
-*/
