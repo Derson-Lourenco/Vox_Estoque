@@ -5,14 +5,14 @@ import autoprefixer from 'autoprefixer'
 
 export default defineConfig(() => {
   return {
-    base: './',
+    base: './', // ajuste se o site estiver em um subdiretório
     build: {
-      outDir: 'build',
+      outDir: 'dist', // certifique-se de que este diretório corresponde ao que o Netlify espera
     },
     css: {
       postcss: {
         plugins: [
-          autoprefixer({}), // add options if needed
+          autoprefixer({}),
         ],
       },
     },
@@ -42,7 +42,7 @@ export default defineConfig(() => {
     server: {
       port: 3000,
       proxy: {
-        // https://vitejs.dev/config/server-options.html
+        // configuração do proxy se necessário
       },
     },
   }
