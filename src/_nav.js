@@ -47,20 +47,20 @@ const _nav = [
   {
     component: CNavGroup,
     name: 'Gerenciar Contratos',
-    to: '/base',
+    to: '/Contrato',
     icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
         name: 'Novo Contrato',
         icon: <CIcon icon={cilPlus} customClassName="nav-icon" />,
-        to: '/base/accordion',
+        to: '/NovoContrato',
       },
       {
         component: CNavItem,
         name: 'Pesquisar Contrato',
         icon: <CIcon icon={cilFindInPage} customClassName="nav-icon" />,
-        to: '/base/breadcrumbs',
+        to: '/Contrato',
       },
       // {
       //   component: CNavItem,
