@@ -182,7 +182,12 @@ const Dashboard = () => {
       <img 
         src={desenvolvimento} 
         alt="Desenvolvimento" 
-        style={{ display: 'block', margin: '0 auto' }} 
+        style={{ 
+          maxWidth: '100%', 
+          height: 'auto', 
+          display: 'block', 
+          margin: '0 auto' 
+        }} 
       />
       {/* <WidgetsDropdown className="mb-4" /> */}
       {/* <CCard className="mb-4">
