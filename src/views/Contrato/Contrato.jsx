@@ -1,43 +1,37 @@
 import React, { useEffect, useState } from 'react';
-import desenvolvimento from "/src/img/pagina_em_desenvolvimento.png"
-// import { Link } from 'react-router-dom';
-// import moment from 'moment';
-// import './style.css'
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import {
-//   faEye,
-//   faTrash,
-//   faPenToSquare,
-//   faFilePen,
-//   faFileSignature,
-// } from '@fortawesome/free-solid-svg-icons';
-// import {
-//   CCol,
-//   CFormInput,
-//   CRow,
-//   CCard,
-//   CCardBody,
-//   CCardHeader,
-//   CInputGroup,
-//   CFormLabel,
-// } from "@coreui/react";
-// import '@coreui/icons/css/free.min.css';
-// import CIcon from '@coreui/icons-react';
+import { Link } from 'react-router-dom';
+import moment from 'moment';
+import './style.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faEye,
+  faTrash,
+  faPenToSquare,
+  faFileSignature,
+} from '@fortawesome/free-solid-svg-icons';
+import { CCard } from "@coreui/react";
+
 const Contrato = () => {
   const [contrato, setContrato] = useState([]);
 
   useEffect(() => {
     const fetchContrato = async () => {
       try {
-        const response = await fetch('https://back-gerenciador.vercel.app');
+        const response = await fetch('http://localhost:5000/contratos/getContratos');
         if (response.ok) {
           const data = await response.json();
-          const contratoFormatados = data.contrato.map(contrato => ({
-            ...contrato,
-            dataInicio: formatarData(contrato.dataInicio),
-            dataFinalizacao: formatarData(contrato.dataFinalizacao),
-          }));
-          setContrato(contratoFormatados.reverse());
+          console.log('Dados recebidos:', data);
+          
+          if (data.contratos && Array.isArray(data.contratos)) {
+            const contratoFormatados = data.contratos.map(contrato => ({
+              ...contrato,
+              dataInicio: formatarData(contrato.dataInicio),
+              dataFinalizacao: formatarData(contrato.dataFinalizacao),
+            }));
+            setContrato(contratoFormatados.reverse());
+          } else {
+            console.error('Dados de contrato não encontrados ou inválidos:', data);
+          }
         } else {
           console.error('Erro na solicitação:', response.statusText);
         }
@@ -81,12 +75,11 @@ const Contrato = () => {
 
   const handleExcluirContrato = async (id) => {
     try {
-      const response = await fetch(`http://localhost:5000/contrato/excluirContrato/${id}`, {
+      const response = await fetch(`http://localhost:5000/contratos/excluirContrato/${id}`, {
         method: 'DELETE',
       });
   
       if (response.ok) {
-        // Atualizar a lista de contrato após a exclusão
         const novosContrato = contrato.filter((c) => c.id !== id);
         setContrato(novosContrato);
       } else {
@@ -99,22 +92,12 @@ const Contrato = () => {
   
   return (
     <div>
-      <img 
-        src={desenvolvimento} 
-        alt="Desenvolvimento" 
-        style={{ 
-          maxWidth: '100%', 
-          height: 'auto', 
-          display: 'block', 
-          margin: '0 auto' 
-        }} 
-      />
-      {/* {contrato.length > 0 ? (
+      {contrato.length > 0 ? (
         contrato.map((contrato) => {
           const situacao = verificarSituacao(contrato.dataInicio, contrato.dataFinalizacao);
           return (
-            <div>
-              <CCard key={contrato.id} className='c mb-3 p-2'>
+            <div key={contrato.id}>
+              <CCard className='c mb-3 p-2'>
                 <table>
                   <thead>
                     <tr>
@@ -146,7 +129,7 @@ const Contrato = () => {
                       <td colSpan="4">{contrato.objetoContrato}</td>
                       <td colSpan="4">
                         <div className='Icon' style={{ float: 'right' }}>
-                          <span href="#" className='m-2'>
+                          <span className='m-2'>
                             <FontAwesomeIcon icon={faPenToSquare} />
                           </span>
                           <span className='m-2' onClick={() => handleExcluirContrato(contrato.id)}>
@@ -157,7 +140,7 @@ const Contrato = () => {
                               <FontAwesomeIcon icon={faFileSignature} />
                             </Link>
                           </span>
-                          <span href="#" className='m-2'>
+                          <span className='m-2'>
                             <FontAwesomeIcon icon={faEye} />
                           </span>
                         </div>
@@ -170,8 +153,8 @@ const Contrato = () => {
           );
         })
       ) : (
-        <div>Não há contrato cadastrados.</div>
-      )} */}
+        <div>Não há contratos cadastrados.</div>
+      )}
     </div>
   );
 };

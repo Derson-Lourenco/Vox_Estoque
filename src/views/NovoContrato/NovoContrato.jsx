@@ -53,7 +53,7 @@ const NovoContrato = () => {
 
     try {
       const valorFormatado = valorContratado.toString();
-      const response = await fetch('https://back-gerenciador.vercel.app', {
+      const response = await fetch('http://localhost:5000/contratos/salvarContrato', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
