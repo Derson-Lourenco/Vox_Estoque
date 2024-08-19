@@ -45,15 +45,26 @@ table th {
     width: 100%;
   }
 
-  table td, th {
+  table td {
     text-align: right;
     position: relative;
     padding-left: 50%;
     border: 1px solid #ddd;
   }
 
-  table td, th::before {
+  table td::before {
     content: attr(data-label);
+    position: absolute;
+    left: 0;
+    width: 50%;
+    padding-left: 10px;
+    white-space: nowrap;
+    font-weight: bold;
+    background-color: #f4f4f4;
+  }
+
+  table th::before {
+    content: attr(data-label1);
     position: absolute;
     left: 0;
     width: 50%;
