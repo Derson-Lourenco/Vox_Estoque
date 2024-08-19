@@ -50,7 +50,6 @@ table th {
     position: relative;
     padding-left: 50%;
     border: 1px solid #ddd;
-    box-sizing: border-box; /* Inclui padding e border no cálculo da largura total */
   }
 
   table td::before {
@@ -62,14 +61,16 @@ table th {
     white-space: nowrap;
     font-weight: bold;
     background-color: #f4f4f4;
-    box-sizing: border-box; /* Inclui padding e border no cálculo da largura total */
   }
 
-  /* Certifique-se de que o nome do objeto é visível */
-  .DescricaoObjeto {
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
-    padding: 10px;
+  table th::before {
+    content: attr(data-label1);
+    position: absolute;
+    left: 0;
+    width: 50%;
+    padding-left: 10px;
+    white-space: nowrap;
+    font-weight: bold;
+    background-color: #f4f4f4;
   }
 }

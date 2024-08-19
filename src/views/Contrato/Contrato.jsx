@@ -99,6 +99,16 @@ const Contrato = () => {
             <div key={contrato.id}>
               <CCard className='c mb-3 p-2'>
                 <table>
+                  <thead>
+                    <tr>
+                      <th className='Descr' style={{ width: '38%' }}>Orgão</th>
+                      <th className='Descr' style={{ width: '15%' }}>Modalidade</th>
+                      <th className='Descr' style={{ width: '12%' }}>Valor</th>
+                      <th className='Descr' style={{ width: '12%' }}>Data Inicio</th>
+                      <th className='Descr' style={{ width: '14%' }}>Data Finalização</th>
+                      <th className='Descr' style={{ width: '12%' }}>Situação</th>
+                    </tr>
+                  </thead>
                   <tbody>
                     <tr>
                       <td data-label="Orgão">{contrato.orgao}</td>
@@ -111,13 +121,13 @@ const Contrato = () => {
                   </tbody>
                   <thead>
                     <tr>
-                      <th className='DescricaoObjeto'>Objeto</th>
+                      <th className='Descr' data-label='Objeto'>Objeto</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <td colSpan="6" className='DescricaoObjeto'>{contrato.objetoContrato}</td>
-                      <td colSpan="6">
+                      <td colSpan="4">{contrato.objetoContrato}</td>
+                      <td colSpan="4">
                         <div className='Icon' style={{ float: 'right' }}>
                           <span className='m-2'>
                             <FontAwesomeIcon icon={faPenToSquare} />
