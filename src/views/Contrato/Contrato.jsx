@@ -17,7 +17,7 @@ const Contrato = () => {
   useEffect(() => {
     const fetchContrato = async () => {
       try {
-        const response = await fetch('http://localhost:5000/contratos/getContratos');
+        const response = await fetch('https://vox-server.onrender.com/contratos/getContratos');
         if (response.ok) {
           const data = await response.json();
           console.log('Dados recebidos:', data);
@@ -75,7 +75,7 @@ const Contrato = () => {
 
   const handleExcluirContrato = async (id) => {
     try {
-      const response = await fetch(`http://localhost:5000/contratos/excluirContrato/${id}`, {
+      const response = await fetch(`https://vox-server.onrender.com/contratos/excluirContrato/${id}`, {
         method: 'DELETE',
       });
   
