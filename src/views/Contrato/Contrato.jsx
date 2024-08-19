@@ -121,7 +121,7 @@ const Contrato = () => {
                   </tbody>
                   <thead>
                     <tr>
-                      <th className='Descr'>Objeto</th>
+                      <th data-label='Descr'>Objeto</th>
                     </tr>
                   </thead>
                   <tbody>
