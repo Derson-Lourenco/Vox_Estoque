@@ -6,6 +6,60 @@
   color: rgb(56, 59, 235);
 }
 
-.c{
+/* Estilo geral */
+.c {
   border: 1px solid blue;
+  width: 100%;
+  overflow-x: auto; /* Permite rolagem horizontal em dispositivos menores */
+}
+
+/* Tabela para telas maiores */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table th, table td {
+  padding: 8px;
+  text-align: left;
+}
+
+table th {
+  background-color: #f4f4f4;
+}
+
+/* Adaptação para telas menores */
+@media (max-width: 768px) {
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  table thead {
+    display: none;
+  }
+
+  table tbody, table tr, table td {
+    display: block;
+    width: 100%;
+  }
+
+  table td {
+    text-align: right;
+    position: relative;
+    padding-left: 50%;
+    border: 1px solid #ddd;
+  }
+
+  table td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 0;
+    width: 50%;
+    padding-left: 10px;
+    white-space: nowrap;
+    font-weight: bold;
+    background-color: #f4f4f4;
+  }
 }

@@ -111,12 +111,12 @@ const Contrato = () => {
                   </thead>
                   <tbody>
                     <tr>
-                      <td>{contrato.orgao}</td>
-                      <td>{contrato.modalidade}</td>
-                      <td>R${contrato.valorContratado.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
-                      <td>{contrato.dataInicio}</td>
-                      <td>{contrato.dataFinalizacao}</td>
-                      <td style={{ color: situacao.cor }}>{situacao.texto}</td>
+                      <td data-label="Orgão">{contrato.orgao}</td>
+                      <td data-label="Modalidade">{contrato.modalidade}</td>
+                      <td data-label="Valor">R${contrato.valorContratado.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
+                      <td data-label="Data Inicio">{contrato.dataInicio}</td>
+                      <td data-label="Data Finalização">{contrato.dataFinalizacao}</td>
+                      <td data-label="Situação" style={{ color: situacao.cor }}>{situacao.texto}</td>
                     </tr>
                   </tbody>
                   <thead>
