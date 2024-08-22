@@ -1,14 +1,19 @@
 import React from 'react'
 import { CFooter } from '@coreui/react'
+import '../css/style.css'
+import TemaCor from './TemaCor'
 
 const AppFooter = () => {
   return (
     <CFooter className="px-4">
       <div>
-        <a href="https://capivaradev.netlify.app/" target="_blank" rel="noopener noreferrer">
-          CAPIVARA DEV
-        </a>
-        <span className="ms-1">&copy; 2024. Todos os direitos reservados Desenvolvido por Capivara Dev.</span>
+        <span className="cap">Vox</span>
+        <span className="dev">Tec</span>
+        
+        <span className="ms-1">&copy; 2024. Todos os direitos reservados Desenvolvido por </span>
+          
+        <a href="https://capivaradev.netlify.app/" target="_blank" rel="noopener noreferrer"><span className="cap" >Capivara</span> <span className="dev">Dev</span></a>
+         
       </div>
       {/* <div className="ms-auto">
         <span className="me-1">Powered by</span>
@@ -16,6 +21,8 @@ const AppFooter = () => {
           CoreUI React Admin &amp; Dashboard Template
         </a>
       </div> */}
+
+      <TemaCor/>
     </CFooter>
   )
 }

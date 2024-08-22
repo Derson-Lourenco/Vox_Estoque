@@ -1,0 +1,30 @@
+:root{
+  --primaria: #032C6E;
+  --secudaria: #5E5E5E;
+  --terciaria: #ACACAC;
+  --cordefundo: #EEEDF5; 
+  --corlogo: #222E3A;
+  --carcapivara: #E8465D;
+  font-family: 'Roboto', sans-serif;
+}
+a{
+  text-decoration: none;
+}
+.cap{
+  color: var(--carcapivara);
+  font-weight: bold;
+}
+.dev{
+  color: var(--cordefundo);
+  font-weight: bold;
+}
+
+.t{
+  background-color: var(--corlogo);
+  color: var(--cordefundo);
+
+}
+.r{
+  background-color: #E8465D !important;
+}
+
