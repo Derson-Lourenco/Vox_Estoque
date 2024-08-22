@@ -10,7 +10,7 @@ const AppFooter = () => {
         <span className="cap">Vox</span>
         <span className="dev">Tec</span>
         
-        <span className="ms-1">&copy; 2024. Todos os direitos reservados Desenvolvido por </span>
+        <span className="ms-1">&copy; 2024. Desenvolvido por </span>
           
         <a href="https://capivaradev.netlify.app/" target="_blank" rel="noopener noreferrer"><span className="cap" >Capivara</span> <span className="dev">Dev</span></a>
          
