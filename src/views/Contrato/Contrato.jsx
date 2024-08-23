@@ -60,16 +60,14 @@ const Contrato = () => {
       const diferencaMeses = dataFimObj.diff(dataAtual, 'months', true);
   
       if (diferencaDias < 0) {
-        return { texto: 'Está Vencido', cor: 'black' };
-      } else if (diferencaDias <= 30) {
-        return { texto: 'Encerramento Próximo', cor: 'red' };
+        return { texto: 'Está Vencido', cor: 'red' };
       } else if (diferencaMeses <= 3) {
         return { texto: 'Término Iminente', cor: 'yellow' };
       } else {
         return { texto: 'Em vigência', cor: 'green' };
       }
     } else {
-      return { texto: 'Está vencido', cor: 'black' };
+      return { texto: 'Está vencido', cor: 'red' };
     }
   };
 

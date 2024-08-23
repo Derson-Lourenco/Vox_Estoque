@@ -2,7 +2,7 @@
   --primaria: #032C6E;
   --secudaria: #5E5E5E;
   --terciaria: #ACACAC;
-  --cordefundo: #EEEDF5; 
+  --cordefundo: hwb(248 93% 4%); 
   --corlogo: #222E3A;
   --carcapivara: #E8465D;
   font-family: 'Roboto', sans-serif;
@@ -28,3 +28,6 @@ a{
   background-color: #E8465D !important;
 }
 
+.footer-theme.dark-theme .dev {
+  color: #222E3A;
+}

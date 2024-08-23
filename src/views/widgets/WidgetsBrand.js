@@ -1,11 +1,70 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { CWidgetStatsD, CRow, CCol } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import { cibFacebook, cibLinkedin, cibTwitter, cilCalendar } from '@coreui/icons'
-import { CChart } from '@coreui/react-chartjs'
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import { CWidgetStatsD, CRow, CCol } from '@coreui/react';
+import CIcon from '@coreui/icons-react';
+import { cilWarning, cilTask, cilBan } from '@coreui/icons';
+import { CChart } from '@coreui/react-chartjs';
 
 const WidgetsBrand = (props) => {
+  const [dadosContrato, setDadosContrato] = useState({
+    novos: 0,
+    iminentes: 0,
+    vencidos: 0,
+  });
+
+  useEffect(() => {
+    const fetchContratos = async () => {
+      try {
+        const response = await fetch('https://vox-server.onrender.com/contratos/getContratos');
+        if (response.ok) {
+          const data = await response.json();
+
+          let novos = 0;
+          let iminentes = 0;
+          let vencidos = 0;
+
+          data.contratos.forEach(contrato => {
+            const situacao = verificarSituacao(contrato.dataInicio, contrato.dataFinalizacao);
+            if (situacao.texto === 'Ainda não começou') {
+              novos += 1;
+            } else if (situacao.texto === 'Término Iminente') {
+              iminentes += 1;
+            } else if (situacao.texto.includes('vencido')) {
+              vencidos += 1;
+            }
+          });
+
+          setDadosContrato({ novos, iminentes, vencidos });
+        } else {
+          console.error('Erro na solicitação:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Erro na solicitação:', error);
+      }
+    };
+
+    fetchContratos();
+  }, []);
+
+  const verificarSituacao = (dataInicio, dataFinalizacao) => {
+    const dataInicioObj = moment(dataInicio, 'YYYY-MM-DD');
+    const dataFimObj = moment(dataFinalizacao, 'YYYY-MM-DD');
+    const dataAtual = moment();
+
+    if (dataAtual.isBefore(dataInicioObj)) {
+      return { texto: 'Ainda não começou', cor: 'blue' };
+    } else if (dataAtual.isSameOrAfter(dataInicioObj) && dataAtual.isBefore(dataFimObj)) {
+      const diferencaDias = dataFimObj.diff(dataAtual, 'days');
+      if (diferencaDias <= 90) {
+        return { texto: 'Término Iminente', cor: 'yellow' };
+      } else {
+        return { texto: 'Em vigência', cor: 'green' };
+      }
+    } else {
+      return { texto: 'Está vencido', cor: 'red' };
+    }
+  };
+
   const chartOptions = {
     elements: {
       line: {
@@ -32,144 +91,78 @@ const WidgetsBrand = (props) => {
         display: false,
       },
     },
-  }
+  };
 
   return (
     <CRow className={props.className} xs={{ gutter: 4 }}>
-      <CCol sm={6} xl={4} xxl={3}>
-        <CWidgetStatsD
-          {...(props.withCharts && {
-            chart: (
-              <CChart
-                className="position-absolute w-100 h-100"
-                type="line"
-                data={{
-                  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-                  datasets: [
-                    {
-                      backgroundColor: 'rgba(255,255,255,.1)',
-                      borderColor: 'rgba(255,255,255,.55)',
-                      pointHoverBackgroundColor: '#fff',
-                      borderWidth: 2,
-                      data: [65, 59, 84, 84, 51, 55, 40],
-                      fill: true,
-                    },
-                  ],
-                }}
-                options={chartOptions}
-              />
-            ),
-          })}
-          icon={<CIcon icon={cibFacebook} height={52} className="my-4 text-white" />}
-          values={[
-            { title: 'friends', value: '89K' },
-            { title: 'feeds', value: '459' },
-          ]}
-          style={{
-            '--cui-card-cap-bg': '#3b5998',
-          }}
-        />
-      </CCol>
-      <CCol sm={6} xl={4} xxl={3}>
-        <CWidgetStatsD
-          {...(props.withCharts && {
-            chart: (
-              <CChart
-                className="position-absolute w-100 h-100"
-                type="line"
-                data={{
-                  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-                  datasets: [
-                    {
-                      backgroundColor: 'rgba(255,255,255,.1)',
-                      borderColor: 'rgba(255,255,255,.55)',
-                      pointHoverBackgroundColor: '#fff',
-                      borderWidth: 2,
-                      data: [1, 13, 9, 17, 34, 41, 38],
-                      fill: true,
-                    },
-                  ],
-                }}
-                options={chartOptions}
-              />
-            ),
-          })}
-          icon={<CIcon icon={cibTwitter} height={52} className="my-4 text-white" />}
-          values={[
-            { title: 'followers', value: '973k' },
-            { title: 'tweets', value: '1.792' },
-          ]}
-          style={{
-            '--cui-card-cap-bg': '#00aced',
-          }}
-        />
-      </CCol>
-      <CCol sm={6} xl={4} xxl={3}>
-        <CWidgetStatsD
-          {...(props.withCharts && {
-            chart: (
-              <CChart
-                className="position-absolute w-100 h-100"
-                type="line"
-                data={{
-                  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-                  datasets: [
-                    {
-                      backgroundColor: 'rgba(255,255,255,.1)',
-                      borderColor: 'rgba(255,255,255,.55)',
-                      pointHoverBackgroundColor: '#fff',
-                      borderWidth: 2,
-                      data: [78, 81, 80, 45, 34, 12, 40],
-                      fill: true,
-                    },
-                  ],
-                }}
-                options={chartOptions}
-              />
-            ),
-          })}
-          icon={<CIcon icon={cibLinkedin} height={52} className="my-4 text-white" />}
-          values={[
-            { title: 'contacts', value: '500' },
-            { title: 'feeds', value: '1.292' },
-          ]}
-          style={{
-            '--cui-card-cap-bg': '#4875b4',
-          }}
-        />
-      </CCol>
-      <CCol sm={6} xl={4} xxl={3}>
-        <CWidgetStatsD
-          color="warning"
-          {...(props.withCharts && {
-            chart: (
-              <CChart
-                className="position-absolute w-100 h-100"
-                type="line"
-                data={{
-                  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-                  datasets: [
-                    {
-                      backgroundColor: 'rgba(255,255,255,.1)',
-                      borderColor: 'rgba(255,255,255,.55)',
-                      pointHoverBackgroundColor: '#fff',
-                      borderWidth: 2,
-                      data: [35, 23, 56, 22, 97, 23, 64],
-                      fill: true,
-                    },
-                  ],
-                }}
-                options={chartOptions}
-              />
-            ),
-          })}
-          icon={<CIcon icon={cilCalendar} height={52} className="my-4 text-white" />}
-          values={[
-            { title: 'events', value: '12+' },
-            { title: 'meetings', value: '4' },
-          ]}
-        />
-      </CCol>
+      {dadosContrato.novos > 0 && (
+        <CCol sm={5} xl={4} xxl={3}>
+          <CWidgetStatsD
+            {...(props.withCharts && {
+              chart: (
+                <CChart
+                  className="position-absolute w-100 h-100"
+                  type="line"
+                  options={chartOptions}
+                />
+              ),
+            })}
+            icon={<CIcon icon={cilTask} height={52} className="my-2 text-white" />}
+            values={[
+              { title: 'Novos Contratos', value: dadosContrato.novos },
+            ]}
+            style={{
+              '--cui-card-cap-bg': '#1b9e3e',
+            }}
+          />
+        </CCol>
+      )}
+
+      {dadosContrato.iminentes > 0 && (
+        <CCol sm={5} xl={4} xxl={3}>
+          <CWidgetStatsD
+            {...(props.withCharts && {
+              chart: (
+                <CChart
+                  className="position-absolute w-100 h-100"
+                  type="line"
+                  options={chartOptions}
+                />
+              ),
+            })}
+            icon={<CIcon icon={cilWarning} height={52} className="my-2 text-white" />}
+            values={[
+              { title: 'Contratos Iminentes', value: dadosContrato.iminentes },
+            ]}
+            style={{
+              '--cui-card-cap-bg': '#f9b115',
+            }}
+          />
+        </CCol>
+      )}
+
+      {dadosContrato.vencidos > 0 && (
+        <CCol sm={5} xl={4} xxl={3}>
+          <CWidgetStatsD
+            {...(props.withCharts && {
+              chart: (
+                <CChart
+                  className="position-absolute w-100 h-100"
+                  type="line"
+                  options={chartOptions}
+                />
+              ),
+            })}
+            icon={<CIcon icon={cilBan} height={52} className="my-2 text-white" />}
+            values={[
+              { title: 'Contratos Vencidos', value: dadosContrato.vencidos },
+            ]}
+            style={{
+              '--cui-card-cap-bg': '#e55353',
+            }}
+          />
+        </CCol>
+      )}
     </CRow>
   )
 }
@@ -179,4 +172,4 @@ WidgetsBrand.propTypes = {
   withCharts: PropTypes.bool,
 }
 
-export default WidgetsBrand
+export default WidgetsBrand;
