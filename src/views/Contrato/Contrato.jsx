@@ -17,40 +17,39 @@ const Contrato = () => {
   const [modalEdicaoVisible, setModalEdicaoVisible] = useState(false);
   const [contratoEditando, setContratoEditando] = useState(null);
 
-  useEffect(() => {
-    const fetchContrato = async () => {
-      try {
-        const response = await fetch('https://vox-server.onrender.com/contratos/getContratos');
-        if (response.ok) {
-          const data = await response.json();
-          console.log('Dados recebidos:', data);
-          
-          if (data.contratos && Array.isArray(data.contratos)) {
-            const contratoFormatados = data.contratos.map(contrato => ({
-              ...contrato,
-              dataInicio: formatarData(contrato.dataInicio),
-              dataFinalizacao: formatarData(contrato.dataFinalizacao),
-            }));
-            setContrato(contratoFormatados.reverse());
-          } else {
-            console.error('Dados de contrato não encontrados ou inválidos:', data);
-          }
+  // Função para buscar contratos
+  const fetchContrato = async () => {
+    try {
+      const response = await fetch('https://vox-server.onrender.com/contratos/getContratos');
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Dados recebidos:', data);
+        
+        if (data.contratos && Array.isArray(data.contratos)) {
+          const contratoFormatados = data.contratos.map(contrato => ({
+            ...contrato,
+            dataInicio: formatarData(contrato.dataInicio),
+            dataFinalizacao: formatarData(contrato.dataFinalizacao),
+          }));
+          setContrato(contratoFormatados.reverse());
         } else {
-          console.error('Erro na solicitação:', response.statusText);
+          console.error('Dados de contrato não encontrados ou inválidos:', data);
         }
-      } catch (error) {
-        console.error('Erro na solicitação:', error);
+      } else {
+        console.error('Erro na solicitação:', response.statusText);
       }
-    };
+    } catch (error) {
+      console.error('Erro na solicitação:', error);
+    }
+  };
 
-    fetchContrato();
-  }, []);
-
+  // Função para formatar data
   const formatarData = (data) => {
     const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
     return new Date(data).toLocaleDateString(undefined, options);
   };
 
+  // Função para verificar situação do contrato
   const verificarSituacao = (dataInicio, dataFinalizacao) => {
     const dataInicioObj = moment(dataInicio, 'DD/MM/YYYY');
     const dataFimObj = moment(dataFinalizacao, 'DD/MM/YYYY');
@@ -74,6 +73,7 @@ const Contrato = () => {
     }
   };
 
+  // Função para excluir contrato
   const handleExcluirContrato = async (id) => {
     try {
       const response = await fetch(`https://vox-server.onrender.com/contratos/excluirContrato/${id}`, {
@@ -91,20 +91,24 @@ const Contrato = () => {
     }
   };
 
+  // Função para abrir modal de detalhes
   const abrirModalDetalhes = (contrato) => {
     setDetalhesContrato(contrato);
   };
 
+  // Função para abrir modal de edição
   const abrirModalEdicao = (contrato) => {
     setContratoEditando(contrato);
     setModalEdicaoVisible(true);
   };
 
+  // Função para fechar modal de edição
   const fecharModalEdicao = () => {
     setModalEdicaoVisible(false);
     setContratoEditando(null);
   };
 
+  // Função para lidar com alterações no formulário
   const handleFormChange = (e) => {
     const { name, value } = e.target;
     setContratoEditando(prevState => ({
@@ -113,6 +117,7 @@ const Contrato = () => {
     }));
   };
 
+  // Função para atualizar contrato
   const handleAtualizarContrato = async (e) => {
     e.preventDefault();
     try {
@@ -140,6 +145,18 @@ const Contrato = () => {
       alert('Erro ao atualizar contrato: ' + error.message);
     }
   };
+
+  // Use useEffect para definir o intervalo
+  useEffect(() => {
+    fetchContrato(); // Carrega os dados inicialmente
+
+    const intervalId = setInterval(() => {
+      fetchContrato(); // Atualiza os dados a cada segundo
+    }, 1000);
+
+    // Limpa o intervalo quando o componente for desmontado
+    return () => clearInterval(intervalId);
+  }, []); // Dependências vazias para que o efeito execute apenas uma vez
 
   return (
     <div>

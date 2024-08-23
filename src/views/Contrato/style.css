@@ -61,7 +61,10 @@ table th, table td {
     font-weight: bold;
 
   }
-
+  table td, table th {
+    position: relative; /* Necessário para que os pseudo-elementos se posicionem corretamente */
+    color: inherit; /* Herda a cor do elemento pai, que é o padrão que você deseja */
+  }
   table th::before {
     content: attr(data-label1);
     position: absolute;
@@ -70,6 +73,8 @@ table th, table td {
     padding-left: 10px;
     white-space: nowrap;
     font-weight: bold;
+
+
 
   }
 }
