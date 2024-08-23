@@ -6,7 +6,6 @@ import { cilWarning, cilTask, cilBan } from '@coreui/icons';
 import { CChart } from '@coreui/react-chartjs';
 import moment from 'moment';
 
-
 const WidgetsBrand = (props) => {
   const [dadosContrato, setDadosContrato] = useState({
     novos: 0,
@@ -21,12 +20,15 @@ const WidgetsBrand = (props) => {
         if (response.ok) {
           const data = await response.json();
 
+          console.log('Dados recebidos:', data); // Verifique os dados recebidos
+
           let novos = 0;
           let iminentes = 0;
           let vencidos = 0;
 
           data.contratos.forEach(contrato => {
             const situacao = verificarSituacao(contrato.dataInicio, contrato.dataFinalizacao);
+            console.log(`Contrato ID ${contrato.id}: ${situacao.texto}`); // Verifique a situação do contrato
             if (situacao.texto === 'Ainda não começou') {
               novos += 1;
             } else if (situacao.texto === 'Término Iminente') {
@@ -57,6 +59,7 @@ const WidgetsBrand = (props) => {
       return { texto: 'Ainda não começou', cor: 'blue' };
     } else if (dataAtual.isSameOrAfter(dataInicioObj) && dataAtual.isBefore(dataFimObj)) {
       const diferencaDias = dataFimObj.diff(dataAtual, 'days');
+      console.log(`Diferença em dias: ${diferencaDias}`); // Verifique a diferença em dias
       if (diferencaDias <= 90) {
         return { texto: 'Término Iminente', cor: 'yellow' };
       } else {
@@ -166,7 +169,7 @@ const WidgetsBrand = (props) => {
         </CCol>
       )}
     </CRow>
-  )
+  );
 }
 
 WidgetsBrand.propTypes = {
