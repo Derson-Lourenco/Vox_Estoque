@@ -19,8 +19,8 @@ const WidgetsBrand = (props) => {
         const response = await fetch('https://vox-server.onrender.com/contratos/getContratos');
         if (response.ok) {
           const data = await response.json();
-          
-          console.log('Dados recebidos:', data); // Verifique os dados recebidos
+
+          console.log('Dados recebidos no WidgetsBrand:', data); // Verifique os dados recebidos
 
           let novos = 0;
           let iminentes = 0;
@@ -29,6 +29,7 @@ const WidgetsBrand = (props) => {
           data.contratos.forEach(contrato => {
             const situacao = verificarSituacao(contrato.dataInicio, contrato.dataFinalizacao);
             console.log(`Contrato ID ${contrato.id}: ${situacao.texto}`); // Verifique a situação do contrato
+
             if (situacao.texto === 'Ainda não começou') {
               novos += 1;
             } else if (situacao.texto === 'Término Iminente') {
@@ -38,6 +39,7 @@ const WidgetsBrand = (props) => {
             }
           });
 
+          console.log(`Novos: ${novos}, Iminentes: ${iminentes}, Vencidos: ${vencidos}`); // Verifique as contagens
           setDadosContrato({ novos, iminentes, vencidos });
         } else {
           console.error('Erro na solicitação:', response.statusText);
@@ -63,8 +65,11 @@ const WidgetsBrand = (props) => {
       return { texto: 'Ainda não começou', cor: 'blue' };
     } else if (dataAtual.isSameOrAfter(dataInicioObj) && dataAtual.isBefore(dataFimObj)) {
       const diferencaDias = dataFimObj.diff(dataAtual, 'days');
-      console.log(`Diferença em dias para Em vigência: ${diferencaDias}`);
-      if (diferencaDias <= 90) {
+      const diferencaMeses = dataFimObj.diff(dataAtual, 'months', true);
+
+      if (diferencaDias < 0) {
+        return { texto: 'Está Vencido', cor: 'red' };
+      } else if (diferencaMeses <= 3) {
         return { texto: 'Término Iminente', cor: 'yellow' };
       } else {
         return { texto: 'Em vigência', cor: 'green' };
@@ -174,8 +179,8 @@ const WidgetsBrand = (props) => {
           />
         </CCol>
       )}
-      
-      {/* Adicionando um bloco para verificar se o valor está correto */}
+
+      {/* Verifique se todos os valores são zero antes de exibir a mensagem de ausência */}
       {dadosContrato.novos === 0 && dadosContrato.iminentes === 0 && dadosContrato.vencidos === 0 && (
         <CCol sm={12} xl={12} xxl={12}>
           <div>Sem contratos para exibir</div>
