@@ -20,8 +20,6 @@ const WidgetsBrand = (props) => {
         if (response.ok) {
           const data = await response.json();
 
-          console.log('Dados recebidos no WidgetsBrand:', data); // Verifique os dados recebidos
-
           let novos = 0;
           let iminentes = 0;
           let vencidos = 0;
@@ -106,8 +104,6 @@ const WidgetsBrand = (props) => {
       },
     },
   };
-
-  console.log('Dados do contrato no estado:', dadosContrato); // Verifique o estado atualizado
 
   return (
     <CRow className={props.className} xs={{ gutter: 4 }}>
