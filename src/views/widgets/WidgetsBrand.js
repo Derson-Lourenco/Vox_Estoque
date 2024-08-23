@@ -66,11 +66,12 @@ const WidgetsBrand = (props) => {
       const diferencaMeses = dataFimObj.diff(dataAtual, 'months', true);
 
       if (diferencaDias < 0) {
-        return { texto: 'Está Vencido', cor: 'red' };
+        return { texto: 'Em vigência', cor: 'green' };
+        
       } else if (diferencaMeses <= 3) {
         return { texto: 'Término Iminente', cor: 'yellow' };
       } else {
-        return { texto: 'Em vigência', cor: 'green' };
+        return { texto: 'Está Vencido', cor: 'red' };
       }
     // } else {
     //   return { texto: 'Está vencido', cor: 'red' };
