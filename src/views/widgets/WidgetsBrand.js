@@ -65,17 +65,16 @@ const WidgetsBrand = (props) => {
       const diferencaDias = dataFimObj.diff(dataAtual, 'days');
       const diferencaMeses = dataFimObj.diff(dataAtual, 'months', true);
 
-      if (diferencaDias < 0) {
-        return { texto: 'Em vigência', cor: 'green' };
-        
+      if (diferencaDias <= 10) {
+        return { texto: 'Está Vencido', cor: 'red' };
       } else if (diferencaMeses <= 3) {
         return { texto: 'Término Iminente', cor: 'yellow' };
       } else {
-        return { texto: 'Está Vencido', cor: 'red' };
+        return { texto: 'Em vigência', cor: 'green' };
       }
-    // } else {
-    //   return { texto: 'Está vencido', cor: 'red' };
-    // }
+    } else {
+      return { texto: 'Está vencido', cor: 'red' };
+    }
   };
 
   const chartOptions = {
@@ -185,11 +184,11 @@ const WidgetsBrand = (props) => {
       )}
     </CRow>
   );
-}
+};
 
 WidgetsBrand.propTypes = {
   className: PropTypes.string,
   withCharts: PropTypes.bool,
-}
+};
 
 export default WidgetsBrand;
