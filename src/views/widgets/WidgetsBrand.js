@@ -102,7 +102,7 @@ const WidgetsBrand = (props) => {
 
   return (
     <CRow className={props.className} xs={{ gutter: 4 }}>
-      {dadosContrato.vencidos > 0 && (
+      {dadosContrato.novos > 0 && (
         <CCol sm={5} xl={4} xxl={3}>
           <CWidgetStatsD
             {...(props.withCharts && {
@@ -116,7 +116,7 @@ const WidgetsBrand = (props) => {
             })}
             icon={<CIcon icon={cilTask} height={52} className="my-2 text-white" />}
             values={[
-              { title: 'Novos Contratos', value: dadosContrato.vencidos },
+              { title: 'Novos Contratos', value: dadosContrato.novos },
             ]}
             style={{
               '--cui-card-cap-bg': '#1b9e3e',
