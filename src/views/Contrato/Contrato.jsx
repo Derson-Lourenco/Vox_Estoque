@@ -13,6 +13,7 @@ import { CCard } from "@coreui/react";
 
 const Contrato = () => {
   const [contrato, setContrato] = useState([]);
+  const [detalhesContrato, setDetalhesContrato] = useState(null); // Novo estado para os detalhes do contrato
 
   useEffect(() => {
     const fetchContrato = async () => {
@@ -87,7 +88,11 @@ const Contrato = () => {
       console.error('Erro ao excluir contrato:', error);
     }
   };
-  
+
+  const mostrarDetalhes = (contrato) => {
+    setDetalhesContrato(contrato);
+  };
+
   return (
     <div>
       {contrato.length > 0 ? (
@@ -138,7 +143,7 @@ const Contrato = () => {
                               <FontAwesomeIcon icon={faFileSignature} />
                             </Link>
                           </span>
-                          <span className='m-2'>
+                          <span className='m-2' onClick={() => mostrarDetalhes(contrato)}>
                             <FontAwesomeIcon icon={faEye} />
                           </span>
                         </div>
@@ -152,6 +157,19 @@ const Contrato = () => {
         })
       ) : (
         <div>Não há contratos cadastrados.</div>
+      )}
+      
+      {detalhesContrato && (
+        <div className='detalhes-contrato'>
+          <h3>Detalhes do Contrato</h3>
+          <p><strong>Orgão:</strong> {detalhesContrato.orgao}</p>
+          <p><strong>Modalidade:</strong> {detalhesContrato.modalidade}</p>
+          <p><strong>Valor:</strong> R${detalhesContrato.valorContratado.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+          <p><strong>Data Inicio:</strong> {detalhesContrato.dataInicio}</p>
+          <p><strong>Data Finalização:</strong> {detalhesContrato.dataFinalizacao}</p>
+          <p><strong>Objeto:</strong> {detalhesContrato.objetoContrato}</p>
+          <button onClick={() => setDetalhesContrato(null)}>Fechar</button>
+        </div>
       )}
     </div>
   );
