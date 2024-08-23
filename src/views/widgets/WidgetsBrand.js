@@ -102,7 +102,7 @@ const WidgetsBrand = (props) => {
 
   return (
     <CRow className={props.className} xs={{ gutter: 4 }}>
-      {dadosContrato.novos > 0 && (
+      {dadosContrato.vencidos > 0 && (
         <CCol sm={5} xl={4} xxl={3}>
           <CWidgetStatsD
             {...(props.withCharts && {
