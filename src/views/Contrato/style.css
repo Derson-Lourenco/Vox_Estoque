@@ -49,7 +49,6 @@ table th {
     text-align: right;
     position: relative;
     padding-left: 50%;
-    border: 1px solid #ddd;
   }
 
   table td::before {
@@ -60,7 +59,7 @@ table th {
     padding-left: 10px;
     white-space: nowrap;
     font-weight: bold;
-    background-color: #f4f4f4;
+
   }
 
   table th::before {
@@ -71,6 +70,6 @@ table th {
     padding-left: 10px;
     white-space: nowrap;
     font-weight: bold;
-    background-color: #f4f4f4;
+
   }
 }
