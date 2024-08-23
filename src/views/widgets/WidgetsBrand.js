@@ -19,7 +19,7 @@ const WidgetsBrand = (props) => {
         const response = await fetch('https://vox-server.onrender.com/contratos/getContratos');
         if (response.ok) {
           const data = await response.json();
-
+          
           console.log('Dados recebidos:', data); // Verifique os dados recebidos
 
           let novos = 0;
@@ -55,11 +55,15 @@ const WidgetsBrand = (props) => {
     const dataFimObj = moment(dataFinalizacao, 'YYYY-MM-DD');
     const dataAtual = moment();
 
+    console.log(`Data Atual: ${dataAtual.format('YYYY-MM-DD')}`);
+    console.log(`Data Início: ${dataInicioObj.format('YYYY-MM-DD')}`);
+    console.log(`Data Finalização: ${dataFimObj.format('YYYY-MM-DD')}`);
+
     if (dataAtual.isBefore(dataInicioObj)) {
       return { texto: 'Ainda não começou', cor: 'blue' };
     } else if (dataAtual.isSameOrAfter(dataInicioObj) && dataAtual.isBefore(dataFimObj)) {
       const diferencaDias = dataFimObj.diff(dataAtual, 'days');
-      console.log(`Diferença em dias para Em vigência: ${diferencaDias}`); // Verifique a diferença em dias
+      console.log(`Diferença em dias para Em vigência: ${diferencaDias}`);
       if (diferencaDias <= 90) {
         return { texto: 'Término Iminente', cor: 'yellow' };
       } else {
@@ -172,7 +176,7 @@ const WidgetsBrand = (props) => {
       )}
       
       {/* Adicionando um bloco para verificar se o valor está correto */}
-      {dadosContrato.vencidos === 0 && dadosContrato.novos === 0 && dadosContrato.iminentes === 0 && (
+      {dadosContrato.novos === 0 && dadosContrato.iminentes === 0 && dadosContrato.vencidos === 0 && (
         <CCol sm={12} xl={12} xxl={12}>
           <div>Sem contratos para exibir</div>
         </CCol>
