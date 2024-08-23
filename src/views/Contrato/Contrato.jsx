@@ -9,8 +9,7 @@ import {
   faPenToSquare,
   faFileSignature,
 } from '@fortawesome/free-solid-svg-icons';
-import { CCard } from "@coreui/react";
-import { Modal, Button, Form } from 'react-bootstrap';
+import { CCard, Modal, Button, Form } from "@coreui/react";
 
 const Contrato = () => {
   const [contrato, setContrato] = useState([]);
@@ -92,7 +91,7 @@ const Contrato = () => {
     }
   };
 
-  const mostrarDetalhes = (contrato) => {
+  const abrirModalDetalhes = (contrato) => {
     setDetalhesContrato(contrato);
   };
 
@@ -108,8 +107,8 @@ const Contrato = () => {
 
   const handleFormChange = (e) => {
     const { name, value } = e.target;
-    setContratoEditando((prev) => ({
-      ...prev,
+    setContratoEditando(prevState => ({
+      ...prevState,
       [name]: value
     }));
   };
@@ -124,19 +123,21 @@ const Contrato = () => {
         },
         body: JSON.stringify(contratoEditando)
       });
-  
+
       if (response.ok) {
         const dadosAtualizados = await response.json();
         const novosContrato = contrato.map((c) =>
-          c.id === dadosAtualizados.id ? dadosAtualizados : c
+          c.id === dadosAtualizados.id ? { ...c, ...contratoEditando } : c
         );
         setContrato(novosContrato);
         fecharModalEdicao();
       } else {
         console.error('Erro ao atualizar contrato:', response.statusText);
+        alert('Erro ao atualizar contrato: ' + response.statusText);
       }
     } catch (error) {
       console.error('Erro ao atualizar contrato:', error);
+      alert('Erro ao atualizar contrato: ' + error.message);
     }
   };
 
@@ -179,8 +180,8 @@ const Contrato = () => {
                       <td colSpan="4">{contrato.objetoContrato}</td>
                       <td colSpan="4">
                         <div className='Icon' style={{ float: 'right' }}>
-                          <span className='m-2' onClick={() => abrirModalEdicao(contrato)}>
-                            <FontAwesomeIcon icon={faPenToSquare} />
+                          <span className='m-2'>
+                            <FontAwesomeIcon icon={faPenToSquare} onClick={() => abrirModalEdicao(contrato)} />
                           </span>
                           <span className='m-2' onClick={() => handleExcluirContrato(contrato.id)}>
                             <FontAwesomeIcon icon={faTrash} />
@@ -190,7 +191,7 @@ const Contrato = () => {
                               <FontAwesomeIcon icon={faFileSignature} />
                             </Link>
                           </span>
-                          <span className='m-2' onClick={() => mostrarDetalhes(contrato)}>
+                          <span className='m-2' onClick={() => abrirModalDetalhes(contrato)}>
                             <FontAwesomeIcon icon={faEye} />
                           </span>
                         </div>
@@ -205,36 +206,30 @@ const Contrato = () => {
       ) : (
         <div>Não há contratos cadastrados.</div>
       )}
-      
+
       {detalhesContrato && (
-        <Modal show={true} onHide={() => setDetalhesContrato(null)}>
-          <Modal.Header closeButton>
-            <Modal.Title>Detalhes do Contrato</Modal.Title>
-          </Modal.Header>
+        <Modal show={!!detalhesContrato} onClose={() => setDetalhesContrato(null)}>
+          <Modal.Header>Detalhes do Contrato</Modal.Header>
           <Modal.Body>
             <p><strong>Orgão:</strong> {detalhesContrato.orgao}</p>
             <p><strong>Modalidade:</strong> {detalhesContrato.modalidade}</p>
             <p><strong>Valor:</strong> R${detalhesContrato.valorContratado.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
-            <p><strong>Data Inicio:</strong> {detalhesContrato.dataInicio}</p>
+            <p><strong>Data Início:</strong> {detalhesContrato.dataInicio}</p>
             <p><strong>Data Finalização:</strong> {detalhesContrato.dataFinalizacao}</p>
             <p><strong>Objeto:</strong> {detalhesContrato.objetoContrato}</p>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={() => setDetalhesContrato(null)}>
-              Fechar
-            </Button>
+            <Button color="secondary" onClick={() => setDetalhesContrato(null)}>Fechar</Button>
           </Modal.Footer>
         </Modal>
       )}
 
-      {modalEdicaoVisible && contratoEditando && (
-        <Modal show={modalEdicaoVisible} onHide={fecharModalEdicao}>
-          <Modal.Header closeButton>
-            <Modal.Title>Editar Contrato</Modal.Title>
-          </Modal.Header>
+      {contratoEditando && (
+        <Modal show={modalEdicaoVisible} onClose={fecharModalEdicao}>
+          <Modal.Header>Editar Contrato</Modal.Header>
           <Modal.Body>
             <Form onSubmit={handleAtualizarContrato}>
-              <Form.Group controlId="formOrgao">
+              <Form.Group>
                 <Form.Label>Orgão</Form.Label>
                 <Form.Control
                   type="text"
@@ -243,7 +238,7 @@ const Contrato = () => {
                   onChange={handleFormChange}
                 />
               </Form.Group>
-              <Form.Group controlId="formModalidade">
+              <Form.Group>
                 <Form.Label>Modalidade</Form.Label>
                 <Form.Control
                   type="text"
@@ -252,7 +247,7 @@ const Contrato = () => {
                   onChange={handleFormChange}
                 />
               </Form.Group>
-              <Form.Group controlId="formValor">
+              <Form.Group>
                 <Form.Label>Valor</Form.Label>
                 <Form.Control
                   type="number"
@@ -261,44 +256,37 @@ const Contrato = () => {
                   onChange={handleFormChange}
                 />
               </Form.Group>
-              <Form.Group controlId="formDataInicio">
-                <Form.Label>Data Inicio</Form.Label>
+              <Form.Group>
+                <Form.Label>Data Início</Form.Label>
                 <Form.Control
                   type="date"
                   name="dataInicio"
-                  value={moment(contratoEditando.dataInicio, 'DD/MM/YYYY').format('YYYY-MM-DD')}
+                  value={contratoEditando.dataInicio}
                   onChange={handleFormChange}
                 />
               </Form.Group>
-              <Form.Group controlId="formDataFinalizacao">
+              <Form.Group>
                 <Form.Label>Data Finalização</Form.Label>
                 <Form.Control
                   type="date"
                   name="dataFinalizacao"
-                  value={moment(contratoEditando.dataFinalizacao, 'DD/MM/YYYY').format('YYYY-MM-DD')}
+                  value={contratoEditando.dataFinalizacao}
                   onChange={handleFormChange}
                 />
               </Form.Group>
-              <Form.Group controlId="formObjeto">
+              <Form.Group>
                 <Form.Label>Objeto</Form.Label>
                 <Form.Control
                   as="textarea"
-                  rows={3}
                   name="objetoContrato"
                   value={contratoEditando.objetoContrato}
                   onChange={handleFormChange}
                 />
               </Form.Group>
-              <Button variant="primary" type="submit">
-                Atualizar
-              </Button>
+              <Button type="submit" color="primary">Salvar</Button>
+              <Button color="secondary" onClick={fecharModalEdicao}>Cancelar</Button>
             </Form>
           </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={fecharModalEdicao}>
-              Fechar
-            </Button>
-          </Modal.Footer>
         </Modal>
       )}
     </div>
