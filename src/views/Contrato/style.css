@@ -24,9 +24,9 @@ table th, table td {
   text-align: left;
 }
 
-table th {
+/* table th {
   background-color: #f4f4f4;
-}
+} */
 
 /* Adaptação para telas menores */
 @media (max-width: 768px) {
