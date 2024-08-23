@@ -4,6 +4,8 @@ import { CWidgetStatsD, CRow, CCol } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import { cilWarning, cilTask, cilBan } from '@coreui/icons';
 import { CChart } from '@coreui/react-chartjs';
+import moment from 'moment';
+
 
 const WidgetsBrand = (props) => {
   const [dadosContrato, setDadosContrato] = useState({
