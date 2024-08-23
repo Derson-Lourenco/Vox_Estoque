@@ -30,11 +30,11 @@ const WidgetsBrand = (props) => {
             const situacao = verificarSituacao(contrato.dataInicio, contrato.dataFinalizacao);
             console.log(`Contrato ID ${contrato.id}: ${situacao.texto}`); // Verifique a situação do contrato
 
-            if (situacao.texto === 'Ainda não começou') {
+            if (situacao.texto === 'Em vigência') {
               novos += 1;
             } else if (situacao.texto === 'Término Iminente') {
               iminentes += 1;
-            } else if (situacao.texto === 'Em vigência') {
+            } else if (situacao.texto === 'Está vencido') {
               vencidos += 1;
             }
           });
@@ -74,9 +74,9 @@ const WidgetsBrand = (props) => {
       } else {
         return { texto: 'Em vigência', cor: 'green' };
       }
-    } else {
-      return { texto: 'Está vencido', cor: 'red' };
-    }
+    // } else {
+    //   return { texto: 'Está vencido', cor: 'red' };
+    // }
   };
 
   const chartOptions = {
