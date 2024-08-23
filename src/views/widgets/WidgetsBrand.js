@@ -116,7 +116,7 @@ const WidgetsBrand = (props) => {
             })}
             icon={<CIcon icon={cilTask} height={52} className="my-2 text-white" />}
             values={[
-              { title: 'Novos Contratos', value: dadosContrato.novos },
+              { title: 'Novos Contratos', value: dadosContrato.vencidos },
             ]}
             style={{
               '--cui-card-cap-bg': '#1b9e3e',
