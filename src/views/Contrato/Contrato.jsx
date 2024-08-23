@@ -10,11 +10,13 @@ import {
   faFileSignature,
 } from '@fortawesome/free-solid-svg-icons';
 import { CCard } from "@coreui/react";
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, Form } from 'react-bootstrap';
 
 const Contrato = () => {
   const [contrato, setContrato] = useState([]);
-  const [detalhesContrato, setDetalhesContrato] = useState(null); // Novo estado para os detalhes do contrato
+  const [detalhesContrato, setDetalhesContrato] = useState(null);
+  const [modalEdicaoVisible, setModalEdicaoVisible] = useState(false);
+  const [contratoEditando, setContratoEditando] = useState(null);
 
   useEffect(() => {
     const fetchContrato = async () => {
@@ -94,8 +96,48 @@ const Contrato = () => {
     setDetalhesContrato(contrato);
   };
 
-  const fecharModal = () => {
-    setDetalhesContrato(null);
+  const abrirModalEdicao = (contrato) => {
+    setContratoEditando(contrato);
+    setModalEdicaoVisible(true);
+  };
+
+  const fecharModalEdicao = () => {
+    setModalEdicaoVisible(false);
+    setContratoEditando(null);
+  };
+
+  const handleFormChange = (e) => {
+    const { name, value } = e.target;
+    setContratoEditando((prev) => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleAtualizarContrato = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(`https://vox-server.onrender.com/contratos/atualizarContrato/${contratoEditando.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(contratoEditando)
+      });
+  
+      if (response.ok) {
+        const dadosAtualizados = await response.json();
+        const novosContrato = contrato.map((c) =>
+          c.id === dadosAtualizados.id ? dadosAtualizados : c
+        );
+        setContrato(novosContrato);
+        fecharModalEdicao();
+      } else {
+        console.error('Erro ao atualizar contrato:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Erro ao atualizar contrato:', error);
+    }
   };
 
   return (
@@ -137,7 +179,7 @@ const Contrato = () => {
                       <td colSpan="4">{contrato.objetoContrato}</td>
                       <td colSpan="4">
                         <div className='Icon' style={{ float: 'right' }}>
-                          <span className='m-2'>
+                          <span className='m-2' onClick={() => abrirModalEdicao(contrato)}>
                             <FontAwesomeIcon icon={faPenToSquare} />
                           </span>
                           <span className='m-2' onClick={() => handleExcluirContrato(contrato.id)}>
@@ -165,7 +207,7 @@ const Contrato = () => {
       )}
       
       {detalhesContrato && (
-        <Modal show={true} onHide={fecharModal}>
+        <Modal show={true} onHide={() => setDetalhesContrato(null)}>
           <Modal.Header closeButton>
             <Modal.Title>Detalhes do Contrato</Modal.Title>
           </Modal.Header>
@@ -178,7 +220,82 @@ const Contrato = () => {
             <p><strong>Objeto:</strong> {detalhesContrato.objetoContrato}</p>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={fecharModal}>
+            <Button variant="secondary" onClick={() => setDetalhesContrato(null)}>
+              Fechar
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      )}
+
+      {modalEdicaoVisible && contratoEditando && (
+        <Modal show={modalEdicaoVisible} onHide={fecharModalEdicao}>
+          <Modal.Header closeButton>
+            <Modal.Title>Editar Contrato</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form onSubmit={handleAtualizarContrato}>
+              <Form.Group controlId="formOrgao">
+                <Form.Label>Orgão</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="orgao"
+                  value={contratoEditando.orgao}
+                  onChange={handleFormChange}
+                />
+              </Form.Group>
+              <Form.Group controlId="formModalidade">
+                <Form.Label>Modalidade</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="modalidade"
+                  value={contratoEditando.modalidade}
+                  onChange={handleFormChange}
+                />
+              </Form.Group>
+              <Form.Group controlId="formValor">
+                <Form.Label>Valor</Form.Label>
+                <Form.Control
+                  type="number"
+                  name="valorContratado"
+                  value={contratoEditando.valorContratado}
+                  onChange={handleFormChange}
+                />
+              </Form.Group>
+              <Form.Group controlId="formDataInicio">
+                <Form.Label>Data Inicio</Form.Label>
+                <Form.Control
+                  type="date"
+                  name="dataInicio"
+                  value={moment(contratoEditando.dataInicio, 'DD/MM/YYYY').format('YYYY-MM-DD')}
+                  onChange={handleFormChange}
+                />
+              </Form.Group>
+              <Form.Group controlId="formDataFinalizacao">
+                <Form.Label>Data Finalização</Form.Label>
+                <Form.Control
+                  type="date"
+                  name="dataFinalizacao"
+                  value={moment(contratoEditando.dataFinalizacao, 'DD/MM/YYYY').format('YYYY-MM-DD')}
+                  onChange={handleFormChange}
+                />
+              </Form.Group>
+              <Form.Group controlId="formObjeto">
+                <Form.Label>Objeto</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={3}
+                  name="objetoContrato"
+                  value={contratoEditando.objetoContrato}
+                  onChange={handleFormChange}
+                />
+              </Form.Group>
+              <Button variant="primary" type="submit">
+                Atualizar
+              </Button>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={fecharModalEdicao}>
               Fechar
             </Button>
           </Modal.Footer>
