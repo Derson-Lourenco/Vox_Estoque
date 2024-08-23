@@ -125,7 +125,7 @@ const WidgetsBrand = (props) => {
         </CCol>
       )}
 
-      {dadosContrato.iminentes > 0 && (
+      {/* {dadosContrato.iminentes > 0 && (
         <CCol sm={5} xl={4} xxl={3}>
           <CWidgetStatsD
             {...(props.withCharts && {
@@ -146,7 +146,7 @@ const WidgetsBrand = (props) => {
             }}
           />
         </CCol>
-      )}
+      )} */}
 
       {dadosContrato.vencidos > 0 && (
         <CCol sm={5} xl={4} xxl={3}>
