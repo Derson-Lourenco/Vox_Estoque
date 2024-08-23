@@ -33,7 +33,7 @@ const WidgetsBrand = (props) => {
               novos += 1;
             } else if (situacao.texto === 'Término Iminente') {
               iminentes += 1;
-            } else if (situacao.texto.includes('vencido')) {
+            } else if (situacao.texto === 'Em vigência') {
               vencidos += 1;
             }
           });
@@ -59,7 +59,7 @@ const WidgetsBrand = (props) => {
       return { texto: 'Ainda não começou', cor: 'blue' };
     } else if (dataAtual.isSameOrAfter(dataInicioObj) && dataAtual.isBefore(dataFimObj)) {
       const diferencaDias = dataFimObj.diff(dataAtual, 'days');
-      console.log(`Diferença em dias: ${diferencaDias}`); // Verifique a diferença em dias
+      console.log(`Diferença em dias para Em vigência: ${diferencaDias}`); // Verifique a diferença em dias
       if (diferencaDias <= 90) {
         return { texto: 'Término Iminente', cor: 'yellow' };
       } else {
@@ -97,6 +97,8 @@ const WidgetsBrand = (props) => {
       },
     },
   };
+
+  console.log('Dados do contrato no estado:', dadosContrato); // Verifique o estado atualizado
 
   return (
     <CRow className={props.className} xs={{ gutter: 4 }}>
@@ -166,6 +168,13 @@ const WidgetsBrand = (props) => {
               '--cui-card-cap-bg': '#e55353',
             }}
           />
+        </CCol>
+      )}
+      
+      {/* Adicionando um bloco para verificar se o valor está correto */}
+      {dadosContrato.vencidos === 0 && dadosContrato.novos === 0 && dadosContrato.iminentes === 0 && (
+        <CCol sm={12} xl={12} xxl={12}>
+          <div>Sem contratos para exibir</div>
         </CCol>
       )}
     </CRow>
