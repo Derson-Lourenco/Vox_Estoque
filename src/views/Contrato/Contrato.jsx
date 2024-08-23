@@ -10,6 +10,7 @@ import {
   faFileSignature,
 } from '@fortawesome/free-solid-svg-icons';
 import { CCard } from "@coreui/react";
+import { Modal, Button } from 'react-bootstrap';
 
 const Contrato = () => {
   const [contrato, setContrato] = useState([]);
@@ -93,6 +94,10 @@ const Contrato = () => {
     setDetalhesContrato(contrato);
   };
 
+  const fecharModal = () => {
+    setDetalhesContrato(null);
+  };
+
   return (
     <div>
       {contrato.length > 0 ? (
@@ -160,16 +165,24 @@ const Contrato = () => {
       )}
       
       {detalhesContrato && (
-        <div className='detalhes-contrato'>
-          <h3>Detalhes do Contrato</h3>
-          <p><strong>Orgão:</strong> {detalhesContrato.orgao}</p>
-          <p><strong>Modalidade:</strong> {detalhesContrato.modalidade}</p>
-          <p><strong>Valor:</strong> R${detalhesContrato.valorContratado.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
-          <p><strong>Data Inicio:</strong> {detalhesContrato.dataInicio}</p>
-          <p><strong>Data Finalização:</strong> {detalhesContrato.dataFinalizacao}</p>
-          <p><strong>Objeto:</strong> {detalhesContrato.objetoContrato}</p>
-          <button onClick={() => setDetalhesContrato(null)}>Fechar</button>
-        </div>
+        <Modal show={true} onHide={fecharModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>Detalhes do Contrato</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <p><strong>Orgão:</strong> {detalhesContrato.orgao}</p>
+            <p><strong>Modalidade:</strong> {detalhesContrato.modalidade}</p>
+            <p><strong>Valor:</strong> R${detalhesContrato.valorContratado.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+            <p><strong>Data Inicio:</strong> {detalhesContrato.dataInicio}</p>
+            <p><strong>Data Finalização:</strong> {detalhesContrato.dataFinalizacao}</p>
+            <p><strong>Objeto:</strong> {detalhesContrato.objetoContrato}</p>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={fecharModal}>
+              Fechar
+            </Button>
+          </Modal.Footer>
+        </Modal>
       )}
     </div>
   );
