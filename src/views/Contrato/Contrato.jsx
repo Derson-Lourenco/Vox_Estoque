@@ -11,6 +11,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { CCard, Modal, Button, Form } from "@coreui/react";
 
+const baseURL = process.env.REACT_APP_API_URL;
+
 const Contrato = () => {
   const [contrato, setContrato] = useState([]);
   const [detalhesContrato, setDetalhesContrato] = useState(null);
@@ -20,7 +22,7 @@ const Contrato = () => {
   // Função para buscar contratos
   const fetchContrato = async () => {
     try {
-      const response = await fetch('https://vox-server.onrender.com/contratos/getContratos');
+      const response = await fetch(`${baseURL}/contratos/getContratos`);
       if (response.ok) {
         const data = await response.json();
         console.log('Dados recebidos:', data);
@@ -76,7 +78,7 @@ const Contrato = () => {
   // Função para excluir contrato
   const handleExcluirContrato = async (id) => {
     try {
-      const response = await fetch(`https://vox-server.onrender.com/contratos/excluirContrato/${id}`, {
+      const response = await fetch(`${baseURL}/contratos/excluirContrato/${id}`, {
         method: 'DELETE',
       });
   
@@ -121,7 +123,7 @@ const Contrato = () => {
   const handleAtualizarContrato = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`https://vox-server.onrender.com/contratos/atualizarContrato/${contratoEditando.id}`, {
+      const response = await fetch(`${baseURL}/contratos/atualizarContrato/${contratoEditando.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
@@ -172,139 +174,127 @@ const Contrato = () => {
                       <th className='Descr' style={{ width: '38%' }}>Orgão</th>
                       <th className='Descr' style={{ width: '15%' }}>Modalidade</th>
                       <th className='Descr' style={{ width: '12%' }}>Valor</th>
-                      <th className='Descr' style={{ width: '12%' }}>Data Inicio</th>
-                      <th className='Descr' style={{ width: '14%' }}>Data Finalização</th>
-                      <th className='Descr' style={{ width: '12%' }}>Situação</th>
+                      <th className='Descr' style={{ width: '12%' }}>Data Início</th>
+                      <th className='Descr' style={{ width: '12%' }}>Data Fim</th>
+                      <th className='Descr' style={{ width: '11%' }}>Situação</th>
+                      <th className='Descr' style={{ width: '1%' }}></th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <td data-label="Orgão">{contrato.orgao}</td>
-                      <td data-label="Modalidade">{contrato.modalidade}</td>
-                      <td data-label="Valor">R${contrato.valorContratado.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
-                      <td data-label="Data Inicio">{contrato.dataInicio}</td>
-                      <td data-label="Data Finalização">{contrato.dataFinalizacao}</td>
-                      <td data-label="Situação" style={{ color: situacao.cor }}>{situacao.texto}</td>
-                    </tr>
-                  </tbody>
-                  <thead>
-                    <tr>
-                      <th className='Descr' data-label='Objeto'>Objeto</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td colSpan="4">{contrato.objetoContrato}</td>
-                      <td colSpan="4">
-                        <div className='Icon' style={{ float: 'right' }}>
-                          <span className='m-2'>
-                            <FontAwesomeIcon icon={faPenToSquare} onClick={() => abrirModalEdicao(contrato)} />
-                          </span>
-                          <span className='m-2' onClick={() => handleExcluirContrato(contrato.id)}>
-                            <FontAwesomeIcon icon={faTrash} />
-                          </span>
-                          <span className='m-2'>
-                            <Link to={`/espelhoNota/${contrato.id}`}>
-                              <FontAwesomeIcon icon={faFileSignature} />
-                            </Link>
-                          </span>
-                          <span className='m-2' onClick={() => abrirModalDetalhes(contrato)}>
-                            <FontAwesomeIcon icon={faEye} />
-                          </span>
-                        </div>
+                      <td className='text-truncate'>{contrato.orgao}</td>
+                      <td className='text-truncate'>{contrato.modalidade}</td>
+                      <td className='text-truncate'>{contrato.valor}</td>
+                      <td className='text-truncate'>{contrato.dataInicio}</td>
+                      <td className='text-truncate'>{contrato.dataFinalizacao}</td>
+                      <td style={{ color: situacao.cor }}>{situacao.texto}</td>
+                      <td>
+                        <button onClick={() => abrirModalDetalhes(contrato)}>
+                          <FontAwesomeIcon icon={faEye} />
+                        </button>
+                        <button onClick={() => abrirModalEdicao(contrato)}>
+                          <FontAwesomeIcon icon={faPenToSquare} />
+                        </button>
+                        <button onClick={() => handleExcluirContrato(contrato.id)}>
+                          <FontAwesomeIcon icon={faTrash} />
+                        </button>
                       </td>
                     </tr>
                   </tbody>
                 </table>
               </CCard>
+
+              {/* Modal de detalhes */}
+              {detalhesContrato && (
+                <Modal
+                  show={!!detalhesContrato}
+                  onClose={() => setDetalhesContrato(null)}
+                >
+                  <Modal.Header>
+                    <h5 className="modal-title">Detalhes do Contrato</h5>
+                  </Modal.Header>
+                  <Modal.Body>
+                    <p>Orgão: {detalhesContrato.orgao}</p>
+                    <p>Modalidade: {detalhesContrato.modalidade}</p>
+                    <p>Valor: {detalhesContrato.valor}</p>
+                    <p>Data Início: {detalhesContrato.dataInicio}</p>
+                    <p>Data Fim: {detalhesContrato.dataFinalizacao}</p>
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button color="secondary" onClick={() => setDetalhesContrato(null)}>Fechar</Button>
+                  </Modal.Footer>
+                </Modal>
+              )}
+
+              {/* Modal de edição */}
+              {modalEdicaoVisible && contratoEditando && (
+                <Modal
+                  show={modalEdicaoVisible}
+                  onClose={fecharModalEdicao}
+                >
+                  <Modal.Header>
+                    <h5 className="modal-title">Editar Contrato</h5>
+                  </Modal.Header>
+                  <Modal.Body>
+                    <Form onSubmit={handleAtualizarContrato}>
+                      <Form.Group>
+                        <Form.Label>Orgão</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="orgao"
+                          value={contratoEditando.orgao}
+                          onChange={handleFormChange}
+                        />
+                      </Form.Group>
+                      <Form.Group>
+                        <Form.Label>Modalidade</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="modalidade"
+                          value={contratoEditando.modalidade}
+                          onChange={handleFormChange}
+                        />
+                      </Form.Group>
+                      <Form.Group>
+                        <Form.Label>Valor</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="valor"
+                          value={contratoEditando.valor}
+                          onChange={handleFormChange}
+                        />
+                      </Form.Group>
+                      <Form.Group>
+                        <Form.Label>Data Início</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="dataInicio"
+                          value={contratoEditando.dataInicio}
+                          onChange={handleFormChange}
+                        />
+                      </Form.Group>
+                      <Form.Group>
+                        <Form.Label>Data Fim</Form.Label>
+                        <Form.Control
+                          type="text"
+                          name="dataFinalizacao"
+                          value={contratoEditando.dataFinalizacao}
+                          onChange={handleFormChange}
+                        />
+                      </Form.Group>
+                      <Button type="submit">Atualizar</Button>
+                    </Form>
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button color="secondary" onClick={fecharModalEdicao}>Cancelar</Button>
+                  </Modal.Footer>
+                </Modal>
+              )}
             </div>
           );
         })
       ) : (
-        <div>Não há contratos cadastrados.</div>
-      )}
-
-      {detalhesContrato && (
-        <Modal show={!!detalhesContrato} onClose={() => setDetalhesContrato(null)}>
-          <Modal.Header>Detalhes do Contrato</Modal.Header>
-          <Modal.Body>
-            <p><strong>Orgão:</strong> {detalhesContrato.orgao}</p>
-            <p><strong>Modalidade:</strong> {detalhesContrato.modalidade}</p>
-            <p><strong>Valor:</strong> R${detalhesContrato.valorContratado.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
-            <p><strong>Data Início:</strong> {detalhesContrato.dataInicio}</p>
-            <p><strong>Data Finalização:</strong> {detalhesContrato.dataFinalizacao}</p>
-            <p><strong>Objeto:</strong> {detalhesContrato.objetoContrato}</p>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button color="secondary" onClick={() => setDetalhesContrato(null)}>Fechar</Button>
-          </Modal.Footer>
-        </Modal>
-      )}
-
-      {contratoEditando && (
-        <Modal show={modalEdicaoVisible} onClose={fecharModalEdicao}>
-          <Modal.Header>Editar Contrato</Modal.Header>
-          <Modal.Body>
-            <Form onSubmit={handleAtualizarContrato}>
-              <Form.Group>
-                <Form.Label>Orgão</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="orgao"
-                  value={contratoEditando.orgao}
-                  onChange={handleFormChange}
-                />
-              </Form.Group>
-              <Form.Group>
-                <Form.Label>Modalidade</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="modalidade"
-                  value={contratoEditando.modalidade}
-                  onChange={handleFormChange}
-                />
-              </Form.Group>
-              <Form.Group>
-                <Form.Label>Valor</Form.Label>
-                <Form.Control
-                  type="number"
-                  name="valorContratado"
-                  value={contratoEditando.valorContratado}
-                  onChange={handleFormChange}
-                />
-              </Form.Group>
-              <Form.Group>
-                <Form.Label>Data Início</Form.Label>
-                <Form.Control
-                  type="date"
-                  name="dataInicio"
-                  value={contratoEditando.dataInicio}
-                  onChange={handleFormChange}
-                />
-              </Form.Group>
-              <Form.Group>
-                <Form.Label>Data Finalização</Form.Label>
-                <Form.Control
-                  type="date"
-                  name="dataFinalizacao"
-                  value={contratoEditando.dataFinalizacao}
-                  onChange={handleFormChange}
-                />
-              </Form.Group>
-              <Form.Group>
-                <Form.Label>Objeto</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  name="objetoContrato"
-                  value={contratoEditando.objetoContrato}
-                  onChange={handleFormChange}
-                />
-              </Form.Group>
-              <Button type="submit" color="primary">Salvar</Button>
-              <Button color="secondary" onClick={fecharModalEdicao}>Cancelar</Button>
-            </Form>
-          </Modal.Body>
-        </Modal>
+        <p>Nenhum contrato disponível</p>
       )}
     </div>
   );

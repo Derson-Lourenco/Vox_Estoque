@@ -17,16 +17,14 @@ import {
 } from "@coreui/react";
 
 import File from "./File";
-import InputMask from 'react-input-mask';
 
 const NovoContrato = () => {
   const now = new Date();
   const todayISO = now.toISOString().split('T')[0];
 
   const [validated, setValidated] = useState(false);
-
-  const [numeroProcesso, setnumeroProcesso] = useState("");
-  const [numeroContrato, setNumeroContrato] = useState(0);
+  const [numeroProcesso, setNumeroProcesso] = useState("");
+  const [numeroContrato, setNumeroContrato] = useState("");
   const [modalidade, setModalidade] = useState("");
   const [registro, setRegistro] = useState("");
   const [orgao, setOrgao] = useState("");
@@ -38,14 +36,14 @@ const NovoContrato = () => {
   const [secretarias, setSecretarias] = useState("");
   const [objetoContrato, setObjetoContrato] = useState("");
 
-    // Função para formatar o valor como decimal
-    const formatarValor = (valor) => {
-      const options = { style: "currency", currency: "BRL" };
-      return Number(valor).toLocaleString('pt-BR', options);
-    };
+  const formatarValor = (valor) => {
+    const options = { style: "currency", currency: "BRL" };
+    return Number(valor).toLocaleString('pt-BR', options);
+  };
 
-  const handleSubmit = async () => {
-    const form = document.getElementById("contractForm");
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const form = event.currentTarget;
     if (form.checkValidity() === false) {
       setValidated(true);
       return;
@@ -76,7 +74,6 @@ const NovoContrato = () => {
 
       if (response.ok) {
         console.log("Contrato salvo com sucesso!");
-        // Limpar o formulário ou redirecionar para outra página, se necessário
         form.reset();
         setValidated(false);
       } else {
@@ -93,341 +90,220 @@ const NovoContrato = () => {
       className="row g-3 needs-validation"
       noValidate
       validated={validated}
-      onSubmit={(e) => {
-        e.preventDefault();
-        handleSubmit();
-      }}
+      onSubmit={handleSubmit}
     >
-        <CCard>
-          <CCardHeader>Campus obrigatórios (*)</CCardHeader>
-          <CCardBody>
+      <CCard>
+        <CCardHeader>Campos obrigatórios (*)</CCardHeader>
+        <CCardBody>
           <CRow className="g-2 mb-3">
-            <CCol sm={4} >
-              <CFormLabel htmlFor="basic-url" className='required'>Nº do processo adm/Ano </CFormLabel>
+            <CCol sm={4}>
+              <CFormLabel htmlFor="processoAno" className='required'>Nº do processo adm/Ano</CFormLabel>
               <CInputGroup>
                 <CFormInput
                   id="processoAno"
                   type="text"
                   required
+                  value={numeroProcesso}
+                  onChange={(e) => setNumeroProcesso(e.target.value)}
                   tooltipFeedback
-                  onChange={(e) => setnumeroProcesso(e.target.value)}                  
                 />
                 <CInputGroupText>/</CInputGroupText>
                 <CFormInput
-                    type="number"
-                    defaultValue={now.getFullYear()}
-                    required
-                    tooltipFeedback
-                  />
+                  type="number"
+                  defaultValue={now.getFullYear()}
+                  readOnly
+                />
               </CInputGroup>
             </CCol>
 
-            <CCol sm={4} >
-            <CFormLabel htmlFor="basic-url" className='required'>Nº do contrato/Ano</CFormLabel>
+            <CCol sm={4}>
+              <CFormLabel htmlFor="numeroContrato" className='required'>Nº do contrato/Ano</CFormLabel>
               <CInputGroup>
                 <CFormInput
-                    id="processoAno"
-                    type="text"
-                    required
-                    tooltipFeedback
-                    onChange={(e) => setNumeroContrato(e.target.value)}
-                  /> 
-                  <CInputGroupText>/</CInputGroupText>
-                  <CFormInput type='number' defaultValue={now.getFullYear()}/>
+                  id="numeroContrato"
+                  type="text"
+                  required
+                  value={numeroContrato}
+                  onChange={(e) => setNumeroContrato(e.target.value)}
+                  tooltipFeedback
+                />
+                <CInputGroupText>/</CInputGroupText>
+                <CFormInput
+                  type="number"
+                  defaultValue={now.getFullYear()}
+                  readOnly
+                />
               </CInputGroup>
             </CCol>
 
             <CCol sm={2}>
-              <CFormLabel htmlFor="basic-url" className="required">
+              <CFormLabel htmlFor="modalidade" className="required">
                 Modalidade
               </CFormLabel>
-                <CFormSelect
-                  id="modalidade"
-                  value={modalidade}
-                  onChange={(e) => setModalidade(e.target.value)}
-                  required
-                  tooltipFeedback
-                >
-                  <option value=""></option>
-                  <option value="Pregão Eletrônico">Pregão Eletrônico</option>
-                  <option value="Adesão">Adesão</option>
-                  <option value="Dispensa">Dispensa</option>
+              <CFormSelect
+                id="modalidade"
+                value={modalidade}
+                onChange={(e) => setModalidade(e.target.value)}
+                required
+                tooltipFeedback
+              >
+                <option value="">Selecione</option>
+                <option value="Pregão Eletrônico">Pregão Eletrônico</option>
+                <option value="Adesão">Adesão</option>
+                <option value="Dispensa">Dispensa</option>
               </CFormSelect>
             </CCol>
 
             <CCol sm={2}>
-              <CFormLabel htmlFor="basic-url" className="required">
+              <CFormLabel htmlFor="registroPreco" className="required">
                 Registro de Preço
               </CFormLabel>
-              <CFormCheck 
+              <CFormCheck
                 inline
                 checked={registro === 'Sim'}
                 onChange={() => setRegistro('Sim')}
-                id="inlineCheckbox1"
+                id="registroSim"
                 label="Sim"
               />
-              <CFormCheck 
+              <CFormCheck
                 inline
                 checked={registro === 'Não'}
                 onChange={() => setRegistro('Não')}
-                id="inlineCheckbox2"
+                id="registroNao"
                 label="Não"
               />
             </CCol>
           </CRow>
+
           <CRow className="g-2 mb-3">
             <CCol sm={6}>
-              <CFormLabel htmlFor="basic-url" className="required">
+              <CFormLabel htmlFor="orgao" className="required">
                 Orgão
               </CFormLabel>
-              <CFormInput 
-                type='text' 
-                feedbackValid=""
-                id="validationTooltip02" 
+              <CFormInput
+                id="orgao"
+                type="text"
                 required
+                value={orgao}
+                onChange={(e) => setOrgao(e.target.value)}
                 tooltipFeedback
-                onChange={(e) => setOrgao(e.target.value)} 
               />
             </CCol>
             <CCol>
-              <CFormLabel htmlFor="basic-url">
+              <CFormLabel htmlFor="cnpjContratante">
                 CNPJ do Contratante
               </CFormLabel>
-              <CFormInput 
-                type='text'
-                feedbackValid=""
-                id="validationTooltip02"
+              <CFormInput
+                id="cnpjContratante"
+                type="text"
+                value={cnpjContratante}
+                onChange={(e) => setCnpjContratante(e.target.value)}
                 tooltipFeedback
-                onChange={(e) => setCnpjContratante(e.target.value)} 
               />
             </CCol>
             <CCol>
-              <CFormLabel htmlFor="basic-url" className="required">
+              <CFormLabel htmlFor="valorContratado" className="required">
                 Valor do Contratado
               </CFormLabel>
-              <CFormInput 
-                type='text'  // Alterado para 'text' para permitir pontos decimais
-                feedbackValid=""
-                id="validationTooltip02" 
-                required 
-                tooltipFeedback
+              <CFormInput
+                id="valorContratado"
+                type="text"
+                required
+                value={valorContratado}
                 onChange={(e) => {
                   const valor = e.target.value;
-                  // Usando parseFloat para converter o valor para um número de ponto flutuante
-                  const valorNumerico = parseFloat(valor.replace(',', '.')); // Tratando ponto decimal
+                  const valorNumerico = parseFloat(valor.replace(',', '.'));
                   setValorContratado(isNaN(valorNumerico) ? '' : valorNumerico);
                 }}
+                tooltipFeedback
               />
             </CCol>
-
-
           </CRow>
+
           <CRow className='g-2 mb-3'>
             <CCol sm={2}>
-              <CFormLabel htmlFor="basic-url" className="required">
+              <CFormLabel htmlFor="dataAssinatura" className="required">
                 Data da Assinatura
               </CFormLabel>
-              <CFormInput 
-                type='date' 
-                feedbackValid=""
-                id="validationTooltip02" 
-                required 
-                tooltipFeedback
+              <CFormInput
+                id="dataAssinatura"
+                type='date'
+                required
+                value={dataAssinatura}
                 onChange={(e) => setDataAssinatura(e.target.value)}
-              />
-            </CCol>
-            <CCol sm={2}>
-              <CFormLabel htmlFor="basic-url" className="required">
-                Data de Incío
-              </CFormLabel>
-              <CFormInput 
-                type='date' 
-                feedbackValid=""
-                id="validationTooltip02" 
-                required 
                 tooltipFeedback
-                onChange={(e) => setDataInicio(e.target.value)}
               />
             </CCol>
             <CCol sm={2}>
-              <CFormLabel htmlFor="basic-url" className="required">
+              <CFormLabel htmlFor="dataInicio" className="required">
+                Data de Início
+              </CFormLabel>
+              <CFormInput
+                id="dataInicio"
+                type='date'
+                required
+                value={dataInicio}
+                onChange={(e) => setDataInicio(e.target.value)}
+                tooltipFeedback
+              />
+            </CCol>
+            <CCol sm={2}>
+              <CFormLabel htmlFor="dataFinalizacao" className="required">
                 Data de Finalização
               </CFormLabel>
-              <CFormInput 
-                type='date' 
-                feedbackValid=""
-                id="validationTooltip02" 
-                required 
-                tooltipFeedback
+              <CFormInput
+                id="dataFinalizacao"
+                type='date'
+                required
+                value={dataFinalizacao}
                 onChange={(e) => setDataFinalizacao(e.target.value)}
+                tooltipFeedback
               />
             </CCol>
             <CCol>
-              <CFormLabel htmlFor="basic-url" className="required">
+              <CFormLabel htmlFor="secretarias" className="required">
                 Secretarias
               </CFormLabel>
               <CFormTextarea
-              id="Secretarias"
-              rows={1}
-              required
-              tooltipFeedback 
-              onChange={(e) => setSecretarias(e.target.value)}
-            ></CFormTextarea>
+                id="secretarias"
+                rows={1}
+                required
+                value={secretarias}
+                onChange={(e) => setSecretarias(e.target.value)}
+                tooltipFeedback
+              />
             </CCol>
           </CRow>
+
           <CRow className='g-2 mb-3'>
             <CCol sm={10}>
-              <CFormLabel htmlFor="basic-url" className="required">
+              <CFormLabel htmlFor="objetoContrato" className="required">
                 Objeto do Contrato
               </CFormLabel>
               <CFormTextarea
                 id="objetoContrato"
                 rows={1}
                 required
-                tooltipFeedback
+                value={objetoContrato}
                 onChange={(e) => setObjetoContrato(e.target.value)}
-              ></CFormTextarea>
+                tooltipFeedback
+              />
             </CCol>
 
             <CCol sm={2} className='mt-4'>
               <File />
             </CCol>
-
           </CRow>
-          </CCardBody>
-        </CCard>
-          <CCol xs={12} className="position-relative">
-          <CButton color="primary" type="button" onClick={handleSubmit}>
-            Salvar
-          </CButton>
-          </CCol>
+        </CCardBody>
+      </CCard>
 
-      </CForm>
-    )
+      <CCol xs={12} className="position-relative">
+        <CButton color="primary" type="submit">
+          Salvar
+        </CButton>
+      </CCol>
+    </CForm>
+  );
 }
 
-  export default NovoContrato
-
-/*
-
-import { 
-  CCol, 
-  CFormInput,
-  CRow, 
-  CCard, 
-  CCardBody,
-  CCardHeader,
-  CInputGroup,
-  CInputGroupText, 
-  CFormLabel,
-  CFormSelect,
-  CFormTextarea
-}from '@coreui/react'
-
-import File from './File'
-
-
-const NovoContrato = () => {
-  const now = new Date
-  return (
-    <CCard>
-      <CCardHeader>Campus obrigatórios (*)</CCardHeader>
-      <CCardBody>
-      <CRow className="g-2 mb-3">
-        <CCol sm={4} >
-        <CFormLabel htmlFor="basic-url" className='required'>Nº do processo adm/Ano </CFormLabel>
-          <CInputGroup>
-              <CFormInput/> 
-              <CInputGroupText>/</CInputGroupText>
-              <CFormInput type='number' defaultValue={now.getFullYear()}/>
-          </CInputGroup>
-          
-        </CCol>
-        <CCol sm={2}>
-          <CFormSelect 
-            label="Modalidade" 
-            options={[
-            'Open this select menu',
-            { label: 'Pregão Presencial', value: '1' },
-            { label: 'Carta Convite', value: '2' },
-            { label: 'Dispensa', value: '3', disabled: true }
-           ]}
-          /> 
-        </CCol>
-      </CRow>
-      <CRow className="g-2 mb-3">
-        <CCol sm={4} >
-        <CFormLabel htmlFor="basic-url" className='required'>Nº do contrato/Ano</CFormLabel>
-          <CInputGroup>
-              <CFormInput/> 
-              <CInputGroupText>/</CInputGroupText>
-              <CFormInput type='number' defaultValue={now.getFullYear()}/>
-          </CInputGroup>
-        </CCol>
-        <CCol sm={2}>
-          <CFormSelect 
-            label="Tipo"
-            options={[
-            'Open this select menu',
-            { label: 'Serviço', value: '1' },
-            { label: 'Produto', value: '2' },
-           ]}
-          /> 
-        </CCol >
-        <CCol sm={4}>
-          <CFormInput type='text' label='Contratante'/>
-        </CCol>
-      </CRow>
-      <CRow className='g-2 mb-3'>
-        <CCol>
-          <CFormInput type='text' label='Empresa/Pessoa Contratada'/>
-        </CCol>
-        <CCol>
-          <CFormInput type='text' label='CNPJ/CPF do Contratado'/>
-        </CCol>
-        <CCol>
-          <CFormInput type='text' label='Valor do Contratado'/>
-        </CCol>
-      </CRow>
-      <CRow className='g-2 mb-3'>
-        <CCol>
-          <CFormInput type='date' label='Data da Assinatura'/>
-        </CCol>
-        <CCol>
-          <CFormInput type='date' label='Data de Incío'/>
-        </CCol>
-        <CCol>
-          <CFormInput type='date' label='Data de Finalização'/>
-        </CCol>
-      </CRow>
-      <CRow className='g-2 mb-3'>
-        <CCol>
-          <CFormTextarea
-          id="exampleFormControlTextarea1"
-          label="Objeto do Contrato"
-          rows={4}
-        ></CFormTextarea>
-        </CCol>
-      </CRow>
-      <CRow className='g-2 mb-3'>
-        <CCol>
-          <CFormTextarea
-          id="exampleFormControlTextarea1"
-          label="Secretarias"
-          rows={2}
-        ></CFormTextarea>
-        </CCol>
-      </CRow>
-      <CRow>
-        <CCol sm={3} >
-          <File />
-        </CCol>
-      </CRow>
-      </CCardBody>
-    </CCard>
-  )
-}
-
-export default NovoContrato
-
-*/
+export default NovoContrato;

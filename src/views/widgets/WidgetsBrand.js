@@ -6,6 +6,9 @@ import { cilWarning, cilTask, cilBan } from '@coreui/icons';
 import { CChart } from '@coreui/react-chartjs';
 import moment from 'moment';
 
+// Use a variável de ambiente para a URL da API
+const baseURL = process.env.REACT_APP_API_URL;
+
 const WidgetsBrand = (props) => {
   const [dadosContrato, setDadosContrato] = useState({
     novos: 0,
@@ -16,7 +19,8 @@ const WidgetsBrand = (props) => {
   useEffect(() => {
     const fetchContratos = async () => {
       try {
-        const response = await fetch('https://vox-server.onrender.com/contratos/getContratos');
+        // Use a variável baseURL para o fetch
+        const response = await fetch(`${baseURL}/contratos/getContratos`);
         if (response.ok) {
           const data = await response.json();
 
