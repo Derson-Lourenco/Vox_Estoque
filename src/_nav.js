@@ -162,7 +162,7 @@ const _nav = [
         component: CNavItem,
         name: 'Pesquisar',
         icon: <CIcon icon={cilGlobeAlt} customClassName="nav-icon" />,
-        to: '/forms/form-control',
+        to: '/LicitacoesTCE',
       },
       // {
       //   component: CNavItem,

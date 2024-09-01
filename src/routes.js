@@ -15,7 +15,7 @@ const ButtonGroups = React.lazy(() => import('./views/buttons/button-groups/Butt
 
 
 //Licitações
-const ChecksRadios = React.lazy(() => import('./views/forms/checks-radios/ChecksRadios'))
+const LicitacoesTCE = React.lazy(() => import('./views/Licitacoes/LicitacoesTCE'))
 
 
 const Charts = React.lazy(() => import('./views/charts/Charts'))
@@ -39,6 +39,7 @@ const routes = [
   { path: '/Contrato', name: 'Contrato', element: Contrato },
   { path: '/NovoContrato', name: 'NovoContrato', element: NovoContrato },
   { path: '/theme', name: 'Theme', element: Colors, exact: true },
+  { path: '/LicitacoesTCE', name: 'LicitacoesTCE', element: LicitacoesTCE },
   // { path: '/theme/colors', name: 'Colors', element: Colors },
   // { path: '/theme/typography', name: 'Typography', element: Typography },
   // { path: '/base', name: 'Base', element: Cards, exact: true },

@@ -7,8 +7,7 @@ import { CChart } from '@coreui/react-chartjs';
 import moment from 'moment';
 
 // Use a variável de ambiente para a URL da API
-const baseURL = process.env.REACT_APP_API_URL;
-
+CC
 const WidgetsBrand = (props) => {
   const [dadosContrato, setDadosContrato] = useState({
     novos: 0,
@@ -20,7 +19,7 @@ const WidgetsBrand = (props) => {
     const fetchContratos = async () => {
       try {
         // Use a variável baseURL para o fetch
-        const response = await fetch(`${baseURL}/contratos/getContratos`);
+        const response = await fetch(`${apiUrl}/contratos/getContratos`);
         if (response.ok) {
           const data = await response.json();
 
