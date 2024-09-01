@@ -160,7 +160,7 @@ const _nav = [
     items: [
       {
         component: CNavItem,
-        name: 'Pesquisar',
+        name: 'Pesquisar Licitações',
         icon: <CIcon icon={cilGlobeAlt} customClassName="nav-icon" />,
         to: '/LicitacoesTCE',
       },
