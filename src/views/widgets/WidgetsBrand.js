@@ -7,7 +7,8 @@ import { CChart } from '@coreui/react-chartjs';
 import moment from 'moment';
 
 // Use a variável de ambiente para a URL da API
-CC
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const WidgetsBrand = (props) => {
   const [dadosContrato, setDadosContrato] = useState({
     novos: 0,
@@ -18,7 +19,6 @@ const WidgetsBrand = (props) => {
   useEffect(() => {
     const fetchContratos = async () => {
       try {
-        // Use a variável baseURL para o fetch
         const response = await fetch(`${apiUrl}/contratos/getContratos`);
         if (response.ok) {
           const data = await response.json();
@@ -29,7 +29,7 @@ const WidgetsBrand = (props) => {
 
           data.contratos.forEach(contrato => {
             const situacao = verificarSituacao(contrato.dataInicio, contrato.dataFinalizacao);
-            console.log(`Contrato ID ${contrato.id}: ${situacao.texto}`); // Verifique a situação do contrato
+            console.log(`Contrato ID ${contrato.id}: ${situacao.texto}`);
 
             if (situacao.texto === 'Em vigência') {
               novos += 1;
@@ -40,7 +40,7 @@ const WidgetsBrand = (props) => {
             }
           });
 
-          console.log(`Novos: ${novos}, Iminentes: ${iminentes}, Vencidos: ${vencidos}`); // Verifique as contagens
+          console.log(`Novos: ${novos}, Iminentes: ${iminentes}, Vencidos: ${vencidos}`);
           setDadosContrato({ novos, iminentes, vencidos });
         } else {
           console.error('Erro na solicitação:', response.statusText);
@@ -179,7 +179,6 @@ const WidgetsBrand = (props) => {
         </CCol>
       )}
 
-      {/* Verifique se todos os valores são zero antes de exibir a mensagem de ausência */}
       {dadosContrato.novos === 0 && dadosContrato.iminentes === 0 && dadosContrato.vencidos === 0 && (
         <CCol sm={12} xl={12} xxl={12}>
           <div>Sem contratos para exibir</div>

@@ -9,10 +9,20 @@ const LicitacoesTCE = () => {
   useEffect(() => {
     const fetchLicitacoes = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/licitacoes/1234/1/20240101`);
-        setLicitacoes(response.data);
+        const url = `${import.meta.env.VITE_API_URL}/api/licitacoes/1234/1/20240101`;
+        console.log('URL da requisição:', url);
+
+        const response = await axios.get(url);
+        console.log('Dados recebidos:', response.data);
+
+        // Verifique se os dados são um array
+        if (Array.isArray(response.data)) {
+          setLicitacoes(response.data);
+        } else {
+          console.error('Os dados recebidos não estão no formato esperado:', response.data);
+        }
       } catch (error) {
-        console.error('Erro ao buscar licitações do TCE-PI:', error);
+        console.error('Erro ao buscar licitações do TCE-PI:', error.message);
       } finally {
         setLoading(false);
       }
@@ -47,7 +57,7 @@ const LicitacoesTCE = () => {
                   </thead>
                   <tbody>
                     <tr>
-                      <td>{licitacao.data}</td>
+                      <td>{new Date(licitacao.data).toLocaleDateString()}</td>
                       <td>{licitacao.modalidade}</td>
                       <td>{licitacao.objeto}</td>
                       <td><a href={licitacao.mural} target="_blank" rel="noopener noreferrer">Ver no mural</a></td>
