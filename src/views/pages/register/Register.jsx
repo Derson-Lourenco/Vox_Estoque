@@ -46,11 +46,12 @@ const Register = () => {
         },
         body: JSON.stringify({
           nome: formData.nome,
-          cpfCnpj: formData.cpfCnpj,
+          cpf_cnpj: formData.cpfCnpj,
           email: formData.email,
           password: formData.password,
         }),
       });
+      
 
       const result = await response.json();
       if (response.ok) {
