@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 
-const apiUrl = import.meta.env.VITE_API_URL;
+const apiUrl = import.meta.env.VITE_API_URL; // Certifique-se de que esta variável está correta e corresponde à URL do backend
+
 // Função para formatar a data no formato YYYYMMDD
 const formatDate = (dateString) => {
   const date = new Date(dateString);
@@ -17,20 +18,17 @@ const LicitacoesPage = () => {
   useEffect(() => {
     const fetchLicitacoes = async () => {
       try {
-        const response = await fetch(`${apiUrl}/licitacoes-com-detalhes`);
-      
-        const data = response.data;
-
-        if (Array.isArray(data)) {
-          setLicitacoes(data);
-          setError('');
-        } else {
-          throw new Error('Dados recebidos não estão no formato esperado');
+        const response = await fetch(`${apiUrl}/licitacoes`); // Certifique-se de que apiUrl está correto
+        console.log('Resposta da API:', response);
+        if (!response.ok) {
+          throw new Error('Erro na requisição: ' + response.status);
         }
+        const data = await response.json();
+        console.log('Dados recebidos:', data);
+        setLicitacoes(data);
       } catch (err) {
         console.error('Erro ao buscar licitações:', err);
         setError('Erro ao buscar licitações.');
-        setLicitacoes([]);
       }
     };
 
