@@ -9,7 +9,23 @@ import {
   faPenToSquare,
   faFileSignature,
 } from '@fortawesome/free-solid-svg-icons';
-import { CCard, CModal, CButton, CForm, CFormLabel, CFormInput, CFormTextarea } from "@coreui/react";
+import {
+  CCol,
+  CFormInput,
+  CRow,
+  CCard,
+  CCardBody,
+  CCardHeader,
+  CInputGroup,
+  CInputGroupText,
+  CFormLabel,
+  CFormSelect,
+  CFormTextarea,
+  CForm,
+  CButton,
+  CFormCheck,
+} from "@coreui/react";
+// import { CCard, CModal, CButton, CForm, CFormLabel, CFormInput, CFormTextarea } from "@coreui/react";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -168,7 +184,64 @@ const Contrato = () => {
           const situacao = verificarSituacao(contrato.dataInicio, contrato.dataFinalizacao);
           return (
             <div key={contrato.id}>
-              <CCard className='c mb-3 p-2'>
+
+          <CCard>
+                <CCardBody>
+                  <CRow className="g-2 mb-3">
+                    <CCol sm={6} md={2}>
+                      <CFormLabel>ORGÃO</CFormLabel>
+                      <div>{contrato.orgao}</div>
+                    </CCol>
+                    <CCol sm={6} md={2}>
+                      <CFormLabel>MODALIDADE</CFormLabel>
+                      <div>{contrato.modalidade}</div>
+                    </CCol>
+                    <CCol sm={6} md={2}>
+                      <CFormLabel>VALOR</CFormLabel>
+                      <div>R$ {contrato.valorContratado.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</div>
+                    </CCol>
+                    <CCol sm={6} md={2}>
+                      <CFormLabel>DATA INICIO</CFormLabel>
+                      <div>{contrato.dataInicio}</div>
+                    </CCol>
+                    <CCol sm={6} md={2}>
+                      <CFormLabel>DATA FINALIZAÇÃO</CFormLabel>
+                      <div>{contrato.dataFinalizacao}</div>
+                    </CCol>
+                    <CCol sm={6} md={2}>
+                      <CFormLabel>SITUAÇÃO</CFormLabel>
+                      <div style={{ color: situacao.cor }}>{situacao.texto}</div>
+                    </CCol>
+                  </CRow>
+                  <CRow className="g-2 mb-3">
+                    <CCol sm={10}>
+                      <CFormLabel>OBJETO</CFormLabel>
+                      <div>{contrato.objetoContrato}</div>
+                    </CCol>
+                    <CCol sm={2} className="d-flex align-items-center justify-content-end">
+                      <div className='Icon'>
+                        <span className='m-2'>
+                          <FontAwesomeIcon icon={faPenToSquare} onClick={() => abrirModalEdicao(contrato)} />
+                        </span>
+                        <span className='m-2' onClick={() => handleExcluirContrato(contrato.id)}>
+                          <FontAwesomeIcon icon={faTrash} />
+                        </span>
+                        <span className='m-2'>
+                          <Link to={`/espelhoNota/${contrato.id}`}>
+                            <FontAwesomeIcon icon={faFileSignature} />
+                          </Link>
+                        </span>
+                        <span className='m-2' onClick={() => abrirModalDetalhes(contrato)}>
+                          <FontAwesomeIcon icon={faEye} />
+                        </span>
+                      </div>
+                    </CCol>
+                  </CRow>
+                </CCardBody>
+              </CCard>
+              <br />
+
+              {/* <CCard className='c mb-3 p-2'>
                 <table>
                   <thead>
                     <tr>
@@ -219,7 +292,7 @@ const Contrato = () => {
                     </tr>
                   </tbody>
                 </table>
-              </CCard>
+              </CCard> */}
             </div>
           );
         })
