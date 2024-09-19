@@ -15,12 +15,12 @@ import {
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import { cilLockLocked, cilUser } from '@coreui/icons';
-import axios from 'axios';  // Adicione a importação do axios aqui
+import axios from 'axios';
 
-const apiUrl = import.meta.env.VITE_API_URL;
+const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 const Login = () => {
-  const [cpf_cnpj, setcpf_cnpj] = useState('');
+  const [cpf_cnpj, setCpfCnpj] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = async (event) => {
@@ -30,8 +30,11 @@ const Login = () => {
         cpf_cnpj,
         password
       });
+      
+      console.log('Resposta da API:', response.data);
 
       if (response.data.success) {
+        localStorage.setItem('authToken', response.data.token);
         window.location.href = '/dashboard';
       } else {
         alert('Login falhou: ' + response.data.message);
@@ -61,7 +64,7 @@ const Login = () => {
                         placeholder="CPF/CNPJ"
                         autoComplete="username"
                         value={cpf_cnpj}
-                        onChange={(e) => setcpf_cnpj(e.target.value)}
+                        onChange={(e) => setCpfCnpj(e.target.value)}
                       />
                     </CInputGroup>
                     <CInputGroup className="mb-4">
@@ -89,22 +92,6 @@ const Login = () => {
                       </CCol>
                     </CRow>
                   </CForm>
-                </CCardBody>
-              </CCard>
-              <CCard className="text-white bg-primary py-5" style={{ width: '44%' }}>
-                <CCardBody className="text-center">
-                  <div>
-                    <h2>Sign up</h2>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                      tempor incididunt ut labore et dolore magna aliqua.
-                    </p>
-                    <Link to="/register">
-                      <CButton color="primary" className="mt-3" active tabIndex={-1}>
-                        Register Now!
-                      </CButton>
-                    </Link>
-                  </div>
                 </CCardBody>
               </CCard>
             </CCardGroup>
