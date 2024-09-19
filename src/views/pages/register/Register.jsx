@@ -14,7 +14,8 @@ import {
 import CIcon from '@coreui/icons-react';
 import { cilLockLocked, cilUser } from '@coreui/icons';
 
-const apiUrl = import.meta.env.VITE_API_URL; // 
+const apiUrl = import.meta.env.VITE_API_URL; 
+
 const Register = () => {
   const [formData, setFormData] = useState({
     nome: '',
