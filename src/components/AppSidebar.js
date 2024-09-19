@@ -12,6 +12,7 @@ import { AppSidebarNav } from './AppSidebarNav';
 import logo from '../img/logo.png';
 import navigation from '../_nav';
 import TemaCor from './TemaCor';
+import Button from 'react-bootstrap/Button';
 
 const AppSidebar = () => {
   const dispatch = useDispatch();
@@ -47,12 +48,9 @@ const AppSidebar = () => {
         />
       </CSidebarHeader>
       <AppSidebarNav items={navigation} />
+        {/* <AppHeaderDropdown /> */}
       <CSidebarFooter className="d-none d-lg-flex">
-        <AppHeaderDropdown />
-        <div>
-          <span className="cap">Vox</span>
-          <span className="dev">Tec</span>
-        </div>
+        <Button variant="danger">SAIR</Button>{' '}
       </CSidebarFooter>
     </CSidebar>
   );
