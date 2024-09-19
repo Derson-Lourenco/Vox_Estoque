@@ -20,14 +20,14 @@ import axios from 'axios';  // Adicione a importação do axios aqui
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const Login = () => {
-  const [cpfCnpj, setCpfCnpj] = useState('');
+  const [cpf_cnpj, setcpf_cnpj] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       const response = await axios.post(`${apiUrl}/login`, {
-        cpfCnpj,
+        cpf_cnpj,
         password
       });
 
@@ -60,8 +60,8 @@ const Login = () => {
                       <CFormInput
                         placeholder="CPF/CNPJ"
                         autoComplete="username"
-                        value={cpfCnpj}
-                        onChange={(e) => setCpfCnpj(e.target.value)}
+                        value={cpf_cnpj}
+                        onChange={(e) => setcpf_cnpj(e.target.value)}
                       />
                     </CInputGroup>
                     <CInputGroup className="mb-4">
