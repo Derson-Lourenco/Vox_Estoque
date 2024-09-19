@@ -179,6 +179,45 @@
 
     return (
       <div>
+        <CCard>
+          <CCardHeader>
+            <CRow className="g-2 mb-3">
+              <CCol sm={6} md={4}>
+                <CFormSelect
+                  id="modalidade"               
+                  required
+                  tooltipFeedback
+                >
+                  <option value="">Buscar Por Modalidade</option>
+                  <option value="Pregão Eletrônico">Pregão Eletrônico</option>
+                  <option value="Adesão">Adesão</option>
+                  <option value="Dispensa">Dispensa</option>
+                </CFormSelect>
+              </CCol>
+
+              <CCol sm={6} md={4}>
+              <CFormInput
+                id="cnpjContratante"
+                type="text"
+                tooltipFeedback
+              />
+              </CCol>
+
+              <CCol sm={6} md={4}>
+                <CFormSelect
+                  id="modalidade"               
+                  required
+                  tooltipFeedback
+                >
+                  <option value="">Buscar Por Situação</option>
+                  <option value="Pregão Eletrônico">Pregão Eletrônico</option>
+                  <option value="Adesão">Adesão</option>
+                  <option value="Dispensa">Dispensa</option>
+                </CFormSelect>
+              </CCol>
+            </CRow>
+          </CCardHeader>
+        </CCard><br />
         {contrato.length > 0 ? (
           contrato.map((contrato) => {
             const situacao = verificarSituacao(contrato.dataInicio, contrato.dataFinalizacao);
