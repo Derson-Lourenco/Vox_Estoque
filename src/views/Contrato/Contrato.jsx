@@ -10,21 +10,22 @@
     faFileSignature,
   } from '@fortawesome/free-solid-svg-icons';
   import {
-    CCol,
-    CFormInput,
-    CRow,
     CCard,
     CCardBody,
     CCardHeader,
-    CInputGroup,
-    CInputGroupText,
-    CFormLabel,
+    CRow,
+    CCol,
+    CFormInput,
     CFormSelect,
+    CFormLabel,
     CFormTextarea,
-    CForm,
     CButton,
-    CFormCheck,
+    CModal,
+    CModalHeader,
+    CModalBody,
+    CModalFooter,
   } from "@coreui/react";
+  
   // import { CCard, CModal, CButton, CForm, CFormLabel, CFormInput, CFormTextarea } from "@coreui/react";
 
   const apiUrl = import.meta.env.VITE_API_URL;
@@ -259,9 +260,9 @@
                       </CCol>
                       <CCol sm={2} className="d-flex align-items-center justify-content-end">
                         <div className='Icon'>
-                          <span className='m-2'>
+                          {/* <span className='m-2'>
                             <FontAwesomeIcon icon={faPenToSquare} onClick={() => abrirModalEdicao(contrato)} />
-                          </span>
+                          </span> */}
                           <span className='m-2' onClick={() => handleExcluirContrato(contrato.id)}>
                             <FontAwesomeIcon icon={faTrash} />
                           </span>
@@ -288,85 +289,91 @@
 
         {detalhesContrato && (
           <CModal visible={!!detalhesContrato} onClose={() => setDetalhesContrato(null)}>
-            <CModal.Header>
+            <CModalHeader>
               <h5 className="modal-title">Detalhes do Contrato</h5>
-            </CModal.Header>
-            <CModal.Body>
+            </CModalHeader>
+            <CModalBody>
               <p><strong>Orgão:</strong> {detalhesContrato.orgao}</p>
               <p><strong>Modalidade:</strong> {detalhesContrato.modalidade}</p>
               <p><strong>Valor:</strong> R${detalhesContrato.valorContratado.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
               <p><strong>Data Início:</strong> {detalhesContrato.dataInicio}</p>
               <p><strong>Data Finalização:</strong> {detalhesContrato.dataFinalizacao}</p>
               <p><strong>Objeto:</strong> {detalhesContrato.objetoContrato}</p>
-            </CModal.Body>
-            <CModal.Footer>
+            </CModalBody>
+            <CModalFooter>
               <CButton color="secondary" onClick={() => setDetalhesContrato(null)}>Fechar</CButton>
-            </CModal.Footer>
+            </CModalFooter>
           </CModal>
         )}
 
-        {contratoEditando && (
-          <CModal visible={modalEdicaoVisible} onClose={fecharModalEdicao}>
-            <CModal.Header>
-              <h5 className="modal-title">Editar Contrato</h5>
-            </CModal.Header>
-            <CModal.Body>
-              <CForm onSubmit={handleAtualizarContrato}>
-                <CFormLabel htmlFor="orgao">Orgão</CFormLabel>
-                <CFormInput
-                  type="text"
-                  id="orgao"
-                  name="orgao"
-                  value={contratoEditando.orgao}
-                  onChange={handleFormChange}
-                />
-                <CFormLabel htmlFor="modalidade">Modalidade</CFormLabel>
-                <CFormInput
-                  type="text"
-                  id="modalidade"
-                  name="modalidade"
-                  value={contratoEditando.modalidade}
-                  onChange={handleFormChange}
-                />
-                <CFormLabel htmlFor="valorContratado">Valor</CFormLabel>
-                <CFormInput
-                  type="number"
-                  id="valorContratado"
-                  name="valorContratado"
-                  value={contratoEditando.valorContratado}
-                  onChange={handleFormChange}
-                />
-                <CFormLabel htmlFor="dataInicio">Data Início</CFormLabel>
-                <CFormInput
-                  type="date"
-                  id="dataInicio"
-                  name="dataInicio"
-                  value={contratoEditando.dataInicio}
-                  onChange={handleFormChange}
-                />
-                <CFormLabel htmlFor="dataFinalizacao">Data Finalização</CFormLabel>
-                <CFormInput
-                  type="date"
-                  id="dataFinalizacao"
-                  name="dataFinalizacao"
-                  value={contratoEditando.dataFinalizacao}
-                  onChange={handleFormChange}
-                />
-                <CFormLabel htmlFor="objetoContrato">Objeto</CFormLabel>
-                <CFormTextarea
-                  id="objetoContrato"
-                  name="objetoContrato"
-                  value={contratoEditando.objetoContrato}
-                  onChange={handleFormChange}
-                />
-                <div className="d-flex justify-content-between mt-3">
-                  <CButton type="submit" color="primary">Salvar</CButton>
-                  <CButton color="secondary" onClick={fecharModalEdicao}>Cancelar</CButton>
-                </div>
-              </CForm>
-            </CModal.Body>
-          </CModal>
-        )}
+
+        {/* Modal de Edição */}
+      {modalEdicaoVisible && (
+        <CModal visible={modalEdicaoVisible} onClose={fecharModalEdicao}>
+          <CModalHeader>
+            <h5 className="modal-title">Editar Contrato</h5>
+          </CModalHeader>
+          <CModalBody>
+            <CForm onSubmit={handleAtualizarContrato}>
+              <CFormLabel htmlFor="orgao">Orgão</CFormLabel>
+              <CFormInput
+                id="orgao"
+                name="orgao"
+                value={contratoEditando?.orgao || ''}
+                onChange={handleFormChange}
+                required
+              />
+              <CFormLabel htmlFor="modalidade">Modalidade</CFormLabel>
+              <CFormInput
+                id="modalidade"
+                name="modalidade"
+                value={contratoEditando?.modalidade || ''}
+                onChange={handleFormChange}
+                required
+              />
+              <CFormLabel htmlFor="valorContratado">Valor Contratado</CFormLabel>
+              <CFormInput
+                id="valorContratado"
+                name="valorContratado"
+                type="number"
+                value={contratoEditando?.valorContratado || ''}
+                onChange={handleFormChange}
+                required
+              />
+              <CFormLabel htmlFor="dataInicio">Data Início</CFormLabel>
+              <CFormInput
+                id="dataInicio"
+                name="dataInicio"
+                type="date"
+                value={contratoEditando?.dataInicio || ''}
+                onChange={handleFormChange}
+                required
+              />
+              <CFormLabel htmlFor="dataFinalizacao">Data Finalização</CFormLabel>
+              <CFormInput
+                id="dataFinalizacao"
+                name="dataFinalizacao"
+                type="date"
+                value={contratoEditando?.dataFinalizacao || ''}
+                onChange={handleFormChange}
+                required
+              />
+              <CFormLabel htmlFor="objetoContrato">Objeto</CFormLabel>
+              <CFormTextarea
+                id="objetoContrato"
+                name="objetoContrato"
+                value={contratoEditando?.objetoContrato || ''}
+                onChange={handleFormChange}
+                required
+              />
+              <CModalFooter>
+                <CButton color="secondary" onClick={fecharModalEdicao}>Cancelar</CButton>
+                <CButton type="submit" color="primary">Salvar</CButton>
+              </CModalFooter>
+            </CForm>
+          </CModalBody>
+        </CModal>
+      )}
       </div>
     );
   };
