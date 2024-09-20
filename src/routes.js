@@ -4,8 +4,9 @@ const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'));
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'));
 const Typography = React.lazy(() => import('./views/theme/typography/Typography'));
 
-// Contrato
+// Contrato detalheContrato
 const Contrato = React.lazy(() => import('./views/Contrato/Contrato'));
+const detalheContrato = React.lazy(() => import('./views/Contrato/detalheContrato'));
 const NovoContrato = React.lazy(() => import('./views/NovoContrato/NovoContrato'));
 
 // Documentos
@@ -33,10 +34,11 @@ const Widgets = React.lazy(() => import('./views/widgets/Widgets'));
 const routes = [
   { path: '/', exact: true, name: 'Home', element: Dashboard },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
-  { path: '/Contrato', name: 'Contrato', element: Contrato },
-  { path: '/NovoContrato', name: 'NovoContrato', element: NovoContrato },
+  { path: '/Contrato', name: 'Contratos', element: Contrato },
+  { path: '/NovoContrato', name: 'Novo Contrato', element: NovoContrato },
   { path: '/theme', name: 'Theme', element: Colors },
-  { path: '/LicitacoesTCE', name: 'LicitacoesTCE', element: LicitacoesTCE },
+  { path: '/LicitacoesTCE', name: 'Licitações TCE-PI', element: LicitacoesTCE },
+  { path: '/detalheContrato', name: 'Detalhe de Contrato', element: detalheContrato },
   // Outras rotas podem ser adicionadas aqui
 ];
 

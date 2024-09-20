@@ -52,7 +52,6 @@ const File = () => {
                   { label: "Contrato", value: "2" },
                   { label: "Extrato de Contrato", value: "3" },
                   { label: "Aditivo", value: "4" },
-                  { label: "Controle de Nota", value: "5" },
                 ]}
               />
             </CCol>

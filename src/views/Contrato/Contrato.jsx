@@ -27,6 +27,7 @@
   } from "@coreui/react";
   
   // import { CCard, CModal, CButton, CForm, CFormLabel, CFormInput, CFormTextarea } from "@coreui/react";
+  import Button from 'react-bootstrap/Button';
 
   const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -183,7 +184,7 @@
         <CCard>
           <CCardHeader>
             <CRow className="g-2 mb-3">
-              <CCol sm={6} md={4}>
+              <CCol sm={6} md={3}>
                 <CFormSelect
                   id="modalidade"               
                   required
@@ -196,15 +197,20 @@
                 </CFormSelect>
               </CCol>
 
-              <CCol sm={6} md={4}>
-              <CFormInput
-                id="cnpjContratante"
-                type="text"
-                tooltipFeedback
-              />
+              <CCol sm={6} md={3}>
+                <CFormSelect
+                  id="modalidade"               
+                  required
+                  tooltipFeedback
+                >
+                  <option value="">Buscar Por Modalidade</option>
+                  <option value="Pregão Eletrônico">Pregão Eletrônico</option>
+                  <option value="Adesão">Adesão</option>
+                  <option value="Dispensa">Dispensa</option>
+                </CFormSelect>
               </CCol>
 
-              <CCol sm={6} md={4}>
+              <CCol sm={6} md={3}>
                 <CFormSelect
                   id="modalidade"               
                   required
@@ -215,7 +221,17 @@
                   <option value="Adesão">Adesão</option>
                   <option value="Dispensa">Dispensa</option>
                 </CFormSelect>
-              </CCol>
+                </CCol>
+                <CCol sm={6} md={3}>
+                  <CRow>
+                    <CCol sm={6} md={4}>
+                      <Button variant="success">Pesquisar</Button>
+                    </CCol>
+                    <CCol sm={6} md={4}>
+                      <Button variant="info">Limpar</Button>
+                    </CCol>
+                  </CRow>  
+                </CCol>
             </CRow>
           </CCardHeader>
         </CCard><br />
@@ -267,7 +283,7 @@
                             <FontAwesomeIcon icon={faTrash} />
                           </span>
                           <span className='m-2'>
-                            <Link to={`/espelhoNota/${contrato.id}`}>
+                            <Link to={`/detalheContrato/`}>
                               <FontAwesomeIcon icon={faFileSignature} />
                             </Link>
                           </span>
