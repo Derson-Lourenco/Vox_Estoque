@@ -244,7 +244,7 @@
             <CCard>
                   <CCardBody>
                     <CRow className="g-2 mb-3">
-                      <CCol sm={6} md={2}>
+                      <CCol sm={6} md={3}>
                         <CFormLabel>ORGÃO</CFormLabel>
                         <div>{contrato.orgao}</div>
                       </CCol>
@@ -256,31 +256,30 @@
                         <CFormLabel>VALOR</CFormLabel>
                         <div>R$ {contrato.valorContratado.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</div>
                       </CCol>
-                      <CCol sm={6} md={2}>
+                      {/* <CCol sm={6} md={2}>
                         <CFormLabel>DATA INICIO</CFormLabel>
                         <div>{contrato.dataInicio}</div>
                       </CCol>
                       <CCol sm={6} md={2}>
                         <CFormLabel>DATA FINALIZAÇÃO</CFormLabel>
                         <div>{contrato.dataFinalizacao}</div>
+                      </CCol> */}
+                      <CCol sm={3}>
+                        <CFormLabel>OBJETO</CFormLabel>
+                        <div>{contrato.objetoContrato}</div>
                       </CCol>
-                      <CCol sm={6} md={2}>
+                      <CCol sm={2} md={2}>
                         <CFormLabel>SITUAÇÃO</CFormLabel>
                         <div style={{ color: situacao.cor }}>{situacao.texto}</div>
                       </CCol>
                     </CRow>
                     <CRow className="g-2 mb-3">
-                      <CCol sm={10}>
-                        <CFormLabel>OBJETO</CFormLabel>
-                        <div>{contrato.objetoContrato}</div>
-                      </CCol>
                       <CCol sm={2} className="d-flex align-items-center justify-content-end">
                         <div className='Icon'>
                           {/* <span className='m-2'>
                             <FontAwesomeIcon icon={faPenToSquare} onClick={() => abrirModalEdicao(contrato)} />
                           </span> */}
                           <span className='m-2' onClick={() => handleExcluirContrato(contrato.id)}>
-                            <p>id:</p> <p>{contrato.id}</p>
                             <FontAwesomeIcon icon={faTrash} />
                           </span>
                           <span className='m-2'>
