@@ -1,101 +1,110 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { CCard, CCardBody, CCardHeader, CNavbar, CNavbarNav, CNavLink, CNavItem, CCollapse } from "@coreui/react";
-import {
-  CCol,
-  CFormInput,
-  CRow,
-  CInputGroup,
-  CInputGroupText,
-  CFormLabel,
-  CFormSelect,
-  CFormTextarea,
-  CFormCheck,
-} from "@coreui/react";
+import { CCol, CFormLabel, CRow } from "@coreui/react";
 import Button from 'react-bootstrap/Button';
+
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const DetalheContrato = () => {
   const [visible, setVisible] = useState(false);
   const [activeTab, setActiveTab] = useState('detalhes'); // Define qual aba está ativa
+  const { id } = useParams();
+  const [contrato, setContrato] = useState(null);
+
+  useEffect(() => {
+    const fetchDetalhesContrato = async () => {
+      try {
+        const response = await fetch(`${apiUrl}/contratos/detalheContrato/${id}`);
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data); // Verifica a resposta da API
+          setContrato(data.contrato); // Acessa o objeto contrato
+        } else {
+          console.error('Erro ao buscar detalhes do contrato:', response.statusText);
+        }
+      } catch (error) {
+        console.error('Erro ao buscar detalhes do contrato:', error);
+      }
+    };
+
+    fetchDetalhesContrato();
+  }, [id]);
 
   const renderContent = () => {
     switch (activeTab) {
       case 'detalhes':
         return (
           <div>
+            {contrato ? (
               <CCardBody>
+
                 <CRow className="g-2 mb-3">
-                  <CCol sm={4}>
-                    <CFormLabel className='required'>Nº do processo adm/Ano</CFormLabel>
+                  <CCol sm={6} md={3}>
+                    <CFormLabel>Nº do processo adm/Ano</CFormLabel>
+                    <div>{contrato.processoAno}</div>
                   </CCol>
-
-                  <CCol sm={4}>
-                    <CFormLabel className='required'>Nº do contrato/Ano</CFormLabel>
-
+                  <CCol sm={6} md={3}>
+                    <CFormLabel>Nº do contrato/Ano</CFormLabel>
+                    <div>{contrato.numeroContrato}</div>
                   </CCol>
-
-                  <CCol sm={2}>
-                    <CFormLabel className="required">
-                      Modalidade
-                    </CFormLabel>
+                  <CCol sm={6} md={3}>
+                    <CFormLabel>Modalidade</CFormLabel>
+                    <div>R$ {contrato.modalidade}</div>
                   </CCol>
-
-                  <CCol sm={2}>
-                    <CFormLabel className="required">
-                      Registro de Preço
-                    </CFormLabel>
+                  <CCol sm={6} md={3}>
+                    <CFormLabel>Registro de Preço</CFormLabel>
+                    <div>{new Date(contrato.registro).toLocaleDateString()}</div>
                   </CCol>
                 </CRow>
 
                 <CRow className="g-2 mb-3">
-                  <CCol sm={6}>
-                    <CFormLabel  className="required">
-                      Orgão
-                    </CFormLabel>
+                  <CCol sm={6} md={3}>
+                    <CFormLabel>ORGÃO</CFormLabel>
+                    <div>{contrato.orgao}</div>
                   </CCol>
-                  <CCol>
-                    <CFormLabel >
-                      CNPJ do Contratante
-                    </CFormLabel>
+                  <CCol sm={6} md={3}>
+                    <CFormLabel>CNPJ do Contratante</CFormLabel>
+                    <div>{contrato.cnpjContratante}</div>
                   </CCol>
-                  <CCol>
-                    <CFormLabel className="required">
-                      Valor do Contratado
-                    </CFormLabel>
+                  <CCol sm={6} md={3}>
+                    <CFormLabel>Valor do Contratado</CFormLabel>
+                    <div>R$ {contrato.valorContratado}</div>
                   </CCol>
-                </CRow>
-
-                <CRow className='g-2 mb-3'>
-                  <CCol sm={2}>
-                    <CFormLabel className="required">
-                      Data da Assinatura
-                    </CFormLabel>
+                  <CCol sm={6} md={3}>
+                    <CFormLabel>Valor Atual</CFormLabel>
+                    <div>R$ {contrato.valorContratado}</div>
                   </CCol>
-                  <CCol sm={2}>
-                    <CFormLabel  className="required">
-                      Data de Início
-                    </CFormLabel>
-                  </CCol>
-                  <CCol sm={2}>
-                    <CFormLabel className="required">
-                      Data de Finalização
-                    </CFormLabel>
-                  </CCol>
-                  <CCol>
-                    <CFormLabel  className="required">
-                      Secretarias
-                    </CFormLabel>
-                  </CCol>
-                </CRow>
-
-                <CRow className='g-2 mb-3'>
-                  <CCol sm={10}>
-                    <CFormLabel className="required">
-                      Objeto do Contrato
-                    </CFormLabel>
-                  </CCol>
-                </CRow>
                   
+                </CRow>
+                <CRow className="g-2 mb-3">
+                  <CCol sm={6} md={3}>
+                      <CFormLabel>Data da Assinatura</CFormLabel>
+                      <div>{new Date(contrato.dataAssinatura).toLocaleDateString()}</div>
+                    </CCol>
+                    <CCol sm={6} md={3}>
+                      <CFormLabel>Data de Início</CFormLabel>
+                      <div>{new Date(contrato.dataInicio).toLocaleDateString()}</div>
+                    </CCol>
+                    <CCol sm={6} md={3}>
+                      <CFormLabel>DATA FINALIZAÇÃO</CFormLabel>
+                      <div>{new Date(contrato.dataFinalizacao).toLocaleDateString()}</div>
+                    </CCol>
+                    <CCol sm={6} md={3}>
+                      <CFormLabel>Secretarias</CFormLabel>
+                      <div>{new Date(contrato.secretarias).toLocaleDateString()}</div>
+                    </CCol>
+                </CRow>
+                <CRow className="g-2 mb-3">
+                  <CCol sm={6} md={12}>
+                      <CFormLabel>Objeto do Contrato</CFormLabel>
+                      <div>{new Date(contrato.objetoContrato).toLocaleDateString()}</div>
+                    </CCol>
+                </CRow>
               </CCardBody>
+            ) : (
+              <p>Carregando...</p>
+            )}
           </div>
         );
       case 'espelho':
@@ -103,97 +112,21 @@ const DetalheContrato = () => {
           <div>
             <h5>Espelho do Contrato</h5>
             <p>Este espaço pode ser utilizado para visualizar uma cópia ou espelho do contrato.</p>
-            {/* Futuro conteúdo para o espelho do contrato */}
           </div>
         );
       case 'editar':
         return (
           <div>
             <CCardBody>
-                <CRow className="g-2 mb-3">
-                  <CCol sm={4}>
-                    <CFormLabel className='required'>Nº do processo adm/Ano</CFormLabel>
-                  </CCol>
-
-                  <CCol sm={4}>
-                    <CFormLabel className='required'>Nº do contrato/Ano</CFormLabel>
-
-                  </CCol>
-
-                  <CCol sm={2}>
-                    <CFormLabel className="required">
-                      Modalidade
-                    </CFormLabel>
-                  </CCol>
-
-                  <CCol sm={2}>
-                    <CFormLabel className="required">
-                      Registro de Preço
-                    </CFormLabel>
-                  </CCol>
-                </CRow>
-
-                <CRow className="g-2 mb-3">
-                  <CCol sm={6}>
-                    <CFormLabel  className="required">
-                      Orgão
-                    </CFormLabel>
-                  </CCol>
-                  <CCol>
-                    <CFormLabel >
-                      CNPJ do Contratante
-                    </CFormLabel>
-                  </CCol>
-                  <CCol>
-                    <CFormLabel className="required">
-                      Valor do Contratado
-                    </CFormLabel>
-                  </CCol>
-                </CRow>
-
-                <CRow className='g-2 mb-3'>
-                  <CCol sm={2}>
-                    <CFormLabel className="required">
-                      Data da Assinatura
-                    </CFormLabel>
-                  </CCol>
-                  <CCol sm={2}>
-                    <CFormLabel  className="required">
-                      Data de Início
-                    </CFormLabel>
-                  </CCol>
-                  <CCol sm={2}>
-                    <CFormLabel className="required">
-                      Data de Finalização
-                    </CFormLabel>
-                  </CCol>
-                  <CCol>
-                    <CFormLabel  className="required">
-                      Secretarias
-                    </CFormLabel>
-                  </CCol>
-                </CRow>
-
-                <CRow className='g-2 mb-3'>
-                  <CCol sm={10}>
-                    <CFormLabel className="required">
-                      Objeto do Contrato
-                    </CFormLabel>
-                  </CCol>
-                </CRow>
-
-                <CRow>
-                  <CCol sm={6} md={4}>
-                    <Button variant="success">Salvar</Button>
-                  </CCol>
-                  <CCol sm={6} md={4}>
-                    <Button variant="info">Limpar</Button>
-                  </CCol>
-                  <CCol sm={6} md={4}>
-                    <Button variant="danger">Excluir</Button>
-                  </CCol>
-                </CRow>
-              </CCardBody>
+              {/* Implementação da aba de edição */}
+            </CCardBody>
+          </div>
+        );
+      case 'documentos':
+        return (
+          <div>
+            <h5>Documentos de Contrato</h5>
+            <p>Este espaço pode ser utilizado para visualizar uma cópia ou Documentos de Contrato.</p>
           </div>
         );
       default:
@@ -210,7 +143,6 @@ const DetalheContrato = () => {
               <CNavbarNav>
                 <CNavItem>
                   <CNavLink 
-                    to="/detalhes"
                     active={activeTab === 'detalhes'} 
                     onClick={() => setActiveTab('detalhes')}
                   >
@@ -219,20 +151,26 @@ const DetalheContrato = () => {
                 </CNavItem>
                 <CNavItem>
                   <CNavLink 
-                    to="/espelho"
                     active={activeTab === 'espelho'} 
                     onClick={() => setActiveTab('espelho')}
                   >
-                    Espelho
+                    Espelho Nota
                   </CNavLink>
                 </CNavItem>
                 <CNavItem>
-                  <CNavLink
-                    to="/editar"
+                  <CNavLink 
                     active={activeTab === 'editar'} 
                     onClick={() => setActiveTab('editar')}
                   >
                     Editar
+                  </CNavLink>
+                </CNavItem>
+                <CNavItem>
+                  <CNavLink 
+                    active={activeTab === 'documentos'} 
+                    onClick={() => setActiveTab('documentos')}
+                  >
+                    Documentos
                   </CNavLink>
                 </CNavItem>
               </CNavbarNav>
@@ -240,7 +178,7 @@ const DetalheContrato = () => {
           </CNavbar>
         </CCardHeader>
         <CCardBody>
-          {renderContent()} {/* Exibe o conteúdo correspondente à aba ativa */}
+          {renderContent()}
         </CCardBody>
       </CCard>
     </div>

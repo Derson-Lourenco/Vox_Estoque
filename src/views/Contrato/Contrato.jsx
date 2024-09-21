@@ -280,10 +280,11 @@
                             <FontAwesomeIcon icon={faPenToSquare} onClick={() => abrirModalEdicao(contrato)} />
                           </span> */}
                           <span className='m-2' onClick={() => handleExcluirContrato(contrato.id)}>
+                            <p>id:</p> <p>{contrato.id}</p>
                             <FontAwesomeIcon icon={faTrash} />
                           </span>
                           <span className='m-2'>
-                            <Link to={`/detalheContrato/`}>
+                            <Link to={`/detalheContrato/${contrato.id}`}>
                               <FontAwesomeIcon icon={faFileSignature} />
                             </Link>
                           </span>

@@ -38,7 +38,7 @@ const routes = [
   { path: '/NovoContrato', name: 'Novo Contrato', element: NovoContrato },
   { path: '/theme', name: 'Theme', element: Colors },
   { path: '/LicitacoesTCE', name: 'Licitações TCE-PI', element: LicitacoesTCE },
-  { path: '/detalheContrato', name: 'Detalhe de Contrato', element: detalheContrato },
+  { path: '/detalheContrato/:id', name: 'Detalhe de Contrato', element: detalheContrato },
   // Outras rotas podem ser adicionadas aqui
 ];
 
