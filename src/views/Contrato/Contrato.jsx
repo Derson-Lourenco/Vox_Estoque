@@ -149,44 +149,57 @@ const Contrato = () => {
           return (
             <div key={contrato.id}>
               <CCard>
-                <CCardBody>
-                  <CRow className="g-2 mb-3">
-                    <CCol xs={12} sm={6} md={3}>
-                      <CFormLabel>ORGÃO</CFormLabel>
-                      <div>{contrato.orgao}</div>
-                    </CCol>
-                    <CCol sm={6} md={2}>
-                      <CFormLabel>MODALIDADE</CFormLabel>
-                      <div>{contrato.modalidade}</div>
-                    </CCol>
-                    <CCol sm={6} md={2}>
-                      <CFormLabel>VALOR</CFormLabel>
-                      <div>R$ {contrato.valorContratado.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</div>
-                    </CCol>
-                    <CCol sm={3}>
-                      <CFormLabel>OBJETO</CFormLabel>
-                      <div>{contrato.objetoContrato}</div>
-                    </CCol>
-                    <CCol sm={2} md={2}>
-                      <CFormLabel>SITUAÇÃO</CFormLabel>
-                      <div style={{ color: situacao.cor }}>{situacao.texto}</div>
-                    </CCol>
-                  </CRow>
-                  <CRow className="g-2 mb-3">
-                    <CCol sm={2} className="d-flex align-items-center justify-content-end">
-                      <div className='Icon'>
-                        <span className='m-2'>
-                          <Link to={`/detalheContrato/${contrato.id}`}>
-                            <FontAwesomeIcon icon={faFileSignature} />
-                          </Link>
-                        </span>
-                        <span className='m-2' onClick={() => abrirModalDetalhes(contrato)}>
-                          <FontAwesomeIcon icon={faEye} />
-                        </span>
-                      </div>
-                    </CCol>
-                  </CRow>
-                </CCardBody>
+              <CCardBody>
+            <CRow className="g-2 mb-3">
+              {/* Exibição para dispositivos móveis */}
+              <CCol xs={12} className="d-md-none">
+                <div>
+                  <strong>Órgão:</strong> {contrato.orgao}<br />
+                  <strong>Modalidade:</strong> {contrato.modalidade}<br />
+                  <strong>Valor:</strong> R$ {contrato.valorContratado.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}<br />
+                  <strong>Objeto:</strong> {contrato.objetoContrato}<br />
+                  <strong>Situação:</strong> <span style={{ color: situacao.cor }}>{situacao.texto}</span>
+                </div>
+              </CCol>
+
+              {/* Exibição para telas maiores */}
+              <CCol xs={12} sm={6} md={3} className="d-none d-md-block">
+                <CFormLabel>ÓRGÃO</CFormLabel>
+                <div>{contrato.orgao}</div>
+              </CCol>
+              <CCol sm={6} md={2} className="d-none d-md-block">
+                <CFormLabel>MODALIDADE</CFormLabel>
+                <div>{contrato.modalidade}</div>
+              </CCol>
+              <CCol sm={6} md={2} className="d-none d-md-block">
+                <CFormLabel>VALOR</CFormLabel>
+                <div>R$ {contrato.valorContratado.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</div>
+              </CCol>
+              <CCol sm={3} className="d-none d-md-block">
+                <CFormLabel>OBJETO</CFormLabel>
+                <div>{contrato.objetoContrato}</div>
+              </CCol>
+              <CCol sm={2} md={2} className="d-none d-md-block">
+                <CFormLabel>SITUAÇÃO</CFormLabel>
+                <div style={{ color: situacao.cor }}>{situacao.texto}</div>
+              </CCol>
+            </CRow>
+            <CRow className="g-2 mb-3">
+              <CCol sm={2} className="d-flex align-items-center justify-content-end">
+                <div className='Icon'>
+                  <span className='m-2'>
+                    <Link to={`/detalheContrato/${contrato.id}`}>
+                      <FontAwesomeIcon icon={faFileSignature} />
+                    </Link>
+                  </span>
+                  <span className='m-2' onClick={() => abrirModalDetalhes(contrato)}>
+                    <FontAwesomeIcon icon={faEye} />
+                  </span>
+                </div>
+              </CCol>
+            </CRow>
+          </CCardBody>
+
               </CCard>
               <br />
             </div>
