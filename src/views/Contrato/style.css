@@ -12,7 +12,28 @@
   width: 100%;
   overflow-x: auto; /* Permite rolagem horizontal em dispositivos menores */
 }
+.busca-contratos {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
 
+.busca-item {
+  flex: 1 1 25%;
+}
+
+.busca-botoes {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+@media (max-width: 768px) {
+  .busca-item {
+    flex: 1 1 100%;
+  }
+}
 /* Tabela para telas maiores */
 table {
   width: 100%;

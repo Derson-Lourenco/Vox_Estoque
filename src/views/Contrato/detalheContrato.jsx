@@ -304,27 +304,46 @@ const DetalheContrato = () => {
     <CCard>
       <CCardHeader>
         <CNavbar>
-          <CNavbarNav>
-            <CNavItem>
-              <CNavLink
-                active={activeTab === 'detalhes'}
-                onClick={() => setActiveTab('detalhes')}
-              >
-                Detalhes do Contrato
-              </CNavLink>
-            </CNavItem>
-            <CNavItem>
-              <CNavLink
-                active={activeTab === 'editar'}
-                onClick={() => setActiveTab('editar')}
-              >
-                Editar Contrato
-              </CNavLink>
-            </CNavItem>
+          <CNavbarNav className="w-100">  {/* w-100 garante que o NavbarNav ocupe toda a largura */}
+            <CRow className="">  {/* g-0 remove espaçamento entre colunas */}
+              <CCol xs={4} sm={4} md={2}>
+                <CNavItem>
+                  <CNavLink
+                    active={activeTab === 'detalhes'}
+                    onClick={() => setActiveTab('detalhes')}
+                  >
+                    Detalhes
+                  </CNavLink>
+                </CNavItem>
+              </CCol>
+
+              <CCol xs={4} sm={4} md={2}>
+                <CNavItem>
+                  <CNavLink
+                    active={activeTab === 'editar'}
+                    onClick={() => setActiveTab('editar')}
+                  >
+                    Editar
+                  </CNavLink>
+                </CNavItem>
+              </CCol>
+
+              <CCol xs={4} sm={4} md={2}>
+                <CNavItem>
+                  <CNavLink>
+                    Espelho
+                  </CNavLink>
+                </CNavItem>
+              </CCol>
+            </CRow>
           </CNavbarNav>
         </CNavbar>
+
       </CCardHeader>
+      <CCardBody>
+
       {renderContent()}
+      </CCardBody>
     </CCard>
   );
 };

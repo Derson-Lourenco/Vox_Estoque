@@ -1,307 +1,200 @@
-  import React, { useEffect, useState } from 'react';
-  import { Link } from 'react-router-dom';
-  import moment from 'moment';
-  import './style.css';
-  import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-  import {
-    faEye,
-    faTrash,
-    faPenToSquare,
-    faFileSignature,
-  } from '@fortawesome/free-solid-svg-icons';
-  import {
-    CCard,
-    CCardBody,
-    CCardHeader,
-    CRow,
-    CCol,
-    CFormInput,
-    CFormSelect,
-    CFormLabel,
-    CFormTextarea,
-    CButton,
-    CModal,
-    CModalHeader,
-    CModalBody,
-    CModalFooter,
-  } from "@coreui/react";
-  
-  // import { CCard, CModal, CButton, CForm, CFormLabel, CFormInput, CFormTextarea } from "@coreui/react";
-  import Button from 'react-bootstrap/Button';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import moment from 'moment';
+import './style.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faFileSignature } from '@fortawesome/free-solid-svg-icons';
+import {
+  CCard, CCardBody, CCardHeader, CRow, CCol,
+  CFormSelect, CFormLabel, CButton, CModal, CModalHeader, CModalBody, CModalFooter
+} from "@coreui/react";
+import Button from 'react-bootstrap/Button';
 
-  const apiUrl = import.meta.env.VITE_API_URL;
+const apiUrl = import.meta.env.VITE_API_URL;
 
-  const Contrato = () => {
-    const [contrato, setContrato] = useState([]);
-    const [detalhesContrato, setDetalhesContrato] = useState(null);
-    const [modalEdicaoVisible, setModalEdicaoVisible] = useState(false);
-    const [contratoEditando, setContratoEditando] = useState(null);
+const Contrato = () => {
+  const [contrato, setContrato] = useState([]);
+  const [detalhesContrato, setDetalhesContrato] = useState(null);
+  const [orgaoOptions, setOrgaoOptions] = useState([]);
+  const [modalidadeOptions, setModalidadeOptions] = useState([]);
+  const [situacaoOptions, setSituacaoOptions] = useState([]);
 
-    // Função para buscar contratos
-    const fetchContrato = async () => {
-      try {
-        const response = await fetch(`${apiUrl}/contratos/getContratos`);
+  // Estados para os filtros selecionados
+  const [filtroOrgao, setFiltroOrgao] = useState('');
+  const [filtroModalidade, setFiltroModalidade] = useState('');
+  const [filtroSituacao, setFiltroSituacao] = useState('');
 
-        if (response.ok) {
-          const data = await response.json();
-          console.log('Dados recebidos:', data);
-          
-          if (data.contratos && Array.isArray(data.contratos)) {
-            const contratoFormatados = data.contratos.map(contrato => ({
-              ...contrato,
-              dataInicio: formatarData(contrato.dataInicio),
-              dataFinalizacao: formatarData(contrato.dataFinalizacao),
-            }));
-            setContrato(contratoFormatados.reverse());
-          } else {
-            console.error('Dados de contrato não encontrados ou inválidos:', data);
-          }
+  // Função para buscar contratos
+  const fetchContrato = async () => {
+    try {
+      const response = await fetch(`${apiUrl}/contratos/getContratos`);
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data.contratos && Array.isArray(data.contratos)) {
+          const contratoFormatados = data.contratos.map(contrato => ({
+            ...contrato,
+            dataInicio: formatarData(contrato.dataInicio),
+            dataFinalizacao: formatarData(contrato.dataFinalizacao),
+          }));
+
+          // Preencher as opções de filtros com dados únicos
+          const orgaosUnicos = [...new Set(contratoFormatados.map(c => c.orgao))];
+          const modalidadesUnicas = [...new Set(contratoFormatados.map(c => c.modalidade))];
+          const situacoesUnicas = [...new Set(contratoFormatados.map(c => verificarSituacao(c.dataInicio, c.dataFinalizacao).texto))];
+
+          setOrgaoOptions(orgaosUnicos);
+          setModalidadeOptions(modalidadesUnicas);
+          setSituacaoOptions(situacoesUnicas);
+          setContrato(contratoFormatados.reverse());
         } else {
-          console.error('Erro na solicitação:', response.statusText);
-        }
-      } catch (error) {
-        console.error('Erro na solicitação:', error);
-      }
-    };
-
-    // Função para formatar data
-    const formatarData = (data) => {
-      const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
-      return new Date(data).toLocaleDateString(undefined, options);
-    };
-
-    // Função para verificar situação do contrato
-    const verificarSituacao = (dataInicio, dataFinalizacao) => {
-      const dataInicioObj = moment(dataInicio, 'DD/MM/YYYY');
-      const dataFimObj = moment(dataFinalizacao, 'DD/MM/YYYY');
-      const dataAtual = moment();
-    
-      if (dataAtual.isBefore(dataInicioObj)) {
-        return { texto: 'Ainda não começou', cor: 'blue' };
-      } else if (dataAtual.isSameOrAfter(dataInicioObj) && dataAtual.isBefore(dataFimObj)) {
-        const diferencaDias = dataFimObj.diff(dataAtual, 'days');
-        const diferencaMeses = dataFimObj.diff(dataAtual, 'months', true);
-    
-        if (diferencaDias < 0) {
-          return { texto: 'Está Vencido', cor: 'red' };
-        } else if (diferencaMeses <= 3) {
-          return { texto: 'Término Iminente', cor: 'yellow' };
-        } else {
-          return { texto: 'Em vigência', cor: 'green' };
+          console.error('Dados de contrato não encontrados ou inválidos:', data);
         }
       } else {
-        return { texto: 'Está vencido', cor: 'red' };
+        console.error('Erro na solicitação:', response.statusText);
       }
-    };
+    } catch (error) {
+      console.error('Erro na solicitação:', error);
+    }
+  };
 
-    // Função para excluir contrato
-    const handleExcluirContrato = async (id) => {
-      try {
-        const response = await fetch(`${apiUrl}/contratos/excluirContrato/${id}`, {
-          method: 'DELETE',
-        });
-    
-        if (response.ok) {
-          const novosContrato = contrato.filter((c) => c.id !== id);
-          setContrato(novosContrato);
-        } else {
-          console.error('Erro ao excluir contrato:', response.statusText);
-        }
-      } catch (error) {
-        console.error('Erro ao excluir contrato:', error);
-      }
-    };
+  // Função para formatar data
+  const formatarData = (data) => {
+    const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
+    return new Date(data).toLocaleDateString(undefined, options);
+  };
 
-    // Função para abrir modal de detalhes
-    const abrirModalDetalhes = (contrato) => {
-      setDetalhesContrato(contrato);
-    };
+  // Função para verificar situação do contrato
+  const verificarSituacao = (dataInicio, dataFinalizacao) => {
+    const dataInicioObj = moment(dataInicio, 'DD/MM/YYYY');
+    const dataFimObj = moment(dataFinalizacao, 'DD/MM/YYYY');
+    const dataAtual = moment();
 
-    // Função para abrir modal de edição
-    const abrirModalEdicao = (contrato) => {
-      setContratoEditando(contrato);
-      setModalEdicaoVisible(true);
-    };
+    if (dataAtual.isBefore(dataInicioObj)) {
+      return { texto: 'Ainda não começou', cor: 'blue' };
+    } else if (dataAtual.isSameOrAfter(dataInicioObj) && dataAtual.isBefore(dataFimObj)) {
+      const diferencaMeses = dataFimObj.diff(dataAtual, 'months', true);
+      return diferencaMeses <= 3 ? { texto: 'Término Iminente', cor: 'yellow' } : { texto: 'Em vigência', cor: 'green' };
+    } else {
+      return { texto: 'Está vencido', cor: 'red' };
+    }
+  };
 
-    // Função para fechar modal de edição
-    const fecharModalEdicao = () => {
-      setModalEdicaoVisible(false);
-      setContratoEditando(null);
-    };
+  // Função para aplicar os filtros
+  const aplicarFiltros = () => {
+    return contrato.filter(c => 
+      (filtroOrgao ? c.orgao === filtroOrgao : true) &&
+      (filtroModalidade ? c.modalidade === filtroModalidade : true) &&
+      (filtroSituacao ? verificarSituacao(c.dataInicio, c.dataFinalizacao).texto === filtroSituacao : true)
+    );
+  };
 
-    // Função para lidar com alterações no formulário
-    const handleFormChange = (e) => {
-      const { name, value } = e.target;
-      setContratoEditando(prevState => ({
-        ...prevState,
-        [name]: value
-      }));
-    };
+  // Função para abrir modal de detalhes
+  const abrirModalDetalhes = (contrato) => {
+    setDetalhesContrato(contrato);
+  };
 
-    // Função para atualizar contrato
-    const handleAtualizarContrato = async (e) => {
-      e.preventDefault();
-      try {
-        const response = await fetch(`${apiUrl}/contratos/atualizarContrato/${contratoEditando.id}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(contratoEditando),
-        });
+  // UseEffect para carregar os contratos
+  useEffect(() => {
+    fetchContrato(); // Carrega os dados inicialmente
+  }, []);
 
-        if (response.ok) {
-          const dadosAtualizados = await response.json();
-          const novosContrato = contrato.map((c) =>
-            c.id === dadosAtualizados.id ? { ...c, ...contratoEditando } : c
+  return (
+    <div>
+      <CCard>
+        <CCardHeader>
+          <div className="busca-contratos">
+            <div className="busca-item">
+              <CFormSelect value={filtroOrgao} onChange={(e) => setFiltroOrgao(e.target.value)}>
+                <option value="">Buscar Por Órgão</option>
+                {orgaoOptions.map(orgao => (
+                  <option key={orgao} value={orgao}>{orgao}</option>
+                ))}
+              </CFormSelect>
+            </div>
+
+            <div className="busca-item">
+              <CFormSelect value={filtroModalidade} onChange={(e) => setFiltroModalidade(e.target.value)}>
+                <option value="">Buscar Por Modalidade</option>
+                {modalidadeOptions.map(modalidade => (
+                  <option key={modalidade} value={modalidade}>{modalidade}</option>
+                ))}
+              </CFormSelect>
+            </div>
+
+            <div className="busca-item">
+              <CFormSelect value={filtroSituacao} onChange={(e) => setFiltroSituacao(e.target.value)}>
+                <option value="">Buscar Por Situação</option>
+                {situacaoOptions.map(situacao => (
+                  <option key={situacao} value={situacao}>{situacao}</option>
+                ))}
+              </CFormSelect>
+            </div>
+
+            <div className="busca-botoes">
+              <Button variant="info" onClick={() => {
+                setFiltroOrgao('');
+                setFiltroModalidade('');
+                setFiltroSituacao('');
+              }}>Limpar</Button>
+            </div>
+          </div>
+        </CCardHeader>
+      </CCard>
+
+      <br />
+      {aplicarFiltros().length > 0 ? (
+        aplicarFiltros().map(contrato => {
+          const situacao = verificarSituacao(contrato.dataInicio, contrato.dataFinalizacao);
+          return (
+            <div key={contrato.id}>
+              <CCard>
+                <CCardBody>
+                  <CRow className="g-2 mb-3">
+                    <CCol xs={12} sm={6} md={3}>
+                      <CFormLabel>ORGÃO</CFormLabel>
+                      <div>{contrato.orgao}</div>
+                    </CCol>
+                    <CCol sm={6} md={2}>
+                      <CFormLabel>MODALIDADE</CFormLabel>
+                      <div>{contrato.modalidade}</div>
+                    </CCol>
+                    <CCol sm={6} md={2}>
+                      <CFormLabel>VALOR</CFormLabel>
+                      <div>R$ {contrato.valorContratado.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</div>
+                    </CCol>
+                    <CCol sm={3}>
+                      <CFormLabel>OBJETO</CFormLabel>
+                      <div>{contrato.objetoContrato}</div>
+                    </CCol>
+                    <CCol sm={2} md={2}>
+                      <CFormLabel>SITUAÇÃO</CFormLabel>
+                      <div style={{ color: situacao.cor }}>{situacao.texto}</div>
+                    </CCol>
+                  </CRow>
+                  <CRow className="g-2 mb-3">
+                    <CCol sm={2} className="d-flex align-items-center justify-content-end">
+                      <div className='Icon'>
+                        <span className='m-2'>
+                          <Link to={`/detalheContrato/${contrato.id}`}>
+                            <FontAwesomeIcon icon={faFileSignature} />
+                          </Link>
+                        </span>
+                        <span className='m-2' onClick={() => abrirModalDetalhes(contrato)}>
+                          <FontAwesomeIcon icon={faEye} />
+                        </span>
+                      </div>
+                    </CCol>
+                  </CRow>
+                </CCardBody>
+              </CCard>
+              <br />
+            </div>
           );
-          setContrato(novosContrato);
-          fecharModalEdicao();
-        } else {
-          console.error('Erro ao atualizar contrato:', response.statusText);
-          alert('Erro ao atualizar contrato: ' + response.statusText);
-        }
-      } catch (error) {
-        console.error('Erro ao atualizar contrato:', error);
-        alert('Erro ao atualizar contrato: ' + error.message);
-      }
-    };
-
-    // Use useEffect para definir o intervalo
-    useEffect(() => {
-      fetchContrato(); // Carrega os dados inicialmente
-
-      const intervalId = setInterval(() => {
-        fetchContrato(); // Atualiza os dados a cada segundo
-      }, 1000);
-
-      // Limpa o intervalo quando o componente for desmontado
-      return () => clearInterval(intervalId);
-    }, []); // Dependências vazias para que o efeito execute apenas uma vez
-
-    return (
-      <div>
-        <CCard>
-          <CCardHeader>
-            <CRow className="g-2 mb-3">
-              <CCol sm={6} md={3}>
-                <CFormSelect
-                  id="modalidade"               
-                  required
-                  tooltipFeedback
-                >
-                  <option value="">Buscar Por Modalidade</option>
-                  <option value="Pregão Eletrônico">Pregão Eletrônico</option>
-                  <option value="Adesão">Adesão</option>
-                  <option value="Dispensa">Dispensa</option>
-                </CFormSelect>
-              </CCol>
-
-              <CCol sm={6} md={3}>
-                <CFormSelect
-                  id="modalidade"               
-                  required
-                  tooltipFeedback
-                >
-                  <option value="">Buscar Por Modalidade</option>
-                  <option value="Pregão Eletrônico">Pregão Eletrônico</option>
-                  <option value="Adesão">Adesão</option>
-                  <option value="Dispensa">Dispensa</option>
-                </CFormSelect>
-              </CCol>
-
-              <CCol sm={6} md={3}>
-                <CFormSelect
-                  id="modalidade"               
-                  required
-                  tooltipFeedback
-                >
-                  <option value="">Buscar Por Situação</option>
-                  <option value="Pregão Eletrônico">Pregão Eletrônico</option>
-                  <option value="Adesão">Adesão</option>
-                  <option value="Dispensa">Dispensa</option>
-                </CFormSelect>
-                </CCol>
-                <CCol sm={6} md={3}>
-                  <CRow>
-                    <CCol sm={6} md={4}>
-                      <Button variant="success">Pesquisar</Button>
-                    </CCol>
-                    <CCol sm={6} md={4}>
-                      <Button variant="info">Limpar</Button>
-                    </CCol>
-                  </CRow>  
-                </CCol>
-            </CRow>
-          </CCardHeader>
-        </CCard><br />
-        {contrato.length > 0 ? (
-          contrato.map((contrato) => {
-            const situacao = verificarSituacao(contrato.dataInicio, contrato.dataFinalizacao);
-            return (
-              <div key={contrato.id}>
-
-            <CCard>
-                  <CCardBody>
-                    <CRow className="g-2 mb-3">
-                      <CCol sm={6} md={3}>
-                        <CFormLabel>ORGÃO</CFormLabel>
-                        <div>{contrato.orgao}</div>
-                      </CCol>
-                      <CCol sm={6} md={2}>
-                        <CFormLabel>MODALIDADE</CFormLabel>
-                        <div>{contrato.modalidade}</div>
-                      </CCol>
-                      <CCol sm={6} md={2}>
-                        <CFormLabel>VALOR</CFormLabel>
-                        <div>R$ {contrato.valorContratado.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</div>
-                      </CCol>
-                      {/* <CCol sm={6} md={2}>
-                        <CFormLabel>DATA INICIO</CFormLabel>
-                        <div>{contrato.dataInicio}</div>
-                      </CCol>
-                      <CCol sm={6} md={2}>
-                        <CFormLabel>DATA FINALIZAÇÃO</CFormLabel>
-                        <div>{contrato.dataFinalizacao}</div>
-                      </CCol> */}
-                      <CCol sm={3}>
-                        <CFormLabel>OBJETO</CFormLabel>
-                        <div>{contrato.objetoContrato}</div>
-                      </CCol>
-                      <CCol sm={2} md={2}>
-                        <CFormLabel>SITUAÇÃO</CFormLabel>
-                        <div style={{ color: situacao.cor }}>{situacao.texto}</div>
-                      </CCol>
-                    </CRow>
-                    <CRow className="g-2 mb-3">
-                      <CCol sm={2} className="d-flex align-items-center justify-content-end">
-                        <div className='Icon'>
-                          {/* <span className='m-2'>
-                            <FontAwesomeIcon icon={faPenToSquare} onClick={() => abrirModalEdicao(contrato)} />
-                          </span> */}
-                          <span className='m-2' onClick={() => handleExcluirContrato(contrato.id)}>
-                            <FontAwesomeIcon icon={faTrash} />
-                          </span>
-                          <span className='m-2'>
-                            <Link to={`/detalheContrato/${contrato.id}`}>
-                              <FontAwesomeIcon icon={faFileSignature} />
-                            </Link>
-                          </span>
-                          <span className='m-2' onClick={() => abrirModalDetalhes(contrato)}>
-                            <FontAwesomeIcon icon={faEye} />
-                          </span>
-                        </div>
-                      </CCol>
-                    </CRow>
-                  </CCardBody>
-                </CCard>
-                <br />
-              </div>
-            );
-          })
-        ) : (
-          <div>Não há contratos cadastrados.</div>
-        )}
+        })
+      ) : (
+        <div>Sem contratos disponíveis</div>
+      )}
 
         {detalhesContrato && (
           <CModal visible={!!detalhesContrato} onClose={() => setDetalhesContrato(null)}>
@@ -321,77 +214,8 @@
             </CModalFooter>
           </CModal>
         )}
+    </div>
+  );
+};
 
-
-        {/* Modal de Edição */}
-      {modalEdicaoVisible && (
-        <CModal visible={modalEdicaoVisible} onClose={fecharModalEdicao}>
-          <CModalHeader>
-            <h5 className="modal-title">Editar Contrato</h5>
-          </CModalHeader>
-          <CModalBody>
-            <CForm onSubmit={handleAtualizarContrato}>
-              <CFormLabel htmlFor="orgao">Orgão</CFormLabel>
-              <CFormInput
-                id="orgao"
-                name="orgao"
-                value={contratoEditando?.orgao || ''}
-                onChange={handleFormChange}
-                required
-              />
-              <CFormLabel htmlFor="modalidade">Modalidade</CFormLabel>
-              <CFormInput
-                id="modalidade"
-                name="modalidade"
-                value={contratoEditando?.modalidade || ''}
-                onChange={handleFormChange}
-                required
-              />
-              <CFormLabel htmlFor="valorContratado">Valor Contratado</CFormLabel>
-              <CFormInput
-                id="valorContratado"
-                name="valorContratado"
-                type="number"
-                value={contratoEditando?.valorContratado || ''}
-                onChange={handleFormChange}
-                required
-              />
-              <CFormLabel htmlFor="dataInicio">Data Início</CFormLabel>
-              <CFormInput
-                id="dataInicio"
-                name="dataInicio"
-                type="date"
-                value={contratoEditando?.dataInicio || ''}
-                onChange={handleFormChange}
-                required
-              />
-              <CFormLabel htmlFor="dataFinalizacao">Data Finalização</CFormLabel>
-              <CFormInput
-                id="dataFinalizacao"
-                name="dataFinalizacao"
-                type="date"
-                value={contratoEditando?.dataFinalizacao || ''}
-                onChange={handleFormChange}
-                required
-              />
-              <CFormLabel htmlFor="objetoContrato">Objeto</CFormLabel>
-              <CFormTextarea
-                id="objetoContrato"
-                name="objetoContrato"
-                value={contratoEditando?.objetoContrato || ''}
-                onChange={handleFormChange}
-                required
-              />
-              <CModalFooter>
-                <CButton color="secondary" onClick={fecharModalEdicao}>Cancelar</CButton>
-                <CButton type="submit" color="primary">Salvar</CButton>
-              </CModalFooter>
-            </CForm>
-          </CModalBody>
-        </CModal>
-      )}
-      </div>
-    );
-  };
-
-  export default Contrato;
+export default Contrato;
