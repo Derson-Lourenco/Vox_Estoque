@@ -65,25 +65,37 @@ const LicitacoesPage = () => {
               <CCard>
                 <CCardBody>
                   <CRow className="g-2 mb-3">
-                    <CCol sm={6} md={3}>
-                      <CFormLabel>ORGÃO</CFormLabel>
+                    {/* Exibição para dispositivos móveis */}
+                    <CCol xs={12} className="d-md-none">
+                      <div>
+                        <strong>ÓRGÃO:</strong> {licitacao.unidadeOrcamentaria}<br />
+                        <strong>MODALIDADE:</strong> {licitacao.modalidade}<br />
+                        <strong>VALOR PREVISTO:</strong> R$ {licitacao.previsto.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}<br />
+                        <strong>DATA:</strong> {licitacao.data}<br />
+                        <strong>OBJETO:</strong> {licitacao.objeto}<br />
+                      </div>
+                    </CCol>
+
+                    {/* Exibição para telas maiores */}
+                    <CCol sm={6} md={3} className="d-none d-md-block">
+                      <CFormLabel>ÓRGÃO</CFormLabel>
                       <div>{licitacao.unidadeOrcamentaria}</div>
                     </CCol>
-                    <CCol sm={6} md={3}>
+                    <CCol sm={6} md={3} className="d-none d-md-block">
                       <CFormLabel>MODALIDADE</CFormLabel>
                       <div>{licitacao.modalidade}</div>
                     </CCol>
-                    <CCol sm={6} md={3}>
+                    <CCol sm={6} md={3} className="d-none d-md-block">
                       <CFormLabel>VALOR PREVISTO</CFormLabel>
-                      <div>{licitacao.previsto.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</div>
+                      <div>R$ {licitacao.previsto.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</div>
                     </CCol>
-                    <CCol sm={6} md={3}>
+                    <CCol sm={6} md={3} className="d-none d-md-block">
                       <CFormLabel>DATA</CFormLabel>
                       <div>{licitacao.data}</div>
                     </CCol>
                   </CRow>
                   <CRow className="g-2 mb-3">
-                    <CCol sm={10}>
+                    <CCol sm={10} className="d-none d-md-block">
                       <CFormLabel>OBJETO</CFormLabel>
                       <div>{licitacao.objeto}</div>
                     </CCol>
@@ -103,6 +115,7 @@ const LicitacoesPage = () => {
         <p>Nenhuma licitação encontrada.</p>
       )}
     </div>
+
   );
 };
 

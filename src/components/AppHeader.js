@@ -1,45 +1,45 @@
-import React, { useEffect, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import {
-  CContainer,
-  CHeader,
-  CHeaderToggler,
-} from '@coreui/react';
-import CIcon from '@coreui/icons-react';
-import {
-  cilMenu,
-} from '@coreui/icons';
+// import React, { useEffect, useRef } from 'react';
+// import { useSelector, useDispatch } from 'react-redux';
+// import {
+//   CContainer,
+//   CHeader,
+//   CHeaderToggler,
+// } from '@coreui/react';
+// import CIcon from '@coreui/icons-react';
+// import {
+//   cilMenu,
+// } from '@coreui/icons';
 
-import { AppBreadcrumb } from './index';
+// // import { AppBreadcrumb } from './index';
 
-const AppHeader = () => {
-  const headerRef = useRef();
-  const dispatch = useDispatch();
-  const sidebarShow = useSelector((state) => state.sidebarShow);
+// const AppHeader = () => {
+//   const headerRef = useRef();
+//   const dispatch = useDispatch();
+//   const sidebarShow = useSelector((state) => state.sidebarShow);
 
-  useEffect(() => {
-    document.addEventListener('scroll', () => {
-      if (headerRef.current) {
-        headerRef.current.classList.toggle('shadow-sm', document.documentElement.scrollTop > 0);
-      }
-    });
-  }, []);
+//   useEffect(() => {
+//     document.addEventListener('scroll', () => {
+//       if (headerRef.current) {
+//         headerRef.current.classList.toggle('shadow-sm', document.documentElement.scrollTop > 0);
+//       }
+//     });
+//   }, []);
 
-  return (
-    <CHeader position="sticky" className="mb-4 p-0" ref={headerRef}>
-      <CContainer className="border-bottom px-4 d-flex align-items-center" fluid>
-        <CHeaderToggler
-          onClick={() => dispatch({ type: 'set', sidebarShow: !sidebarShow })}
-          style={{ marginInlineStart: '-14px' }}
-        >
-          <CIcon icon={cilMenu} size="lg" />
-        </CHeaderToggler>
-        <div className="ms-3 flex-grow-1">
-          <AppBreadcrumb />
-        </div>
-      </CContainer>
-    </CHeader>
-  );
-};
+//   return (
+//     <CHeader position="sticky" className="mb-4 p-0" ref={headerRef}>
+//       <CContainer className="border-bottom px-4 d-flex align-items-center" fluid>
+//         <CHeaderToggler
+//           onClick={() => dispatch({ type: 'set', sidebarShow: !sidebarShow })}
+//           style={{ marginInlineStart: '-14px' }}
+//         >
+//           <CIcon icon={cilMenu} size="lg" />
+//         </CHeaderToggler>
+//         <div className="ms-3 flex-grow-1">sss
+//           {/* <AppBreadcrumb /> */}
+//         </div>
+//       </CContainer>
+//     </CHeader>
+//   );
+// };
 
-export default AppHeader;
+// export default AppHeader;

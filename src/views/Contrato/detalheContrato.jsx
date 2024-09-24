@@ -88,78 +88,100 @@ const DetalheContrato = () => {
   const renderContent = () => {
     switch (activeTab) {
       case 'detalhes':
-        return (
-          <div>
-            {contrato ? (
-              <CCardBody>
+      return (
+        <div>
+          {contrato ? (
+            <CCardBody>
+              <CRow className="g-2 mb-3">
+                {/* Exibição para dispositivos móveis */}
+                <CCol xs={12} className="d-md-none">
+                  <div>
+                    <strong>Nº do processo adm/Ano:</strong> {contrato.processoAno}<br />
+                    <strong>Nº do contrato/Ano:</strong> {contrato.numeroContrato}<br />
+                    <strong>Modalidade:</strong> {contrato.modalidade}<br />
+                    <strong>Registro de Preço:</strong> {new Date(contrato.registro).toLocaleDateString()}<br />
+                    <strong>Órgão:</strong> {contrato.orgao}<br />
+                    <strong>CNPJ do Contratante:</strong> {contrato.cnpjContratante}<br />
+                    <strong>Valor do Contratado:</strong> R$ {contrato.valorContratado.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}<br />
+                    <strong>Valor Atual:</strong> R$ {contrato.valorContratado.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}<br />
+                    <strong>Data da Assinatura:</strong> {new Date(contrato.dataAssinatura).toLocaleDateString()}<br />
+                    <strong>Data de Início:</strong> {new Date(contrato.dataInicio).toLocaleDateString()}<br />
+                    <strong>Data de Finalização:</strong> {new Date(contrato.dataFinalizacao).toLocaleDateString()}<br />
+                    <strong>Secretarias:</strong> {contrato.secretarias}<br />
+                    <strong>Objeto do Contrato:</strong> {contrato.objetoContrato}<br />
+                  </div>
+                </CCol>
 
-                <CRow className="g-2 mb-3">
-                  <CCol sm={6} md={3}>
-                    <CFormLabel>Nº do processo adm/Ano</CFormLabel>
-                    <div>{contrato.processoAno}</div>
-                  </CCol>
-                  <CCol sm={6} md={3}>
-                    <CFormLabel>Nº do contrato/Ano</CFormLabel>
-                    <div>{contrato.numeroContrato}</div>
-                  </CCol>
-                  <CCol sm={6} md={3}>
-                    <CFormLabel>Modalidade</CFormLabel>
-                    <div>{contrato.modalidade}</div>
-                  </CCol>
-                  <CCol sm={6} md={3}>
-                    <CFormLabel>Registro de Preço</CFormLabel>
-                    <div>{new Date(contrato.registro).toLocaleDateString()}</div>
-                  </CCol>
-                </CRow>
+                {/* Exibição para telas maiores */}
+                <CCol sm={6} md={3} className="d-none d-md-block">
+                  <CFormLabel>Nº do processo adm/Ano</CFormLabel>
+                  <div>{contrato.processoAno}</div>
+                </CCol>
+                <CCol sm={6} md={3} className="d-none d-md-block">
+                  <CFormLabel>Nº do contrato/Ano</CFormLabel>
+                  <div>{contrato.numeroContrato}</div>
+                </CCol>
+                <CCol sm={6} md={3} className="d-none d-md-block">
+                  <CFormLabel>Modalidade</CFormLabel>
+                  <div>{contrato.modalidade}</div>
+                </CCol>
+                <CCol sm={6} md={3} className="d-none d-md-block">
+                  <CFormLabel>Registro de Preço</CFormLabel>
+                  <div>{new Date(contrato.registro).toLocaleDateString()}</div>
+                </CCol>
+              </CRow>
 
-                <CRow className="g-2 mb-3">
-                  <CCol sm={6} md={3}>
-                    <CFormLabel>ORGÃO</CFormLabel>
-                    <div>{contrato.orgao}</div>
-                  </CCol>
-                  <CCol sm={6} md={3}>
-                    <CFormLabel>CNPJ do Contratante</CFormLabel>
-                    <div>{contrato.cnpjContratante}</div>
-                  </CCol>
-                  <CCol sm={6} md={3}>
-                    <CFormLabel>Valor do Contratado</CFormLabel>
-                    <div>R$ {contrato.valorContratado}</div>
-                  </CCol>
-                  <CCol sm={6} md={3}>
-                    <CFormLabel>Valor Atual</CFormLabel>
-                    <div>R$ {contrato.valorContratado}</div>
-                  </CCol>
-                </CRow>
-                <CRow className="g-2 mb-3">
-                  <CCol sm={6} md={3}>
-                      <CFormLabel>Data da Assinatura</CFormLabel>
-                      <div>{new Date(contrato.dataAssinatura).toLocaleDateString()}</div>
-                    </CCol>
-                    <CCol sm={6} md={3}>
-                      <CFormLabel>Data de Início</CFormLabel>
-                      <div>{new Date(contrato.dataInicio).toLocaleDateString()}</div>
-                    </CCol>
-                    <CCol sm={6} md={3}>
-                      <CFormLabel>DATA FINALIZAÇÃO</CFormLabel>
-                      <div>{new Date(contrato.dataFinalizacao).toLocaleDateString()}</div>
-                    </CCol>
-                    <CCol sm={6} md={3}>
-                      <CFormLabel>Secretarias</CFormLabel>
-                      <div>{contrato.secretarias}</div>
-                    </CCol>
-                </CRow>
-                <CRow className="g-2 mb-3">
-                  <CCol sm={6} md={12}>
-                      <CFormLabel>Objeto do Contrato</CFormLabel>
-                      <div>{contrato.objetoContrato}</div>
-                    </CCol>
-                </CRow>
-              </CCardBody>
-            ) : (
-              <p>Carregando...</p>
-            )}
-          </div>
-        );
+              <CRow className="g-2 mb-3">
+                <CCol sm={6} md={3} className="d-none d-md-block">
+                  <CFormLabel>ÓRGÃO</CFormLabel>
+                  <div>{contrato.orgao}</div>
+                </CCol>
+                <CCol sm={6} md={3} className="d-none d-md-block">
+                  <CFormLabel>CNPJ do Contratante</CFormLabel>
+                  <div>{contrato.cnpjContratante}</div>
+                </CCol>
+                <CCol sm={6} md={3} className="d-none d-md-block">
+                  <CFormLabel>Valor do Contratado</CFormLabel>
+                  <div>R$ {contrato.valorContratado.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</div>
+                </CCol>
+                <CCol sm={6} md={3} className="d-none d-md-block">
+                  <CFormLabel>Valor Atual</CFormLabel>
+                  <div>R$ {contrato.valorContratado.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</div>
+                </CCol>
+              </CRow>
+
+              <CRow className="g-2 mb-3">
+                <CCol sm={6} md={3} className="d-none d-md-block">
+                  <CFormLabel>Data da Assinatura</CFormLabel>
+                  <div>{new Date(contrato.dataAssinatura).toLocaleDateString()}</div>
+                </CCol>
+                <CCol sm={6} md={3} className="d-none d-md-block">
+                  <CFormLabel>Data de Início</CFormLabel>
+                  <div>{new Date(contrato.dataInicio).toLocaleDateString()}</div>
+                </CCol>
+                <CCol sm={6} md={3} className="d-none d-md-block">
+                  <CFormLabel>DATA FINALIZAÇÃO</CFormLabel>
+                  <div>{new Date(contrato.dataFinalizacao).toLocaleDateString()}</div>
+                </CCol>
+                <CCol sm={6} md={3} className="d-none d-md-block">
+                  <CFormLabel>Secretarias</CFormLabel>
+                  <div>{contrato.secretarias}</div>
+                </CCol>
+              </CRow>
+
+              <CRow className="g-2 mb-3">
+                <CCol sm={6} md={12} className="d-none d-md-block">
+                  <CFormLabel>Objeto do Contrato</CFormLabel>
+                  <div>{contrato.objetoContrato}</div>
+                </CCol>
+              </CRow>
+            </CCardBody>
+          ) : (
+            <p>Carregando...</p>
+          )}
+        </div>
+      );
+
       case 'editar':
         return (
           <div>

@@ -1,0 +1,17 @@
+/* DefaultLayout.css */
+.app-container {
+  display: flex;
+}
+
+.wrapper {
+  transition: margin-left 0.3s; /* Suavizar a transição */
+  margin-left: 29px; /* Largura do sidebar aberto */
+}
+
+.content-closed {
+  margin-left: -100px; /* Largura do sidebar fechado */
+}
+
+.content-open {
+  margin-left: 5px; /* Largura do sidebar aberto */
+}

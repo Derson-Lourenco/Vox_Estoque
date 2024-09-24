@@ -13,57 +13,65 @@ import {
   cilExitToApp  // Importa o ícone de saída
 } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
+import 'boxicons/css/boxicons.min.css'; // Certifique-se de que o CSS foi importado
+import './components/Sidebar.css';
+
+
+
 
 const _nav = [
   {
     component: CNavItem,
     name: 'Painel',
     to: '/dashboard',
-    icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon " />,
+    icon: <i className="bx bx-home-alt icon"></i>, // Corrigido
   },
   {
+    name: 'Contratos',
     component: CNavGroup,
-    name: 'Gerenciar Contratos',
     to: '/Contrato',
-    icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
+    icon: <i className="bx bx-home-alt icon"></i>,
+    // icon: <CIcon icon={cilPuzzle} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
         name: 'Novo Contrato',
-        icon: <CIcon icon={cilPlus} customClassName="nav-icon" />,
+        // icon: <CIcon icon={cilPlus} customClassName="nav-icon" />,
         to: '/NovoContrato',
       },
       {
         component: CNavItem,
         name: 'Pesquisar Contrato',
-        icon: <CIcon icon={cilFindInPage} customClassName="nav-icon" />,
+        // icon: <CIcon icon={cilFindInPage} customClassName="nav-icon" />,
         to: '/Contrato',
       },
     ],
   },
   {
     component: CNavGroup,
-    name: 'Gerenciar Documentos',
+    name: 'Documentos',
     to: '/buttons',
-    icon: <CIcon icon={cilCursor} customClassName="nav-icon" />,
+    icon: <i className="bx bx-home-alt icon"></i>,
+    // icon: <CIcon icon={cilCursor} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
         name: 'Documentação',
-        icon: <CIcon icon={cilDescription} customClassName="nav-icon" />,
+        // icon: <CIcon icon={cilDescription} customClassName="nav-icon" />,
         to: '/buttons/buttons',
       },
     ],
   },
   {
     component: CNavGroup,
-    name: 'Gerenciar Licitações',
-    icon: <CIcon icon={cilNotes} customClassName="nav-icon" />,
+    name: 'Licitações',
+    icon: <i className="bx bx-home-alt icon"></i>,
+    // icon: <CIcon icon={cilNotes} customClassName="nav-icon" />,
     items: [
       {
         component: CNavItem,
         name: 'Pesquisar Licitações',
-        icon: <CIcon icon={cilGlobeAlt} customClassName="nav-icon" />,
+        // icon: <CIcon icon={cilGlobeAlt} customClassName="nav-icon" />,
         to: '/LicitacoesTCE',
       },
     ],
@@ -101,12 +109,12 @@ const _nav = [
   // },
 
   // Adicionar o botão de sair no final
-  {
-    component: CNavItem,
-    name: 'Sair',
-    to: '/logout', // Define a rota para logout ou ação
-    icon: <CIcon icon={cilExitToApp} customClassName="nav-icon" />,
-  },
+  // {
+  //   component: CNavItem,
+  //   name: 'Sair',
+  //   to: '/logout', // Define a rota para logout ou ação
+  //   icon: <CIcon icon={cilExitToApp} customClassName="nav-icon" />,
+  // },
 ]
 
 export default _nav

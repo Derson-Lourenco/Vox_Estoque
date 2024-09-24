@@ -1,59 +1,160 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import {
-  CSidebar,
-  CSidebarBrand,
-  CSidebarFooter,
-  CSidebarHeader,
-  CSidebarToggler,
-} from '@coreui/react';
-import { AppHeaderDropdown } from './header/index';
-import { AppSidebarNav } from './AppSidebarNav';
-import logo from '../img/logo.png';
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { NavLink } from 'react-router-dom';
+import { CBadge, CNavItem, CNavGroup } from '@coreui/react';
 import navigation from '../_nav';
-import TemaCor from './TemaCor';
-import Button from 'react-bootstrap/Button';
+import './Sidebar.css';
+import 'boxicons/css/boxicons.min.css';
 
-const AppSidebar = () => {
+const SidebarMenu = ({ isSidebarClosed, toggleSidebar }) => {
   const dispatch = useDispatch();
-  const unfoldable = useSelector((state) => state.sidebarUnfoldable);
-  const sidebarShow = useSelector((state) => state.sidebarShow);
+  const [openGroups, setOpenGroups] = useState({});
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Estado para controlar a sidebar móvel
+
+  const toggleGroup = (groupId) => {
+    setOpenGroups((prevState) => ({
+      ...prevState,
+      [groupId]: !prevState[groupId],
+    }));
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const handleSidebarToggle = () => {
+    setIsSidebarOpen(!isSidebarOpen); // Alterna a visibilidade da sidebar móvel
+  };
 
   return (
-    <CSidebar
-      colorScheme="dark"
-      position="fixed"
-      unfoldable={unfoldable}
-      visible={sidebarShow}
-      onVisibleChange={(visible) => {
-        dispatch({ type: 'set', sidebarShow: visible });
-      }}
-    >
-      <CSidebarHeader className="d-flex align-items-center justify-content-between">
-        <CSidebarBrand to="/" className="position-relative w-100">
-          <TemaCor className="position-absolute top-0 start-0 m-2" />
-          <img
-            src={logo}
-            alt="Desenvolvimento"
-            style={{
-              maxWidth: '80%',
-              height: 'auto',
-              display: 'block',
-              margin: '0 auto',
-            }}
-          />
-        </CSidebarBrand>
-        <CSidebarToggler
-          onClick={() => dispatch({ type: 'set', sidebarUnfoldable: !unfoldable })}
-        />
-      </CSidebarHeader>
-      <AppSidebarNav items={navigation} />
-        {/* <AppHeaderDropdown /> */}
-      <CSidebarFooter className="d-none d-lg-flex">
-        <Button variant="danger">SAIR</Button>{' '}
-      </CSidebarFooter>
-    </CSidebar>
+    <>
+      {/* Sidebar para Desktop */}
+      {!isMobile && (
+        <nav className={`sidebar ${isSidebarClosed ? 'close' : ''}`}>
+          <header>
+            <i className='bx bx-chevron-right toggle' onClick={toggleSidebar}></i>
+            <h2>Logo</h2>
+          </header>
+          <div className="menu">
+            <li className="search-box" onClick={() => toggleSidebar()}>
+              <i className='bx bx-search icon'></i>
+              <input type="text" placeholder="Search..." />
+            </li>
+
+            <ul className="menu-links">
+              {navigation.map((item, index) => {
+                if (item.component === CNavItem) {
+                  return (
+                    <li className="nav-link" key={index}>
+                      <NavLink to={item.to}>
+                        {item.icon}
+                        <span className="text nav-text">{item.name}</span>
+                        {item.badge && <CBadge color={item.badge.color}>{item.badge.text}</CBadge>}
+                      </NavLink>
+                    </li>
+                  );
+                }
+
+                if (item.component === CNavGroup) {
+                  return (
+                    <li className="nav-group" key={index}>
+                      <div onClick={() => toggleGroup(item.name)} style={{ cursor: 'pointer' }}>
+                        <NavLink to={item.to}>
+                          {item.icon}
+                          <span className="text nav-text">{item.name}</span>
+                        </NavLink>
+                      </div>
+                      {openGroups[item.name] && (
+                        <ul className="submenu">
+                          {item.items.map((subItem, subIndex) => (
+                            <li className="nav-link" key={subIndex}>
+                              <NavLink to={subItem.to}>
+                                {subItem.icon}
+                                <span className="text nav-text">{subItem.name}</span>
+                                {subItem.badge && <CBadge color={subItem.badge.color}>{subItem.badge.text}</CBadge>}
+                              </NavLink>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </li>
+                  );
+                }
+
+                return null;
+              })}
+            </ul>
+          </div>
+        </nav>
+      )}
+
+      {/* Sidebar Móvel */}
+      {isMobile && (
+        <>
+          <header>
+            <i className='bx bx-menu toggle' onClick={handleSidebarToggle}></i>
+          </header>
+
+          {/* Sidebar lateral */}
+          <div className={`mobile-sidebar ${isSidebarOpen ? 'open' : ''}`}>
+            <div className="sidebar-header">
+              <h2>Logo</h2>
+              <i className='bx bx-x close' onClick={handleSidebarToggle}></i>
+            </div>
+            <ul className="menu-links">
+              {navigation.map((item, index) => {
+                if (item.component === CNavItem) {
+                  return (
+                    <li className="nav-link" key={index}>
+                      <NavLink to={item.to} onClick={handleSidebarToggle}>
+                        {item.icon}
+                        <span className="text nav-text">{item.name}</span>
+                        {item.badge && <CBadge color={item.badge.color}>{item.badge.text}</CBadge>}
+                      </NavLink>
+                    </li>
+                  );
+                }
+
+                if (item.component === CNavGroup) {
+                  return (
+                    <li className="nav-group" key={index}>
+                      <div onClick={() => toggleGroup(item.name)} style={{ cursor: 'pointer' }}>
+                        <NavLink to={item.to} onClick={handleSidebarToggle}>
+                          {item.icon}
+                          <span className="text nav-text">{item.name}</span>
+                        </NavLink>
+                      </div>
+                      {openGroups[item.name] && (
+                        <ul className="submenu">
+                          {item.items.map((subItem, subIndex) => (
+                            <li className="nav-link" key={subIndex}>
+                              <NavLink to={subItem.to} onClick={handleSidebarToggle}>
+                                {subItem.icon}
+                                <span className="text nav-text">{subItem.name}</span>
+                                {subItem.badge && <CBadge color={subItem.badge.color}>{subItem.badge.text}</CBadge>}
+                              </NavLink>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </li>
+                  );
+                }
+
+                return null;
+              })}
+            </ul>
+          </div>
+        </>
+      )}
+    </>
   );
 };
 
-export default React.memo(AppSidebar);
+export default SidebarMenu;
