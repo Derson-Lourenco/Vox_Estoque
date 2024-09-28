@@ -101,6 +101,9 @@ const Contrato = () => {
 
   return (
     <div>
+      <CCardHeader>
+        <h2>Contratos</h2>
+      </CCardHeader>
       <CCard>
         <CCardHeader>
           <div className="busca-contratos">

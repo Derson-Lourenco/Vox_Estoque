@@ -88,12 +88,15 @@ const NovoContrato = () => {
 
   return (
     <CForm
-      id="contractForm"
-      className="row g-3 needs-validation"
+    id="contractForm"
+    className="row g-3 needs-validation"
       noValidate
       validated={validated}
       onSubmit={handleSubmit}
-    >
+      >
+      <CCardHeader>
+        <h2>Novo Contrato</h2>
+      </CCardHeader>
       <CCard>
         <CCardHeader>Campos obrigatórios (*)</CCardHeader>
         <CCardBody>

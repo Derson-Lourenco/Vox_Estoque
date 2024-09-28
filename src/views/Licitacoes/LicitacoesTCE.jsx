@@ -56,6 +56,9 @@ const LicitacoesPage = () => {
 
   return (
     <div>
+      <CCardHeader>
+        <h2>Licitações</h2>
+      </CCardHeader>
       {error && <p>{error}</p>}
 
       {licitacoes.length > 0 ? (
