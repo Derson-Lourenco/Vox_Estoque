@@ -40,7 +40,7 @@ const Register = () => {
     }
 
     try {
-      const response = await fetch(`${apiUrl}/clientes/register`, {
+      const response = await fetch(`${apiUrl}`/clientes/register, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -53,6 +53,7 @@ const Register = () => {
         }),
       });
       
+
       const result = await response.json();
       if (response.ok) {
         alert(result.message || 'Cliente registrado com sucesso!');

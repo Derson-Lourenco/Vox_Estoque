@@ -1,35 +1,54 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { CContainer } from '@coreui/react';
-import PrivateRoute from './components/PrivateRoute';
-import routes from './routes';
+import React, { Suspense, useEffect } from 'react';
+import { HashRouter, Route, Routes } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { CSpinner, useColorModes } from '@coreui/react';
 import './scss/style.scss';
 
+const DefaultLayout = React.lazy(() => import('./layout/DefaultLayout'));
+const Login = React.lazy(() => import('./views/pages/login/Login'));
+const Register = React.lazy(() => import('./views/pages/register/Register'));
+const Page404 = React.lazy(() => import('./views/pages/page404/Page404'));
+const Page500 = React.lazy(() => import('./views/pages/page500/Page500'));
+
 const App = () => {
+  const { isColorModeSet, setColorMode } = useColorModes('coreui-free-react-admin-template-theme');
+  const storedTheme = useSelector((state) => state.theme);
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.href.split('?')[1]);
+    const theme = urlParams.get('theme') && urlParams.get('theme').match(/^[A-Za-z0-9\s]+/)[0];
+    if (theme) {
+      setColorMode(theme);
+    }
+
+    if (isColorModeSet()) {
+      return;
+    }
+
+    setColorMode(storedTheme);
+  }, [isColorModeSet, setColorMode, storedTheme]);
+
   return (
-    <Router>
-      <CContainer>
+    <HashRouter>
+      <Suspense
+        fallback={
+          <div className="pt-3 text-center">
+            <CSpinner color="primary" variant="grow" />
+          </div>
+        }
+      >
         <Routes>
-          {routes.map((route, index) => {
-            const { element, ...rest } = route;
-            const Element = element;
-
-            if (route.path === '/dashboard') {
-              return (
-                <Route
-                  key={index}
-                  {...rest}
-                  element={<PrivateRoute><Element /></PrivateRoute>} // Protege a rota do dashboard
-                />
-              );
-            }
-
-            return <Route key={index} {...rest} element={<Element />} />;
-          })}
+          <Route path="/Login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/404" element={<Page404 />} />
+          <Route path="/500" element={<Page500 />} />
+          <Route path="*" element={<DefaultLayout />} />
         </Routes>
-      </CContainer>
-    </Router>
+      </Suspense>
+    </HashRouter>
   );
 };
 
 export default App;
+

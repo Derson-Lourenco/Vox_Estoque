@@ -1,9 +1,8 @@
+import React from 'react';
+import { Navigate, Outlet } from 'react-router-dom';
 
-import { BrowserRouter as Route, Navigate } from 'react-router-dom';
+const PrivateRoute = () => {
+  const authToken = localStorage.getItem('authToken');
 
-
-const PrivateRoute = ({ children, isAuthenticated }) => {
-  return isAuthenticated ? children : <Navigate to="/login" />
+  return authToken ? <Outlet /> : <Navigate to="/login" />;
 };
-
-export default PrivateRoute;
