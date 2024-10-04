@@ -22,12 +22,15 @@ const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 const Login = () => {
   const [cpf_cnpj, setCpfCnpj] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setError(null); // Limpa erros anteriores
+
     try {
-      const response = await axios.post(`${apiUrl}/login`, { cpf_cnpj, password });
+      const response = await axios.post(`${apiUrl}/api/login`, { cpf_cnpj, password });
 
       if (response.data.success) {
         // Armazena o token no localStorage
@@ -35,11 +38,11 @@ const Login = () => {
         // Redireciona para o dashboard
         navigate('/dashboard');
       } else {
-        alert('Login falhou: ' + response.data.message);
+        setError(response.data.message || 'Login falhou. Tente novamente.');
       }
     } catch (error) {
       console.error('Erro ao fazer login:', error);
-      alert('Erro ao fazer login. Tente novamente.');
+      setError('Erro ao fazer login. Tente novamente.');
     }
   };
 
@@ -53,6 +56,7 @@ const Login = () => {
                 <CCardBody>
                   <CForm onSubmit={handleSubmit}>
                     <h1>Login</h1>
+                    {error && <div className="alert alert-danger">{error}</div>}
                     <CInputGroup className="mb-3">
                       <CInputGroupText>
                         <CIcon icon={cilUser} />

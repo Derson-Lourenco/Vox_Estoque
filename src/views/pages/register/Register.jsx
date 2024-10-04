@@ -53,7 +53,6 @@ const Register = () => {
         }),
       });
       
-
       const result = await response.json();
       if (response.ok) {
         alert(result.message || 'Cliente registrado com sucesso!');

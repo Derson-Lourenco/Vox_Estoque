@@ -1,4 +1,6 @@
 import React from 'react';
+import { Navigate } from 'react-router-dom'; // Adicione esta importação
+
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'));
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'));
@@ -16,6 +18,12 @@ const ButtonGroups = React.lazy(() => import('./views/buttons/button-groups/Butt
 // Licitações
 const LicitacoesTCE = React.lazy(() => import('./views/Licitacoes/LicitacoesTCE'));
 
+//Login
+const Login = React.lazy(() => import('./views/pages/login/Login'));
+
+//Registro
+const Register = React.lazy(() => import('./views/pages/register/Register'));
+
 const Charts = React.lazy(() => import('./views/charts/Charts'));
 
 // Icons
@@ -32,14 +40,26 @@ const Toasts = React.lazy(() => import('./views/notifications/toasts/Toasts'));
 const Widgets = React.lazy(() => import('./views/widgets/Widgets'));
 
 const routes = [
-  { path: '/', exact: true, name: 'Home', element: Dashboard },
-  { path: '/dashboard', name: 'Dashboard', element: Dashboard },
-  { path: '/Contrato', name: 'Contratos', element: Contrato },
-  { path: '/NovoContrato', name: 'Novo Contrato', element: NovoContrato },
-  { path: '/theme', name: 'Theme', element: Colors },
-  { path: '/LicitacoesTCE', name: 'Licitações TCE-PI', element: LicitacoesTCE },
-  { path: '/detalheContrato/:id', name: 'Detalhe de Contrato', element: detalheContrato },
-  // Outras rotas podem ser adicionadas aqui
+  { path: '/', element: <Navigate to="/Login" replace /> }, // Redireciona para a tela de Login
+  { path: '/Login', name: 'Login', element: Login },
+  { path: '/register', name: 'Registrar', element: Register },
+  {
+    path: '/dashboard',
+    name: 'Dashboard',
+    element: Dashboard,
+    exact: true,
+  },
+  // ... outras rotas
 ];
+
+// const routes = [
+//   { path: '/', exact: true, name: 'Home', element: Dashboard },
+//   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
+//   { path: '/Contrato', name: 'Contratos', element: Contrato },
+//   { path: '/NovoContrato', name: 'Novo Contrato', element: NovoContrato },
+//   { path: '/theme', name: 'Theme', element: Colors },
+//   { path: '/LicitacoesTCE', name: 'Licitações TCE-PI', element: LicitacoesTCE },
+//   { path: '/detalheContrato/:id', name: 'Detalhe de Contrato', element: detalheContrato },
+// ];
 
 export default routes;

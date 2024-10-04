@@ -6,6 +6,8 @@ import {
 import { CNavGroup, CNavItem } from '@coreui/react';
 import 'boxicons/css/boxicons.min.css';
 import './components/Sidebar.css';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+
 
 const _nav = [
   {
