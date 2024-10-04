@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { CBadge, CNavItem, CNavGroup, CCollapse, CButton } from '@coreui/react';
+import { useNavigate } from 'react-router-dom';
+import { CBadge, CNavItem, CNavGroup, CCollapse, CButton, CCardFooter } from '@coreui/react';
 import navigation from '../_nav';
 import './Sidebar.css'; 
 import 'boxicons/css/boxicons.min.css';
@@ -11,6 +12,13 @@ const SidebarMenu = ({ isSidebarClosed, toggleSidebar }) => {
   const [openGroups, setOpenGroups] = useState({});
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('authToken'); // Remove o token
+    navigate('/login'); // Redireciona para a página de login
+  };
 
   const toggleGroup = (groupId) => {
     setOpenGroups((prevState) => ({
@@ -41,7 +49,7 @@ const SidebarMenu = ({ isSidebarClosed, toggleSidebar }) => {
             <i className='bx bx-chevron-right toggle' onClick={toggleSidebar}></i>
             <h2>Logo</h2>
           </header>
-          <div className="menu">
+          <div className="">
       
             <ul className="menu-links">
               {navigation.map((item, index) => {
@@ -52,7 +60,7 @@ const SidebarMenu = ({ isSidebarClosed, toggleSidebar }) => {
                         <NavLink to={item.to}>
                           {/* {item.icon}
                           {item.badge && <CBadge color={item.badge.color}>{item.badge.text}</CBadge>} */}
-                          <span className="">{item.icon}</span>
+                          {item.icon}
                           <span className="text nav-text">{item.name}</span>
                         </NavLink>
                       </CButton>
@@ -90,6 +98,7 @@ const SidebarMenu = ({ isSidebarClosed, toggleSidebar }) => {
               })}
             </ul>
           </div>
+          <button onClick={handleLogout}>Sair</button>
         </nav>
       )}
 

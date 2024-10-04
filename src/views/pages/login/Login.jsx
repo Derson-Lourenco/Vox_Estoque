@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   CButton,
   CCard,
@@ -22,20 +22,18 @@ const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 const Login = () => {
   const [cpf_cnpj, setCpfCnpj] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post(`${apiUrl}/login`, {
-        cpf_cnpj,
-        password
-      });
-      
-      console.log('Resposta da API:', response.data);
+      const response = await axios.post(`${apiUrl}/login`, { cpf_cnpj, password });
 
       if (response.data.success) {
+        // Armazena o token no localStorage
         localStorage.setItem('authToken', response.data.token);
-        window.location.href = '/dashboard';
+        // Redireciona para o dashboard
+        navigate('/dashboard');
       } else {
         alert('Login falhou: ' + response.data.message);
       }
@@ -46,7 +44,7 @@ const Login = () => {
   };
 
   return (
-    <div className="bg-body-tertiary min-vh-100 d-flex flex-row align-items-center">
+    <div className="min-vh-100 d-flex flex-row align-items-center">
       <CContainer>
         <CRow className="justify-content-center">
           <CCol md={8}>
@@ -55,7 +53,6 @@ const Login = () => {
                 <CCardBody>
                   <CForm onSubmit={handleSubmit}>
                     <h1>Login</h1>
-                    <p className="text-body-secondary">Sign In to your account</p>
                     <CInputGroup className="mb-3">
                       <CInputGroupText>
                         <CIcon icon={cilUser} />
@@ -73,7 +70,7 @@ const Login = () => {
                       </CInputGroupText>
                       <CFormInput
                         type="password"
-                        placeholder="Password"
+                        placeholder="Senha"
                         autoComplete="current-password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
@@ -81,14 +78,7 @@ const Login = () => {
                     </CInputGroup>
                     <CRow>
                       <CCol xs={6}>
-                        <CButton color="primary" className="px-4" type="submit">
-                          Login
-                        </CButton>
-                      </CCol>
-                      <CCol xs={6} className="text-right">
-                        <CButton color="link" className="px-0">
-                          Forgot password?
-                        </CButton>
+                        <CButton color="primary" type="submit">Login</CButton>
                       </CCol>
                     </CRow>
                   </CForm>

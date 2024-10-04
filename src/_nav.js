@@ -12,7 +12,7 @@ const _nav = [
     component: CNavItem,
     name: 'Painel',
     to: '/dashboard',
-    icon: <i className="bx bx-home-alt iconMenu"></i>,
+    icon: <i className="bx bx-home-alt i"></i>,
   },
   {
     name: 'Contratos',
