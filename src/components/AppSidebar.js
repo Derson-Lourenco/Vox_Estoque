@@ -46,7 +46,7 @@ const SidebarMenu = ({ isSidebarClosed, toggleSidebar }) => {
       {!isMobile && (
         <nav className={`sidebar ${isSidebarClosed ? 'close' : ''}`}>
           <header>
-            <i className='bx bx-chevron-right toggle' onClick={toggleSidebar}></i>
+            <i className='bx bx-chevron toggle' onClick={toggleSidebar}></i>
             <div className='LogoVox'>
               <img src={LogoImage} alt="Logo Vox" style={{ width: '50px', height: '50px' }} />
               {/* Renderiza o nome apenas se a sidebar estiver aberta */}
@@ -128,10 +128,10 @@ const SidebarMenu = ({ isSidebarClosed, toggleSidebar }) => {
       {/* Sidebar Móvel */}
       {isMobile && (
         <>
-          <header>
+          {/* <header>
             <i className='bx bx-menu toggle' onClick={handleSidebarToggle}></i>
-          </header>
-
+          </header> */}
+          <i className='bx bx-menu toggle' onClick={handleSidebarToggle}></i>
           <div className={`mobile-sidebar ${isSidebarOpen ? 'open' : ''}`}>
             <div className="sidebar-header">
               <img src={LogoImage} alt="Logo Vox" style={{ width: '50px', height: '50px' }} />
