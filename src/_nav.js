@@ -6,7 +6,7 @@ import {
 import { CNavGroup, CNavItem } from '@coreui/react';
 import 'boxicons/css/boxicons.min.css';
 import './components/Sidebar.css';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+
 
 
 const _nav = [
@@ -43,6 +43,11 @@ const _nav = [
         name: 'Documentação',
         to: '/buttons/buttons',
       },
+      {
+        component: CNavItem,
+        name: 'Documentação',
+        to: '/buttons/buttons',
+      },
     ],
   },
   {
@@ -54,6 +59,11 @@ const _nav = [
         component: CNavItem,
         name: 'Pesquisar Licitações',
         to: '/LicitacoesTCE',
+      },
+      {
+        component: CNavItem,
+        name: 'Configuração',
+        to: '/Municipios',
       },
     ],
   },

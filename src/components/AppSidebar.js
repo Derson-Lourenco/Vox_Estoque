@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { NavLink } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-import { CBadge, CNavItem, CNavGroup, CCollapse, CButton, CCardFooter } from '@coreui/react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { CBadge, CNavItem, CNavGroup, CCollapse, CButton } from '@coreui/react';
 import navigation from '../_nav';
 import './Sidebar.css'; 
 import 'boxicons/css/boxicons.min.css';
+import LogoImage from '../img/LogoSidebar.png'; // Caminho da imagem
 
 const SidebarMenu = ({ isSidebarClosed, toggleSidebar }) => {
   const dispatch = useDispatch();
@@ -47,24 +47,37 @@ const SidebarMenu = ({ isSidebarClosed, toggleSidebar }) => {
         <nav className={`sidebar ${isSidebarClosed ? 'close' : ''}`}>
           <header>
             <i className='bx bx-chevron-right toggle' onClick={toggleSidebar}></i>
-            <h2>Logo</h2>
+            <div className='LogoVox'>
+              <img src={LogoImage} alt="Logo Vox" style={{ width: '50px', height: '50px' }} />
+              {/* Renderiza o nome apenas se a sidebar estiver aberta */}
+              {!isSidebarClosed && (
+                <h1 className="logo-title">
+                  <span>Vox </span>
+                  <span>Tecnologia</span>  
+                </h1>
+              )}
+            </div>
           </header>
+
           <div className="">
-      
-            <ul className="menu-links">
+            <ul className="">
               {navigation.map((item, index) => {
                 if (item.component === CNavItem) {
                   return (
                     <li className="textMenu" key={index}>
                       <CButton className="w-100 text-start d-flex align-items-center buttonMenu">
-                        <NavLink to={item.to}>
-                          {/* {item.icon}
-                          {item.badge && <CBadge color={item.badge.color}>{item.badge.text}</CBadge>} */}
-                          {item.icon}
-                          <span className="text nav-text">{item.name}</span>
+                        {/* Ícone dentro de um span, NavLink ao redor do botão */}
+                        <NavLink to={item.to} className="d-flex align-items-center">
+                          <span className="me-2"> {/* me-2 adiciona margem entre o ícone e o texto */}
+                            {item.icon}
+                          </span> 
+                          <span className="text nav-text">
+                            {item.name}
+                          </span>
                         </NavLink>
                       </CButton>
                     </li>
+
                   );
                 }
 
@@ -75,15 +88,24 @@ const SidebarMenu = ({ isSidebarClosed, toggleSidebar }) => {
                         onClick={() => toggleGroup(item.name)}
                         className="w-100 text-start d-flex align-items-center buttonMenu"
                       >
-                        <span className="h">{item.icon}
-                        <span className="text nav-text">{item.name}</span></span>
+                        {/* Ícone ao lado do nome */}
+                        <span className="me-2"> {/* Margem à direita do ícone */}
+                          {item.icon}
+                        </span>
+                        <span className="text nav-text">    
+                          {item.name}
+                        </span>
                       </CButton>
+
+                      {/* Submenu com collapse */}
                       <CCollapse visible={openGroups[item.name]}>
                         <ul className="submenu">
                           {item.items.map((subItem, subIndex) => (
                             <li className="o" key={subIndex}>
-                              <NavLink to={subItem.to}>
-                                {subItem.icon}
+                              <NavLink to={subItem.to} className="d-flex align-items-center">
+                                <span className="me-2"> {/* Margem à direita do ícone */}
+                                  {subItem.icon}
+                                </span>
                                 <span className="o">{subItem.name}</span>
                               </NavLink>
                             </li>
@@ -91,6 +113,7 @@ const SidebarMenu = ({ isSidebarClosed, toggleSidebar }) => {
                         </ul>
                       </CCollapse>
                     </li>
+
                   );
                 }
 
@@ -111,7 +134,12 @@ const SidebarMenu = ({ isSidebarClosed, toggleSidebar }) => {
 
           <div className={`mobile-sidebar ${isSidebarOpen ? 'open' : ''}`}>
             <div className="sidebar-header">
-              <h2>Logo</h2>
+              <img src={LogoImage} alt="Logo Vox" style={{ width: '50px', height: '50px' }} />
+
+              <h1 className="logo-title">
+                <span>Vox </span>
+                <span>Tecnologia</span>  
+              </h1>
               <i className='bx bx-x close' onClick={handleSidebarToggle}></i>
             </div>
             <ul className="menu-links">
@@ -119,10 +147,17 @@ const SidebarMenu = ({ isSidebarClosed, toggleSidebar }) => {
                 if (item.component === CNavItem) {
                   return (
                     <li className="textMenu" key={index}>
-                      <NavLink to={item.to} onClick={handleSidebarToggle}>
-                        {item.icon}
-                        <span className="text nav-text">{item.name}</span>
-                      </NavLink>
+                      <CButton className="w-100 text-start d-flex align-items-center buttonMenu">
+                        {/* Ícone dentro de um span, NavLink ao redor do botão */}
+                        <NavLink to={item.to} className="d-flex align-items-center">
+                          <span className="me-2"> {/* me-2 adiciona margem entre o ícone e o texto */}
+                            {item.icon}
+                          </span> 
+                          <span className="text nav-text">
+                            {item.name}
+                          </span>
+                        </NavLink>
+                      </CButton>
                     </li>
                   );
                 }

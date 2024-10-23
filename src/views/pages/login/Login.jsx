@@ -27,19 +27,17 @@ const Login = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post(`${apiUrl}/login`, { cpf_cnpj, password });
+      const response = await axios.post(`${apiUrl}/login/login`, { cpf_cnpj, password });
+
+      console.log('Resposta do servidor:', response.data); // Adicionando log para depuração
 
       if (response.data.success) {
-        
-        // Armazena o token no localStorage
         localStorage.setItem('authToken', response.data.token);
-        // Redireciona para o dashboard
         navigate('/home');
       } else {
         alert('Login falhou: ' + response.data.message);
       }
     } catch (error) {
-      console.log('Dados enviados para o login:', { cpf_cnpj, password });
       console.error('Erro ao fazer login:', error);
       alert('Erro ao fazer login. Tente novamente.');
     }
@@ -61,7 +59,6 @@ const Login = () => {
                       </CInputGroupText>
                       <CFormInput
                         placeholder="CPF/CNPJ"
-                        autoComplete="username"
                         value={cpf_cnpj}
                         onChange={(e) => setCpfCnpj(e.target.value)}
                       />
@@ -73,7 +70,6 @@ const Login = () => {
                       <CFormInput
                         type="password"
                         placeholder="Senha"
-                        autoComplete="current-password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                       />

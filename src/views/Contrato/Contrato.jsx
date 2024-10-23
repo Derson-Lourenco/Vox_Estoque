@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import './style.css';
@@ -12,14 +12,34 @@ import Button from 'react-bootstrap/Button';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
+// Função para formatar data
+const formatarData = (data) => {
+  const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
+  return new Date(data).toLocaleDateString(undefined, options);
+};
+
+// Função para verificar situação do contrato
+const verificarSituacao = (dataInicio, dataFinalizacao) => {
+  const dataInicioObj = moment(dataInicio, 'DD/MM/YYYY');
+  const dataFimObj = moment(dataFinalizacao, 'DD/MM/YYYY');
+  const dataAtual = moment();
+
+  if (dataAtual.isBefore(dataInicioObj)) {
+    return { texto: 'Ainda não começou', cor: 'blue' };
+  } else if (dataAtual.isSameOrAfter(dataInicioObj) && dataAtual.isBefore(dataFimObj)) {
+    const diferencaMeses = dataFimObj.diff(dataAtual, 'months', true);
+    return diferencaMeses <= 3 ? { texto: 'Término Iminente', cor: 'yellow' } : { texto: 'Em vigência', cor: 'green' };
+  } else {
+    return { texto: 'Está vencido', cor: 'red' };
+  }
+};
+
 const Contrato = () => {
   const [contrato, setContrato] = useState([]);
   const [detalhesContrato, setDetalhesContrato] = useState(null);
   const [orgaoOptions, setOrgaoOptions] = useState([]);
   const [modalidadeOptions, setModalidadeOptions] = useState([]);
   const [situacaoOptions, setSituacaoOptions] = useState([]);
-
-  // Estados para os filtros selecionados
   const [filtroOrgao, setFiltroOrgao] = useState('');
   const [filtroModalidade, setFiltroModalidade] = useState('');
   const [filtroSituacao, setFiltroSituacao] = useState('');
@@ -28,7 +48,6 @@ const Contrato = () => {
   const fetchContrato = async () => {
     try {
       const response = await fetch(`${apiUrl}/contratos/getContratos`);
-
       if (response.ok) {
         const data = await response.json();
         if (data.contratos && Array.isArray(data.contratos)) {
@@ -38,7 +57,6 @@ const Contrato = () => {
             dataFinalizacao: formatarData(contrato.dataFinalizacao),
           }));
 
-          // Preencher as opções de filtros com dados únicos
           const orgaosUnicos = [...new Set(contratoFormatados.map(c => c.orgao))];
           const modalidadesUnicas = [...new Set(contratoFormatados.map(c => c.modalidade))];
           const situacoesUnicas = [...new Set(contratoFormatados.map(c => verificarSituacao(c.dataInicio, c.dataFinalizacao).texto))];
@@ -58,36 +76,14 @@ const Contrato = () => {
     }
   };
 
-  // Função para formatar data
-  const formatarData = (data) => {
-    const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
-    return new Date(data).toLocaleDateString(undefined, options);
-  };
-
-  // Função para verificar situação do contrato
-  const verificarSituacao = (dataInicio, dataFinalizacao) => {
-    const dataInicioObj = moment(dataInicio, 'DD/MM/YYYY');
-    const dataFimObj = moment(dataFinalizacao, 'DD/MM/YYYY');
-    const dataAtual = moment();
-
-    if (dataAtual.isBefore(dataInicioObj)) {
-      return { texto: 'Ainda não começou', cor: 'blue' };
-    } else if (dataAtual.isSameOrAfter(dataInicioObj) && dataAtual.isBefore(dataFimObj)) {
-      const diferencaMeses = dataFimObj.diff(dataAtual, 'months', true);
-      return diferencaMeses <= 3 ? { texto: 'Término Iminente', cor: 'yellow' } : { texto: 'Em vigência', cor: 'green' };
-    } else {
-      return { texto: 'Está vencido', cor: 'red' };
-    }
-  };
-
   // Função para aplicar os filtros
-  const aplicarFiltros = () => {
+  const aplicarFiltros = useMemo(() => {
     return contrato.filter(c => 
       (filtroOrgao ? c.orgao === filtroOrgao : true) &&
       (filtroModalidade ? c.modalidade === filtroModalidade : true) &&
       (filtroSituacao ? verificarSituacao(c.dataInicio, c.dataFinalizacao).texto === filtroSituacao : true)
     );
-  };
+  }, [contrato, filtroOrgao, filtroModalidade, filtroSituacao]);
 
   // Função para abrir modal de detalhes
   const abrirModalDetalhes = (contrato) => {
@@ -146,15 +142,14 @@ const Contrato = () => {
       </CCard>
 
       <br />
-      {aplicarFiltros().length > 0 ? (
-        aplicarFiltros().map(contrato => {
+      {aplicarFiltros.length > 0 ? (
+        aplicarFiltros.map(contrato => {
           const situacao = verificarSituacao(contrato.dataInicio, contrato.dataFinalizacao);
           return (
             <div key={contrato.id}>
               <CCard>
-              <CCardBody>
+                <CCardBody>
                   <CRow className="g-2 mb-3">
-                    {/* Exibição para dispositivos móveis */}
                     <CCol xs={12} className="d-md-none">
                       <div>
                         <strong>Órgão:</strong> {contrato.orgao}<br />
@@ -165,7 +160,6 @@ const Contrato = () => {
                       </div>
                     </CCol>
 
-                    {/* Exibição para telas maiores */}
                     <CCol xs={12} sm={6} md={3} className="d-none d-md-block">
                       <CFormLabel>ÓRGÃO</CFormLabel>
                       <div>{contrato.orgao}</div>
@@ -178,58 +172,59 @@ const Contrato = () => {
                       <CFormLabel>VALOR</CFormLabel>
                       <div>R$ {contrato.valorContratado.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</div>
                     </CCol>
-                    <CCol sm={3} className="d-none d-md-block">
-                      <CFormLabel>OBJETO</CFormLabel>
-                      <div>{contrato.objetoContrato}</div>
-                    </CCol>
-                    <CCol sm={2} md={2} className="d-none d-md-block">
+                    <CCol sm={6} md={2} className="d-none d-md-block">
                       <CFormLabel>SITUAÇÃO</CFormLabel>
-                      <div style={{ color: situacao.cor }}>{situacao.texto}</div>
+                      <div><span style={{ color: situacao.cor }}>{situacao.texto}</span></div>
                     </CCol>
-                  </CRow>
-                  <CRow className="g-2 mb-3">
-                    <CCol sm={2} className="d-flex align-items-center justify-content-end">
-                      <div className='Icon'>
-                        <span className='m-2'>
-                          <Link to={`/detalheContrato/${contrato.id}`}>
-                            <FontAwesomeIcon icon={faFileSignature} />
-                          </Link>
-                        </span>
-                        <span className='m-2' onClick={() => abrirModalDetalhes(contrato)}>
-                          <FontAwesomeIcon icon={faEye} />
-                        </span>
-                      </div>
+
+                    <CCol xs={12} className="d-md-none">
+                      <Button variant="info" onClick={() => abrirModalDetalhes(contrato)}>
+                        <FontAwesomeIcon icon={faEye} /> Detalhes
+                      </Button>
+                    </CCol>
+
+                    <CCol xs={12}>
+                      <Link to={`/historico/${contrato.id}`}>
+                        <Button variant="primary">
+                          <FontAwesomeIcon icon={faFileSignature} /> Histórico
+                        </Button>
+                      </Link>
                     </CCol>
                   </CRow>
                 </CCardBody>
-
               </CCard>
-              <br />
             </div>
           );
         })
       ) : (
-        <div>Sem contratos disponíveis</div>
+        <h5>Nenhum contrato encontrado.</h5>
       )}
 
-        {detalhesContrato && (
-          <CModal visible={!!detalhesContrato} onClose={() => setDetalhesContrato(null)}>
-            <CModalHeader>
-              <h5 className="modal-title">Detalhes do Contrato</h5>
-            </CModalHeader>
-            <CModalBody>
-              <p><strong>Orgão:</strong> {detalhesContrato.orgao}</p>
+      {/* Modal para detalhes do contrato */}
+      <CModal visible={detalhesContrato !== null} onClose={() => setDetalhesContrato(null)}>
+        <CModalHeader>
+          <h5 className="modal-title">Detalhes do Contrato</h5>
+        </CModalHeader>
+        <CModalBody>
+          {detalhesContrato && (
+            <div>
+              <p><strong>ID:</strong> {detalhesContrato.id}</p>
+              <p><strong>Órgão:</strong> {detalhesContrato.orgao}</p>
               <p><strong>Modalidade:</strong> {detalhesContrato.modalidade}</p>
-              <p><strong>Valor:</strong> R${detalhesContrato.valorContratado.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
-              <p><strong>Data Início:</strong> {detalhesContrato.dataInicio}</p>
-              <p><strong>Data Finalização:</strong> {detalhesContrato.dataFinalizacao}</p>
+              <p><strong>Valor:</strong> R$ {detalhesContrato.valorContratado.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
               <p><strong>Objeto:</strong> {detalhesContrato.objetoContrato}</p>
-            </CModalBody>
-            <CModalFooter>
-              <CButton color="secondary" onClick={() => setDetalhesContrato(null)}>Fechar</CButton>
-            </CModalFooter>
-          </CModal>
-        )}
+              <p><strong>Data de Início:</strong> {detalhesContrato.dataInicio}</p>
+              <p><strong>Data de Finalização:</strong> {detalhesContrato.dataFinalizacao}</p>
+              <p><strong>Situação:</strong> <span style={{ color: verificarSituacao(detalhesContrato.dataInicio, detalhesContrato.dataFinalizacao).cor }}>
+                {verificarSituacao(detalhesContrato.dataInicio, detalhesContrato.dataFinalizacao).texto}
+              </span></p>
+            </div>
+          )}
+        </CModalBody>
+        <CModalFooter>
+          <Button variant="secondary" onClick={() => setDetalhesContrato(null)}>Fechar</Button>
+        </CModalFooter>
+      </CModal>
     </div>
   );
 };

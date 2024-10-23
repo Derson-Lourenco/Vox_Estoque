@@ -15,6 +15,7 @@ const ButtonGroups = React.lazy(() => import('./views/buttons/button-groups/Butt
 
 // Licitações
 const LicitacoesTCE = React.lazy(() => import('./views/Licitacoes/LicitacoesTCE'));
+const Municipios = React.lazy(() => import('./components/Municipios'));
 
 const Login = React.lazy(() => import('./views/pages/login/Login'));
 
@@ -38,6 +39,7 @@ const routes = [
   { path: '/NovoContrato', name: 'Novo Contrato', element: NovoContrato },
   { path: '/theme', name: 'Theme', element: Colors },
   { path: '/LicitacoesTCE', name: 'Licitações TCE-PI', element: LicitacoesTCE },
+  { path: '/Municipios', name: 'Municipios', element: Municipios },
   { path: '/detalheContrato/:id', name: 'Detalhe de Contrato', element: detalheContrato },
   // Outras rotas podem ser adicionadas aqui
 ];

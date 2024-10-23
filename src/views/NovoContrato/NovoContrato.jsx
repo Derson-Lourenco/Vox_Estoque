@@ -15,8 +15,8 @@ import {
   CButton,
   CFormCheck,
 } from "@coreui/react";
-
-
+import './novoContrato.css';
+const apiUrl = import.meta.env.VITE_API_URL; // Certifique-se de que esta variável está correta e corresponde à URL do backend
 
 import File from "./File";
 
@@ -53,7 +53,7 @@ const NovoContrato = () => {
 
     try {
       const valorFormatado = valorContratado.toString();
-      const response = await fetch('https://vox-server.onrender.com/contratos/salvarContrato', {
+      const response = await fetch(`${apiUrl}/contratos/salvarContrato`, { // Atualizado aqui
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -88,21 +88,30 @@ const NovoContrato = () => {
 
   return (
     <CForm
-    id="contractForm"
-    className="row g-3 needs-validation"
+      id="contractForm"
+      className="row g-3 needs-validation"
       noValidate
       validated={validated}
       onSubmit={handleSubmit}
-      >
-      <CCardHeader>
-        <h2>Novo Contrato</h2>
-      </CCardHeader>
+    >
+      <div className="HeaderTitulo">
+        <h2 className="Titulo">Novo Contrato</h2>
+      </div>
       <CCard>
-        <CCardHeader>Campos obrigatórios (*)</CCardHeader>
+        <CCardHeader> 
+          <span className="test">
+            Campos obrigatórios
+          </span>  
+          
+          
+            (<span className="p">*</span>)
+          
+        </CCardHeader>
+          
         <CCardBody>
           <CRow className="g-2 mb-3">
             <CCol sm={4}>
-              <CFormLabel htmlFor="processoAno" className='required'>Nº do processo adm/Ano</CFormLabel>
+              <CFormLabel htmlFor="processoAno" className='text required'>Nº do processo adm/Ano</CFormLabel>
               <CInputGroup>
                 <CFormInput
                   id="processoAno"
@@ -122,7 +131,7 @@ const NovoContrato = () => {
             </CCol>
 
             <CCol sm={4}>
-              <CFormLabel htmlFor="numeroContrato" className='required'>Nº do contrato/Ano</CFormLabel>
+              <CFormLabel htmlFor="numeroContrato" className='text required'>Nº do contrato/Ano</CFormLabel>
               <CInputGroup>
                 <CFormInput
                   id="numeroContrato"
@@ -142,7 +151,7 @@ const NovoContrato = () => {
             </CCol>
 
             <CCol sm={2}>
-              <CFormLabel htmlFor="modalidade" className="required">
+              <CFormLabel htmlFor="modalidade" className="text required">
                 Modalidade
               </CFormLabel>
               <CFormSelect
@@ -160,7 +169,7 @@ const NovoContrato = () => {
             </CCol>
 
             <CCol sm={2}>
-              <CFormLabel htmlFor="registroPreco" className="required">
+              <CFormLabel htmlFor="registroPreco" className="text required">
                 Registro de Preço
               </CFormLabel>
               <CFormCheck
@@ -182,7 +191,7 @@ const NovoContrato = () => {
 
           <CRow className="g-2 mb-3">
             <CCol sm={6}>
-              <CFormLabel htmlFor="orgao" className="required">
+              <CFormLabel htmlFor="orgao" className="text required">
                 Orgão
               </CFormLabel>
               <CFormInput
@@ -195,7 +204,7 @@ const NovoContrato = () => {
               />
             </CCol>
             <CCol>
-              <CFormLabel htmlFor="cnpjContratante">
+              <CFormLabel className="text" htmlFor="cnpjContratante">
                 CNPJ do Contratante
               </CFormLabel>
               <CFormInput
@@ -207,7 +216,7 @@ const NovoContrato = () => {
               />
             </CCol>
             <CCol>
-              <CFormLabel htmlFor="valorContratado" className="required">
+              <CFormLabel htmlFor="valorContratado" className="text required">
                 Valor do Contratado
               </CFormLabel>
               <CFormInput
@@ -227,7 +236,7 @@ const NovoContrato = () => {
 
           <CRow className='g-2 mb-3'>
             <CCol sm={2}>
-              <CFormLabel htmlFor="dataAssinatura" className="required">
+              <CFormLabel htmlFor="dataAssinatura" className="text required">
                 Data da Assinatura
               </CFormLabel>
               <CFormInput
@@ -240,7 +249,7 @@ const NovoContrato = () => {
               />
             </CCol>
             <CCol sm={2}>
-              <CFormLabel htmlFor="dataInicio" className="required">
+              <CFormLabel htmlFor="dataInicio" className="text required">
                 Data de Início
               </CFormLabel>
               <CFormInput
@@ -253,7 +262,7 @@ const NovoContrato = () => {
               />
             </CCol>
             <CCol sm={2}>
-              <CFormLabel htmlFor="dataFinalizacao" className="required">
+              <CFormLabel htmlFor="dataFinalizacao" className="text required">
                 Data de Finalização
               </CFormLabel>
               <CFormInput
@@ -266,7 +275,7 @@ const NovoContrato = () => {
               />
             </CCol>
             <CCol>
-              <CFormLabel htmlFor="secretarias" className="required">
+              <CFormLabel htmlFor="secretarias" className="text required">
                 Secretarias
               </CFormLabel>
               <CFormTextarea
@@ -279,36 +288,29 @@ const NovoContrato = () => {
               />
             </CCol>
           </CRow>
-
-          <CRow className='g-2 mb-3'>
-            <CCol sm={10}>
-              <CFormLabel htmlFor="objetoContrato" className="required">
+          <CRow>
+            <CCol>
+              <CFormLabel htmlFor="objetoContrato" className="text required">
                 Objeto do Contrato
               </CFormLabel>
               <CFormTextarea
                 id="objetoContrato"
-                rows={1}
+                rows={3}
                 required
                 value={objetoContrato}
                 onChange={(e) => setObjetoContrato(e.target.value)}
                 tooltipFeedback
               />
             </CCol>
-
-            <CCol sm={2} className='mt-4'>
-              <File />
-            </CCol>
           </CRow>
+
+          <File />
+          
+          <CButton type="submit" color="primary">Salvar</CButton>
         </CCardBody>
       </CCard>
-
-      <CCol xs={12} className="position-relative">
-        <CButton color="primary" type="submit">
-          Salvar
-        </CButton>
-      </CCol>
     </CForm>
   );
-}
+};
 
 export default NovoContrato;

@@ -6,6 +6,29 @@
   font-family: "Poppins", sans-serif;
 }
 
+header {
+  display: flex;
+  align-items: center; /* Alinha os itens verticalmente no centro */
+}
+
+.LogoVox {
+  display: flex; /* Cria um contêiner flexível */
+  align-items: center; /* Alinha logo e texto verticalmente no centro */
+  margin-left: 10px; /* Ajusta o espaço à esquerda do logo */
+}
+
+.logo-title {
+  margin-top: 8px;
+  margin-left: 8px; /* Adiciona espaço entre o logo e o título */
+  font-size: 20px; /* Ajusta o tamanho da fonte, se necessário */
+  color: #fff; /* Altera a cor do texto, ajuste conforme necessário */
+  display: flex; /* Usar flexbox para alinhar o texto se necessário */
+  align-items: center; /* Centraliza verticalmente o texto se houver mais de uma linha */
+}
+
+
+
+
 /* ===== Colors and Transitions ===== */
 :root {
   /* ===== Colors ===== */
@@ -100,7 +123,7 @@ body.dark {
   background: var(--sidebar-color);
   transition: var(--tran-05);
   z-index: 100;
-  text-align: center;
+  /* text-align: center; */
 }
 
 .sidebar.close {
@@ -117,15 +140,25 @@ body.dark {
   margin-left: -30px;
 } */
 
-
 .textMenu{
   /* border: 1px solid black; */
-  margin-top: 15px;
+  margin-top: 18px;
   margin-left: -35px;
   list-style: none;
   padding: 3px;
-  /* text-align:right; */
   text-decoration: none !important; 
+}
+
+.textMenu .text{
+  /* border: 1px solid red; */
+  display: flex !important;
+  font-size: 17px;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 1;
+  color: var(--text-color);
+  transition: var(--tran-03);
+  text-decoration: none !important;
 }
 
 .buttonMenu:hover, .o:hover{
@@ -144,17 +177,7 @@ body.dark {
   /* text-align:right; */
   text-decoration: none !important; 
 }
-.textMenu .text{
-  /* display: flex !important; */
-  font-size: 17px;
-  font-weight: 500;
-  white-space: nowrap;
-  opacity: 1;
-  text-align: center;
-  color: var(--text-color);
-  transition: var(--tran-03);
-  text-decoration: none !important;
-}
+
 
 .iconMenu {
   display: flex !important;
@@ -194,7 +217,7 @@ body.dark {
   /* border: 1px solid red; */
   color: var(--text-color) !important;
   width: 100%;
-  padding: 5px;
+  padding: 8px;
   list-style: none;
   text-align:left ;
 }
@@ -381,7 +404,6 @@ body.dark .home .text {
   justify-content: space-between; 
   align-items: center;
   padding: 20px;
-  background-color: #f0f0f0; 
 }
 
 /* .sidebar-header h2 {

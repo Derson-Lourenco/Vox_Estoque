@@ -35,7 +35,7 @@
   }
 }
 /* Tabela para telas maiores */
-table {
+/* table {
   width: 100%;
   border-collapse: collapse;
 }
@@ -43,7 +43,7 @@ table {
 table th, table td {
   padding: 8px;
   text-align: left;
-}
+} */
 
 /* table th {
   background-color: #f4f4f4;
