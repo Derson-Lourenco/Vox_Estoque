@@ -100,11 +100,11 @@ const Contrato = () => {
       <CCard className='CardTextPrincipal'>
         <h2 className='TextPrincipal'>Contratos</h2>
       </CCard>
-      <CCard>
+      <CCard className='CardTextPrincipal'>
         <CCardHeader>
-          <div className="busca-contratos">
+          <div className="busca-contratos ">
             <div className="busca-item">
-              <CFormSelect value={filtroOrgao} onChange={(e) => setFiltroOrgao(e.target.value)}>
+              <CFormSelect className='CardInput2' value={filtroOrgao} onChange={(e) => setFiltroOrgao(e.target.value)}>
                 <option value="">Buscar Por Órgão</option>
                 {orgaoOptions.map(orgao => (
                   <option key={orgao} value={orgao}>{orgao}</option>
@@ -113,7 +113,7 @@ const Contrato = () => {
             </div>
 
             <div className="busca-item">
-              <CFormSelect value={filtroModalidade} onChange={(e) => setFiltroModalidade(e.target.value)}>
+              <CFormSelect className='CardInput2' value={filtroModalidade} onChange={(e) => setFiltroModalidade(e.target.value)}>
                 <option value="">Buscar Por Modalidade</option>
                 {modalidadeOptions.map(modalidade => (
                   <option key={modalidade} value={modalidade}>{modalidade}</option>
@@ -122,7 +122,7 @@ const Contrato = () => {
             </div>
 
             <div className="busca-item">
-              <CFormSelect value={filtroSituacao} onChange={(e) => setFiltroSituacao(e.target.value)}>
+              <CFormSelect className='CardInput2' value={filtroSituacao} onChange={(e) => setFiltroSituacao(e.target.value)}>
                 <option value="">Buscar Por Situação</option>
                 {situacaoOptions.map(situacao => (
                   <option key={situacao} value={situacao}>{situacao}</option>

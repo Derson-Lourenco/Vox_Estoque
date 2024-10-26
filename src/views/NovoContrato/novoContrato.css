@@ -36,9 +36,9 @@ header {
   
 } */
 .CardTextPrincipal{
-  margin-top: 25px;
-  margin-bottom: 8px;
-  background-color: #FFFFFF;
+  margin-top: 25px !important;
+  margin-bottom: 8px !important;
+  background-color: #FFFFFF !important;
 }
 
 .CardPrincipal{
