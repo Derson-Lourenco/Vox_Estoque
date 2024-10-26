@@ -35,21 +35,55 @@ header {
   margin-top: 10px;
   
 } */
-.text{
+.CardTextPrincipal{
+  margin-top: 25px;
+  margin-bottom: 8px;
+  background-color: #FFFFFF;
+}
+
+.CardPrincipal{
+  background-color: #FFFFFF;
+}
+.CardInput{
+  background-color: #FFFFFF;
+  border: 1px solid var(--sidebar-color);
+  color: var(--sidebar-color);
+}
+.CardInput:hover{
+  background-color: #FFFFFF;
+  border: 1px solid var(--sidebar-color);
+  color: var(--sidebar-color);
+}
+.CardInput2{
+  background-color: #FFFFFF;
+  border: 1px solid var(--sidebar-color);
+  color: var(--sidebar-color);
+}
+
+.CardInput3{
+  background-color: #FFFFFF;
+  color: var(--sidebar-color);
+}
+.CardInput2::-webkit-calendar-picker-indicator {
+  filter: invert(18%) sepia(26%) saturate(605%) hue-rotate(162deg) brightness(95%) contrast(91%);
+  cursor: pointer;
+}
+
+.TextPrincipal{
   color: var(--primary-color);
+  padding: 3px;
+  font-size: 24px;
+  margin-left: 8px;
+  align-items: center;
+  font-weight: bold;
+}
+
+.text{
+  color: var(--sidebar-color);
   font-size: 16px;
   font-weight: bold;
 }
 
-
-.Titulo{
-  color: var(--primary-color);
-  font-size: 29px;
-  justify-content: center;
-  justify-items: center;
-  align-items: center;
-  font-weight: bold;
-}
 .p{
   color: red;
   font-size: 17px;

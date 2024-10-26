@@ -1,11 +1,39 @@
-*{
+/* ===== Global Styles ===== */
+* {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
 }
-.Descr{
-  color: rgb(56, 59, 235);
+/* ===== Colors and Transitions ===== */
+:root {
+  /* ===== Colors ===== */
+  --body-color: #e4e9f7;
+  --sidebar-color: #222E3A;
+  --primary-color: #E8465D;
+  --primary-color-light: #f6f5ff;
+  --toggle-color: #ddd;
+  --text-color: #EEEDF5;
+
+  /* ====== Transition ====== */
+  --tran-03: all 0.3s ease;
+  --tran-04: all 0.4s ease;
+  --tran-05: all 0.5s ease;
+}
+.CardTextPrincipal{
+  margin-top: 8px;
+  margin-bottom: 10px;
+  background-color:aliceblue;
 }
 
+.TextPrincipal{
+  color: var(--primary-color);
+  padding: 3px;
+  font-size: 24px;
+  margin-left: 8px;
+  align-items: center;
+  font-weight: bold;
+}
 /* Estilo geral */
 .c {
   border: 1px solid blue;

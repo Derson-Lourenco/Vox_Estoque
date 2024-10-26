@@ -217,7 +217,7 @@ body.dark {
   /* border: 1px solid red; */
   color: var(--text-color) !important;
   width: 100%;
-  padding: 8px;
+  padding: 4px;
   list-style: none;
   text-align:left ;
 }

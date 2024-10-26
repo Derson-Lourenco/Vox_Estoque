@@ -46,7 +46,7 @@ const SidebarMenu = ({ isSidebarClosed, toggleSidebar }) => {
       {!isMobile && (
         <nav className={`sidebar ${isSidebarClosed ? 'close' : ''}`}>
           <header>
-            <i className='bx bx-chevron toggle' onClick={toggleSidebar}></i>
+            <i className='bx bx-chevron-right toggle' onClick={toggleSidebar}></i>
             <div className='LogoVox'>
               <img src={LogoImage} alt="Logo Vox" style={{ width: '50px', height: '50px' }} />
               {/* Renderiza o nome apenas se a sidebar estiver aberta */}
