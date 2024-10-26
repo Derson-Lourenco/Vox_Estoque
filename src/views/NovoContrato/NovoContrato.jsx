@@ -96,8 +96,8 @@ const NovoContrato = () => {
     >
       <CCard className="CardTextPrincipal">
         <h2 className="TextPrincipal">Novo Contrato</h2>
-
       </CCard>
+
       <CCard className="CardPrincipal">
         <CCardHeader> 
           <span className="text">
@@ -302,12 +302,12 @@ const NovoContrato = () => {
             </CCol>
           </CRow>
           <CRow>
-            <CCol>
+            <CCol sm={8}>
               <CFormLabel htmlFor="objetoContrato" className="text required">
                 Objeto do Contrato<span className="p">*</span>
               </CFormLabel>
               <CFormTextarea
-                className='CardInput'
+                className="CardInput"
                 id="objetoContrato"
                 rows={3}
                 required
@@ -316,11 +316,22 @@ const NovoContrato = () => {
                 tooltipFeedback
               />
             </CCol>
+
+            <CCol sm={4} className="d-flex justify-content-center align-items-center">
+              <File /> 
+            </CCol>
           </CRow>
 
-          <File />
-          
-          <CButton type="submit" color="primary">Salvar</CButton>
+            <CRow className="justify-content-end">
+              <CCol sm={2}>
+                <CButton type="submit" color="primary">Salvar</CButton>
+              </CCol>
+              <CCol sm={2}>
+                <CButton type="button" color="secondary">Limpar</CButton>
+              </CCol>
+            </CRow>
+
+
         </CCardBody>
       </CCard>
     </CForm>

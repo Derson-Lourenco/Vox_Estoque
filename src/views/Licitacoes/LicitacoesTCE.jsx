@@ -20,7 +20,7 @@ import {
   CFormCheck,
 } from "@coreui/react";
 const apiUrl = import.meta.env.VITE_API_URL; // Certifique-se de que esta variável está correta e corresponde à URL do backend
-
+import './LicitacoesTCE.css';
 // Função para formatar a data no formato YYYYMMDD
 const formatDate = (dateString) => {
   const date = new Date(dateString);
@@ -56,9 +56,9 @@ const LicitacoesPage = () => {
 
   return (
     <div>
-      <CCardHeader>
-        <h2>Licitações</h2>
-      </CCardHeader>
+      <CCard className="CardTextPrincipal">
+        <h2 className="TextPrincipal">Mural de Licitações</h2>
+      </CCard>
       {error && <p>{error}</p>}
 
       {licitacoes.length > 0 ? (

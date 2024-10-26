@@ -1,11 +1,4 @@
 /* ===== Global Styles ===== */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
-}
-
 header {
   display: flex;
   align-items: center; /* Alinha os itens verticalmente no centro */
@@ -40,9 +33,19 @@ header {
   margin-bottom: 8px !important;
   background-color: #FFFFFF !important;
 }
-
+.teste{
+  color: #222E3A;
+}
+.teste:hover{
+  color: #222E3A;
+}
 .CardPrincipal{
   background-color: #FFFFFF;
+}
+.CardPrincipalAnexo{
+  background-color: #FFFFFF;
+  border: 1px solid var(--sidebar-color);
+  color: #222E3A;
 }
 .CardInput{
   background-color: #FFFFFF;
