@@ -30,7 +30,7 @@ const File = () => {
     <>
       <CButton className="teste" onClick={() => setVisible(!visible)}>
         <CIcon icon={cilLink} />
-        Anexar arquivo
+        Anexar Arquivos
       </CButton>
       <CModal
         backdrop="static"

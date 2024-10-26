@@ -172,27 +172,30 @@ const NovoContrato = () => {
               </CFormSelect>
             </CCol>
 
-            <CCol sm={2}>
+            <CCol sm={2} xs={12} className="mb-3">
               <CFormLabel htmlFor="registroPreco" className="text required">
                 Registro de Preço<span className="p">*</span>
               </CFormLabel>
-              <CFormCheck
-                className='CardInput3'
-                inline
-                checked={registro === 'Sim'}
-                onChange={() => setRegistro('Sim')}
-                id="registroSim"
-                label="Sim"
-              />
-              <CFormCheck
-                className='CardInput3'
-                inline
-                checked={registro === 'Não'}
-                onChange={() => setRegistro('Não')}
-                id="registroNao"
-                label="Não"
-              />
+              <div className="d-flex justify-content-start">
+                <CFormCheck
+                  className="CardInput3"
+                  inline
+                  checked={registro === 'Sim'}
+                  onChange={() => setRegistro('Sim')}
+                  id="registroSim"
+                  label="Sim"
+                />
+                <CFormCheck
+                  className="CardInput3"
+                  inline
+                  checked={registro === 'Não'}
+                  onChange={() => setRegistro('Não')}
+                  id="registroNao"
+                  label="Não"
+                />
+              </div>
             </CCol>
+
           </CRow>
 
           <CRow className="g-2 mb-3">
