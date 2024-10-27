@@ -7,19 +7,33 @@
   --carcapivara: #E8465D;
   font-family: 'Roboto', sans-serif;
 }
+.FooterDev {
+  position: relative; /* o absolute */
+  background-color: var(--corlogo);
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 a{
   text-decoration: none;
 }
+.Vox2024{
+  font-size: 15px;
+}
 .cap{
+  font-size: 15px;
   color: var(--carcapivara);
   font-weight: bold;
 }
 .dev{
+  font-size: 15px;
   color: var(--cordefundo);
   font-weight: bold;
 }
 
 .t{
+  font-size: 15px;
   background-color: var(--corlogo);
   color: var(--cordefundo);
 
@@ -29,5 +43,6 @@ a{
 }
 
 .footer-theme.dark-theme .dev {
-  color: #222E3A;
+  font-size: 15px;
+  color: var(--corlogo);
 }

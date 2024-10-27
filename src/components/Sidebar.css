@@ -26,7 +26,17 @@ header {
   align-items: center; /* Centraliza verticalmente o texto se houver mais de uma linha */
 }
 
+.username-display {
+  font-size: 16px;
+  color: var(--text-color); /* Ajuste a cor conforme o design */
+  margin-top: 5px;
+}
 
+.username-display-mobile {
+  padding: 10px;
+  color: #fff; /* Cor do texto */
+  text-align: center;
+}
 
 
 /* ===== Colors and Transitions ===== */

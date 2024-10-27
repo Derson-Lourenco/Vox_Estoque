@@ -1,3 +1,4 @@
+// src/routes.js
 import React from 'react';
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'));
@@ -11,7 +12,6 @@ const NovoDocumento = React.lazy(() => import('./views/Documentos/NovoDocumento'
 const Documento = React.lazy(() => import('./views/Documentos/Documentos'));
 
 const routes = [
-  { path: '/', exact: true, name: 'Home', element: Dashboard },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
   { path: '/Contrato', name: 'Contratos', element: Contrato },
   { path: '/NovoContrato', name: 'Novo Contrato', element: NovoContrato },
@@ -19,7 +19,7 @@ const routes = [
   { path: '/LicitacoesTCE', name: 'Licitações TCE-PI', element: LicitacoesTCE },
   { path: '/LicitacoesSalvas', name: 'Licitacoes Salvas', element: LicitacoesSalvas },
   { path: '/Municipios', name: 'Municípios', element: Municipios },
-  { path: '/NovoDocumento', name: 'NovoDocumento', element: NovoDocumento },
+  { path: '/NovoDocumento', name: 'Novo Documento', element: NovoDocumento },
   { path: '/Documento', name: 'Documento', element: Documento },
 ];
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from 'react'; // Certifique-se de incluir useEffect
 import {
   CCol,
   CFormInput,
@@ -21,6 +21,15 @@ const apiUrl = import.meta.env.VITE_API_URL; // Certifique-se de que esta variá
 import File from "./File";
 
 const NovoContrato = () => {
+  const [userid, setUserid] = useState(null);
+
+  useEffect(() => {
+    const storedUserId = localStorage.getItem('userid');
+    if (storedUserId) {
+      setUserid(storedUserId);
+    }
+  }, []);
+
   const now = new Date();
   const todayISO = now.toISOString().split('T')[0];
 
@@ -42,6 +51,8 @@ const NovoContrato = () => {
     const options = { style: "currency", currency: "BRL" };
     return Number(valor).toLocaleString('pt-BR', options);
   };
+
+  console.log('ID do usuário:', userid);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -71,6 +82,7 @@ const NovoContrato = () => {
           dataFinalizacao,
           secretarias,
           objetoContrato,
+          cliente_id: userid
         }),
       });
 

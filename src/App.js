@@ -1,9 +1,12 @@
+// src/App.jsx
 import React, { Suspense, useEffect } from 'react';
-import { HashRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { CSpinner, useColorModes } from '@coreui/react';
 import './scss/style.scss';
+import { AuthProvider } from './components/AuthContext';
+import PrivateRoute from './components/PrivateRoute';
 
 const DefaultLayout = React.lazy(() => import('./layout/DefaultLayout'));
 const Login = React.lazy(() => import('./views/pages/login/Login'));
@@ -30,17 +33,23 @@ const App = () => {
   }, [isColorModeSet, setColorMode, storedTheme]);
 
   return (
-    <HashRouter>
-      <Suspense fallback={<div className="pt-3 text-center"><CSpinner color="primary" variant="grow" /></div>}>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/404" element={<Page404 />} />
-          <Route path="/500" element={<Page500 />} />
-          <Route path="*" element={<DefaultLayout />} />
-        </Routes>
-      </Suspense>
-    </HashRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <Suspense fallback={<div className="pt-3 text-center"><CSpinner color="primary" variant="grow" /></div>}>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/404" element={<Page404 />} />
+            <Route path="/500" element={<Page500 />} />
+            <Route 
+              path="/*" 
+              element={<PrivateRoute element={<DefaultLayout />} />} 
+            />
+            <Route path="*" element={<Navigate to="/login" />} />
+          </Routes>
+        </Suspense>
+      </BrowserRouter>
+    </AuthProvider>
   );
 };
 
