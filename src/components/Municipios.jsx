@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import './Municipios.css';
+import {
+  CCard, CCardBody, CCardHeader, CRow, CCol,
+  CFormSelect, CFormLabel, CButton, CModal, CModalHeader, CModalBody, CModalFooter
+} from "@coreui/react";
 
 const apiUrl = import.meta.env.VITE_API_URL; // Certifique-se de que a variável de ambiente está correta
 
@@ -10,7 +15,7 @@ const Municipios = () => {
   useEffect(() => {
     const fetchMunicipios = async () => {
       try {
-        const response = await fetch(`${apiUrl}/prefeituras`); // Ajuste a URL se necessário
+        const response = await fetch(`${apiUrl}/municipios`); // Ajuste a URL se necessário
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -46,25 +51,21 @@ const Municipios = () => {
 
   return (
     <div>
-      <h1>Selecione os Municípios</h1>
+      <CCard className='CardTextPrincipal'>
+        <h2 className='TextPrincipal'>Configuração</h2>
+      </CCard>
       <ul>
         {municipios.map((municipio) => (
-          <li key={municipio.id}>
+          <li className='text' key={municipio.id}>
             <label>
               <input
+                
                 type="checkbox"
                 checked={selectedMunicipios.includes(municipio.id)}
                 onChange={() => handleSelect(municipio.id)}
               />
               {municipio.nome} (ID: {municipio.id})
               <br />
-              <a href={municipio.urlPrefeitura} target="_blank" rel="noopener noreferrer">
-                Site da Prefeitura
-              </a>
-              {' | '}
-              <a href={municipio.urlCamara} target="_blank" rel="noopener noreferrer">
-                Site da Câmara
-              </a>
             </label>
           </li>
         ))}

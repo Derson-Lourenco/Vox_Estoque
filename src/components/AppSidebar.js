@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { CBadge, CNavItem, CNavGroup, CCollapse, CButton } from '@coreui/react';
+import { CBadge, CNavItem, CNavGroup, CCollapse, CButton, CFooter } from '@coreui/react';
 import navigation from '../_nav';
 import './Sidebar.css'; 
 import 'boxicons/css/boxicons.min.css';
@@ -44,7 +44,7 @@ const SidebarMenu = ({ isSidebarClosed, toggleSidebar }) => {
     <>
       {/* Sidebar para Desktop */}
       {!isMobile && (
-        <nav className={`sidebar ${isSidebarClosed ? 'close' : ''}`}>
+        <nav className={`sidebar ${isSidebarClosed ? 'close' : ''}`} style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
           <header>
             <i className='bx bx-chevron-right toggle' onClick={toggleSidebar}></i>
             <div className='LogoVox'>
@@ -59,16 +59,15 @@ const SidebarMenu = ({ isSidebarClosed, toggleSidebar }) => {
             </div>
           </header>
 
-          <div className="">
+          <div className="flex-grow-1">
             <ul className="">
               {navigation.map((item, index) => {
                 if (item.component === CNavItem) {
                   return (
                     <li className="textMenu" key={index}>
                       <CButton className="w-100 text-start d-flex align-items-center buttonMenu">
-                        {/* Ícone dentro de um span, NavLink ao redor do botão */}
                         <NavLink to={item.to} className="d-flex align-items-center">
-                          <span className="me-2"> {/* me-2 adiciona margem entre o ícone e o texto */}
+                          <span className="me-2">
                             {item.icon}
                           </span> 
                           <span className="text nav-text">
@@ -77,7 +76,6 @@ const SidebarMenu = ({ isSidebarClosed, toggleSidebar }) => {
                         </NavLink>
                       </CButton>
                     </li>
-
                   );
                 }
 
@@ -88,8 +86,7 @@ const SidebarMenu = ({ isSidebarClosed, toggleSidebar }) => {
                         onClick={() => toggleGroup(item.name)}
                         className="w-100 text-start d-flex align-items-center buttonMenu"
                       >
-                        {/* Ícone ao lado do nome */}
-                        <span className="me-2"> {/* Margem à direita do ícone */}
+                        <span className="me-2">
                           {item.icon}
                         </span>
                         <span className="text nav-text">    
@@ -97,13 +94,12 @@ const SidebarMenu = ({ isSidebarClosed, toggleSidebar }) => {
                         </span>
                       </CButton>
 
-                      {/* Submenu com collapse */}
                       <CCollapse visible={openGroups[item.name]}>
                         <ul className="submenu">
                           {item.items.map((subItem, subIndex) => (
                             <li className="o" key={subIndex}>
                               <NavLink to={subItem.to} className="d-flex align-items-center">
-                                <span className="me-2"> {/* Margem à direita do ícone */}
+                                <span className="me-2">
                                   {subItem.icon}
                                 </span>
                                 <span className="o">{subItem.name}</span>
@@ -113,29 +109,32 @@ const SidebarMenu = ({ isSidebarClosed, toggleSidebar }) => {
                         </ul>
                       </CCollapse>
                     </li>
-
                   );
                 }
-
+ 
                 return null;
               })}
             </ul>
           </div>
-          <button onClick={handleLogout}>Sair</button>
+          
+          <div className="sidebar-footer">
+            <CButton onClick={handleLogout} className="w-100 text-start d-flex align-items-center buttonMenu">
+              <span className="">
+                <i className='bx bx-log-out iconMenuSair'></i> {/* Ícone de logout */}
+              </span>
+              <span className="text nav-text">Sair</span>
+            </CButton>
+          </div>
         </nav>
       )}
 
       {/* Sidebar Móvel */}
       {isMobile && (
         <>
-          {/* <header>
-            <i className='bx bx-menu toggle' onClick={handleSidebarToggle}></i>
-          </header> */}
           <i className='bx bx-menu toggle' onClick={handleSidebarToggle}></i>
           <div className={`mobile-sidebar ${isSidebarOpen ? 'open' : ''}`}>
             <div className="sidebar-header">
               <img src={LogoImage} alt="Logo Vox" style={{ width: '50px', height: '50px' }} />
-
               <h1 className="logo-title">
                 <span>Vox </span>
                 <span>Tecnologia</span>  
@@ -148,9 +147,8 @@ const SidebarMenu = ({ isSidebarClosed, toggleSidebar }) => {
                   return (
                     <li className="textMenu" key={index}>
                       <CButton className="w-100 text-start d-flex align-items-center buttonMenu">
-                        {/* Ícone dentro de um span, NavLink ao redor do botão */}
                         <NavLink to={item.to} className="d-flex align-items-center">
-                          <span className="me-2"> {/* me-2 adiciona margem entre o ícone e o texto */}
+                          <span className="me-2">
                             {item.icon}
                           </span> 
                           <span className="text nav-text">
@@ -192,6 +190,14 @@ const SidebarMenu = ({ isSidebarClosed, toggleSidebar }) => {
                 return null;
               })}
             </ul>
+            <div className="sidebar-footer">
+              <CButton onClick={handleLogout} className="w-100 text-start d-flex align-items-center buttonMenu">
+                <span className="">
+                  <i className='bx bx-log-out iconMenu'></i> {/* Ícone de logout */}
+                </span>
+                <span className="text nav-text">Sair</span>
+              </CButton>
+            </div>
           </div>
         </>
       )}

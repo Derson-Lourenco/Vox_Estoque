@@ -65,8 +65,8 @@ const LicitacoesPage = () => {
         <ul>
           {licitacoes.map((licitacao, index) => (
             <div key={index}>
-              <CCard>
-                <CCardBody>
+              <CCard className="CardInput">
+                <CCardBody >
                   <CRow className="g-2 mb-3">
                     {/* Exibição para dispositivos móveis */}
                     <CCol xs={12} className="d-md-none">
@@ -81,26 +81,26 @@ const LicitacoesPage = () => {
 
                     {/* Exibição para telas maiores */}
                     <CCol sm={6} md={3} className="d-none d-md-block">
-                      <CFormLabel>ÓRGÃO</CFormLabel>
-                      <div>{licitacao.unidadeOrcamentaria}</div>
+                      <CFormLabel className="textoPrinc">ÓRGÃO</CFormLabel>
+                      <div className="textoResunt">{licitacao.unidadeOrcamentaria}</div>
                     </CCol>
                     <CCol sm={6} md={3} className="d-none d-md-block">
-                      <CFormLabel>MODALIDADE</CFormLabel>
-                      <div>{licitacao.modalidade}</div>
+                      <CFormLabel className="textoPrinc">MODALIDADE</CFormLabel>
+                      <div className="textoResunt">{licitacao.modalidade}</div>
                     </CCol>
                     <CCol sm={6} md={3} className="d-none d-md-block">
-                      <CFormLabel>VALOR PREVISTO</CFormLabel>
-                      <div>R$ {licitacao.previsto.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</div>
+                      <CFormLabel className="textoPrinc">VALOR PREVISTO</CFormLabel>
+                      <div className="textoResunt">R$ {licitacao.previsto.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</div>
                     </CCol>
                     <CCol sm={6} md={3} className="d-none d-md-block">
-                      <CFormLabel>DATA</CFormLabel>
-                      <div>{licitacao.data}</div>
+                      <CFormLabel className="textoPrinc">DATA</CFormLabel>
+                      <div className="textoResunt">{licitacao.data}</div>
                     </CCol>
                   </CRow>
                   <CRow className="g-2 mb-3">
                     <CCol sm={10} className="d-none d-md-block">
-                      <CFormLabel>OBJETO</CFormLabel>
-                      <div>{licitacao.objeto}</div>
+                      <CFormLabel className="textoPrinc">OBJETO</CFormLabel>
+                      <div className="textoResunt">{licitacao.objeto}</div>
                     </CCol>
                     <CCol sm={2} className="d-flex align-items-center">
                       <a href={licitacao.mural} target="_blank" rel="noopener noreferrer" className="d-flex justify-content-center">

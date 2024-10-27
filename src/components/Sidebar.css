@@ -161,7 +161,7 @@ body.dark {
   text-decoration: none !important;
 }
 
-.buttonMenu:hover, .o:hover{
+.buttonMenu:hover, .o:hover, .f:hover{
   border-radius: 6px;
   background-color: var(--primary-color);
   cursor: pointer;
@@ -178,6 +178,15 @@ body.dark {
   text-decoration: none !important; 
 }
 
+.iconMenuSair{
+  display: flex !important;
+  font-size: 25px !important;
+  /* color: var(--text-color); */
+  transition: var(--tran-03) !important;
+  min-width: 50px !important;
+  text-decoration: none;
+  margin-left: -8px;
+}
 
 .iconMenu {
   display: flex !important;
@@ -221,6 +230,17 @@ body.dark {
   list-style: none;
   text-align:left ;
 }
+
+
+
+
+
+
+
+
+
+
+
 /* ===== Menu Section ===== */
 /* .sidebar .menu-bar {
   height: calc(100% - 55px);

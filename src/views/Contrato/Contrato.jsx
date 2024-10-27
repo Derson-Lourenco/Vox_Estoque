@@ -147,7 +147,7 @@ const Contrato = () => {
           const situacao = verificarSituacao(contrato.dataInicio, contrato.dataFinalizacao);
           return (
             <div key={contrato.id}>
-              <CCard>
+              <CCard className="CardPrincipal">
                 <CCardBody>
                   <CRow className="g-2 mb-3">
                     <CCol xs={12} className="d-md-none">
@@ -160,36 +160,39 @@ const Contrato = () => {
                       </div>
                     </CCol>
 
-                    <CCol xs={12} sm={6} md={3} className="d-none d-md-block">
-                      <CFormLabel>ÓRGÃO</CFormLabel>
-                      <div>{contrato.orgao}</div>
+                    <CCol xs={12} sm={2} md={3} className="d-none d-md-block">
+                      <CFormLabel className="textoPrinc" >ÓRGÃO</CFormLabel>
+                      <div className="textoResunt">{contrato.orgao}</div>
+                    </CCol>
+                    <CCol sm={6} md={3} className="d-none d-md-block">
+                      <CFormLabel className="textoPrinc" >MODALIDADE</CFormLabel>
+                      <div className="textoResunt">{contrato.modalidade}</div>
                     </CCol>
                     <CCol sm={6} md={2} className="d-none d-md-block">
-                      <CFormLabel>MODALIDADE</CFormLabel>
-                      <div>{contrato.modalidade}</div>
+                      <CFormLabel className="textoPrinc" >VALOR</CFormLabel>
+                      <div className="textoResunt">R$ {contrato.valorContratado.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</div>
                     </CCol>
                     <CCol sm={6} md={2} className="d-none d-md-block">
-                      <CFormLabel>VALOR</CFormLabel>
-                      <div>R$ {contrato.valorContratado.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</div>
-                    </CCol>
-                    <CCol sm={6} md={2} className="d-none d-md-block">
-                      <CFormLabel>SITUAÇÃO</CFormLabel>
-                      <div><span style={{ color: situacao.cor }}>{situacao.texto}</span></div>
+                      <CFormLabel className="textoPrinc" >SITUAÇÃO</CFormLabel>
+                      <div ><span style={{ color: situacao.cor }}>{situacao.texto}</span></div>
                     </CCol>
 
-                    <CCol xs={12} className="d-md-none">
-                      <Button variant="info" onClick={() => abrirModalDetalhes(contrato)}>
-                        <FontAwesomeIcon icon={faEye} /> Detalhes
+                    <CCol xs={12} md={1} className="d-flex justify-content-start">
+                      <Button className="ButtonIcon" onClick={() => abrirModalDetalhes(contrato)}>
+                        <FontAwesomeIcon className="IconDetalhes" icon={faEye} />
                       </Button>
                     </CCol>
 
-                    <CCol xs={12}>
-                      <Link to={`/historico/${contrato.id}`}>
-                        <Button variant="primary">
-                          <FontAwesomeIcon icon={faFileSignature} /> Histórico
-                        </Button>
-                      </Link>
+                    <CCol xs={12} md={1} className="d-flex justify-content-start">
+                      <Button className="ButtonIcon">
+                        <Link to={`/detalheContrato/${contrato.id}`}>
+                          <FontAwesomeIcon className="IconDetalhes" icon={faFileSignature} />
+                        </Link>
+                      </Button>
                     </CCol>
+
+
+
                   </CRow>
                 </CCardBody>
               </CCard>

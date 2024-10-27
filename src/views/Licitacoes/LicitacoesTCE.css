@@ -25,3 +25,16 @@
   margin-bottom: 8px !important;
   background-color: #FFFFFF !important;
 }
+.textoPrinc{
+  color: var(--primary-color);
+  font-size: 15px;
+}
+.textoResunt{
+  color: var(--sidebar-color);
+  font-size: 15px;
+}
+.CardInput{
+  background-color: #FFFFFF;
+  /* border: 1px solid var(--sidebar-color); */
+  color: var(--sidebar-color);
+}

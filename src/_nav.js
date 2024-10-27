@@ -40,25 +40,30 @@ const _nav = [
     items: [
       {
         component: CNavItem,
-        name: 'Documentação',
-        to: '/buttons/buttons',
+        name: 'Adicionar Documento',
+        to: '/NovoDocumento',
       },
       {
         component: CNavItem,
-        name: 'Documentação',
-        to: '/buttons/buttons',
+        name: 'Ver Documentos',
+        to: '/Documento',
       },
     ],
   },
   {
     component: CNavGroup,
     name: 'Licitações',
-    icon: <i className="bx bx-folder iconMenu"></i>,
+    icon: <i className="bx bx-world iconMenu"></i>,
     items: [
       {
         component: CNavItem,
         name: 'Pesquisar Licitações',
         to: '/LicitacoesTCE',
+      },
+      {
+        component: CNavItem,
+        name: 'Licitações Salvas',
+        to: '/LicitacoesSalvas',
       },
       {
         component: CNavItem,
