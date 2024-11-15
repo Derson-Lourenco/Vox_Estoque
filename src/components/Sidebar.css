@@ -191,7 +191,7 @@ body.dark {
 .iconMenuSair{
   display: flex !important;
   font-size: 25px !important;
-  /* color: var(--text-color); */
+  color: #ffff !important;
   transition: var(--tran-03) !important;
   min-width: 50px !important;
   text-decoration: none;
@@ -201,7 +201,7 @@ body.dark {
 .iconMenu {
   display: flex !important;
   font-size: 25px !important;
-  /* color: var(--text-color); */
+  color: #ffff !important;
   transition: var(--tran-03) !important;
   min-width: 50px !important;
   justify-content: center !important;
@@ -215,7 +215,7 @@ body.dark {
 .i{
 
   font-size: 25px !important;
-  color: var(--text-color);
+  color: var(--text-color) !important;
   transition: var(--tran-03) !important;
   min-width: 50px !important;
   justify-content: center !important;
