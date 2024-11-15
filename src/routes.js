@@ -8,7 +8,6 @@ const detalheContrato = React.lazy(() => import('./views/Contrato/detalheContrat
 const LicitacoesTCE = React.lazy(() => import('./views/Licitacoes/LicitacoesTCE'));
 const LicitacoesSalvas = React.lazy(() => import('./views/Licitacoes/LicitacoesSalvas'));
 const Municipios = React.lazy(() => import('./components/Municipios'));
-const NovoDocumento = React.lazy(() => import('./views/Documentos/NovoDocumento'));
 const Documento = React.lazy(() => import('./views/Documentos/Documentos'));
 
 const routes = [
@@ -19,7 +18,6 @@ const routes = [
   { path: '/LicitacoesTCE', name: 'Licitações TCE-PI', element: LicitacoesTCE },
   { path: '/LicitacoesSalvas', name: 'Licitacoes Salvas', element: LicitacoesSalvas },
   { path: '/Municipios', name: 'Municípios', element: Municipios },
-  { path: '/NovoDocumento', name: 'Novo Documento', element: NovoDocumento },
   { path: '/Documento', name: 'Documento', element: Documento },
 ];
 

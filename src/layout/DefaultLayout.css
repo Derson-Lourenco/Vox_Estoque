@@ -1,5 +1,6 @@
 /* DefaultLayout.css */
 .app-container {
+  width: 99% !important;
   display: flex;
 }
 
@@ -9,7 +10,9 @@
 }
 
 .content-closed {
-  margin-left: -100px; /* Largura do sidebar fechado */
+  transition: margin-left 0.5s;
+  margin-left: -140px; /* Largura do sidebar fechado */
+  width: 109% !important;
 }
 
 .content-open {

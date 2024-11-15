@@ -11,6 +11,7 @@ import {
   CCardFooter,
   CCardHeader,
   CCol,
+  CCardTitle,
   CProgress,
   CRow,
   CTable,
@@ -43,7 +44,7 @@ import {
   cilUser,
   cilUserFemale,
 } from '@coreui/icons'
-
+import './dashboard.css';
 import avatar1 from 'src/assets/images/avatars/1.jpg'
 import avatar2 from 'src/assets/images/avatars/2.jpg'
 import avatar3 from 'src/assets/images/avatars/3.jpg'
@@ -52,6 +53,7 @@ import avatar5 from 'src/assets/images/avatars/5.jpg'
 import avatar6 from 'src/assets/images/avatars/6.jpg'
 
 import WidgetsBrand from '../widgets/WidgetsBrand'
+import WidgetsLicitacao from '../widgets/WidgetsLicitacao'
 import WidgetsDropdown from '../widgets/WidgetsDropdown'
 import MainChart from './MainChart'
 
@@ -179,16 +181,36 @@ const Dashboard = () => {
 
   return (
     <>
-      {/* <img 
-        src={desenvolvimento} 
-        alt="Desenvolvimento" 
-        style={{ 
-          maxWidth: '100%', 
-          height: 'auto', 
-          display: 'block', 
-          margin: '0 auto' 
-        }} 
-      /> */}
+      <CCard className='CardTextPrincipal'>
+        <h2 className='TextPrincipal'>Bem-Vindo ao Painel</h2>
+      </CCard>
+      <CCard className='CardTextPrincipal'>
+        <CCard className='CardTextPrincipal'>
+            <CCardTitle className='TextCard'>Contratos</CCardTitle>
+          <CCardBody>
+            <WidgetsBrand className="mb-4" withCharts />
+          </CCardBody>
+        </CCard>
+        <CCard className='CardTextPrincipal'>
+            <CCardTitle className='TextCard'>Licitações</CCardTitle>
+          <CCardBody>
+            <WidgetsLicitacao className="mb-4" withCharts />
+          </CCardBody>
+        </CCard>
+        <CCard className='CardTextPrincipal'>
+            <CCardTitle className='TextCard'>Documentos</CCardTitle>
+          <CCardBody>
+            <h1>Documentos</h1>
+          </CCardBody>
+        </CCard>
+        <CCard className='CardTextPrincipal'>
+            <CCardTitle className='TextCard'>Graficos</CCardTitle>
+          <CCardBody>
+            <h1>Graficos</h1>
+          </CCardBody>
+        </CCard>
+      </CCard>
+      
       {/* <WidgetsDropdown className="mb-4" /> */}
       {/* <CCard className="mb-4">
         <CCardBody>
@@ -244,7 +266,7 @@ const Dashboard = () => {
           </CRow>
         </CCardFooter>
       </CCard> */}
-      <WidgetsBrand className="mb-4" withCharts />
+      
       {/* <CRow>
         <CCol xs>
           <CCard className="mb-4">

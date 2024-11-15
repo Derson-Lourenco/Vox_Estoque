@@ -40,12 +40,7 @@ const _nav = [
     items: [
       {
         component: CNavItem,
-        name: 'Adicionar Documento',
-        to: '/NovoDocumento',
-      },
-      {
-        component: CNavItem,
-        name: 'Ver Documentos',
+        name: 'Documentos',
         to: '/Documento',
       },
     ],

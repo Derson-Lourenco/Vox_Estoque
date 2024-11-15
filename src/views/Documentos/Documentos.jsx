@@ -1,23 +1,60 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import './Documentos.css';
+import React from 'react';
+import '../../css/style.css';
 import {
-  CCard, CCardBody, CCardHeader, CRow, CCol,
-  CFormSelect, CFormLabel, CButton, CModal, CModalHeader, CModalBody, CModalFooter
+  CCol,
+  CFormInput,
+  CRow,
+  CCard,
+  CCardBody,
+  CCardHeader,
+  CFormLabel,
+  CFormTextarea,
+  CForm,
+  CButton,
+  CFormSelect,
 } from "@coreui/react";
-import TelaConstrucao from '../../img/pagina_em_desenvolvimento.png';
 
-const Documento = () => {
+import Button from 'react-bootstrap/Button';
+import FileDocumentos from "./FileDocumentos";
 
-
+const NovoDocumento = () => {
   return (
-    <div>
-      <CCard className='CardTextPrincipal'>
-        <h2 className='TextPrincipal'>Documentos</h2>
+    <>
+      <CCard className="CardTextPrincipal">
+        <h2 className="TextPrincipal">Documentos</h2>
       </CCard>
-      <img src={TelaConstrucao} alt="Logo Vox" style={{ width: '100%', height: '100%' }} />
-    </div>
+
+      <CCard className='CardTextPrincipal'>
+        <CCardHeader>
+          <div className="BuscaDocumentos">
+            <div className="BuscaItemDocumentos">
+              <FileDocumentos />
+            </div>
+
+            <div className="BuscaItemDocumentos">
+              <CFormSelect className='CardInputDocumentos'>
+                <option value="">Buscar Por Situação</option>
+              </CFormSelect>
+            </div>
+
+            <div className="BuscaItemDocumentos">
+              <CFormSelect className='CardInputDocumentos'>
+                <option value="">Buscar Por Situação</option>
+              </CFormSelect>
+            </div>
+
+            <div className="BuscaBotoesDocumentos">
+              <Button className="btn-limpar" variant="info">Limpar</Button>
+            </div>
+          </div>
+        </CCardHeader>
+      </CCard>
+
+      <CCard className="CardPrincipal">
+        {/* Adicione o conteúdo do cartão principal aqui, se necessário */}
+      </CCard>
+    </>
   );
 };
 
-export default Documento;
+export default NovoDocumento;

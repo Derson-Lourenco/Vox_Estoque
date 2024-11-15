@@ -12,7 +12,7 @@ import {
   CFormTextarea,
   CFormInput,
 } from "@coreui/react";
-import './novoContrato.css';
+import '../../css/style.css';
 import CIcon from "@coreui/icons-react";
 import { cilLink } from "@coreui/icons";
 
@@ -28,7 +28,7 @@ const File = () => {
 
   return (
     <>
-      <CButton className="teste" onClick={() => setVisible(!visible)}>
+      <CButton className="BotaoFile" onClick={() => setVisible(!visible)}>
         <CIcon icon={cilLink} />
         Anexar Arquivos
       </CButton>
@@ -45,7 +45,7 @@ const File = () => {
           <CRow className="mb-3">
             <CCol sm={4}>
               <CFormSelect
-                className='CardInput2'
+                className='CardInputAnexo'
                 label="Tipo"
                 options={[
                   "",
@@ -74,7 +74,7 @@ const File = () => {
           <CRow className="mb-3">
             <CCol>
               <CFormTextarea
-                className='CardInput2'
+                className='CardInputAnexo'
                 id="exampleFormControlTextarea1"
                 label="Descrição"
                 rows={3}
@@ -83,15 +83,15 @@ const File = () => {
           </CRow>
           <CRow className="mb-3">
             <CCol>
-              <CFormInput className='CardInput2' type="file" id="formFile" label="Arquivo" />
+              <CFormInput className='CardInputAnexo' type="file" id="formFile" label="Arquivo" />
             </CCol>
           </CRow>
         </CModalBody>
         <CModalFooter className="CardPrincipalAnexo">
-          <CButton color="secondary" onClick={() => setVisible(false)}>
+          <CButton className="btn-fechar" onClick={() => setVisible(false)}>
             Fechar
           </CButton>
-          <CButton color="primary">Salvar</CButton>
+          <CButton className="btn-salvar">Salvar</CButton>
         </CModalFooter>
       </CModal>
     </>

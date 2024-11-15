@@ -1,12 +1,488 @@
-:root{
-  --primaria: #032C6E;
-  --secudaria: #5E5E5E;
-  --terciaria: #ACACAC;
-  --cordefundo: hwb(248 93% 4%); 
-  --corlogo: #222E3A;
-  --carcapivara: #E8465D;
-  font-family: 'Roboto', sans-serif;
+/* Reset simples */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
+
+body {
+  background-color: #F1F2F6 !important;
+}
+
+:root {
+  /* ===== Colors ===== */
+  --body-color: #e4e9f7;
+  --sidebar-color: #222E3A;
+  --primary-color: #E8465D;
+  --primary-color-light: #f6f5ff;
+  --toggle-color: #ddd;
+  --text-color: #EEEDF5;
+
+  /* ====== Transition ====== */
+  --tran-03: all 0.3s ease;
+  --tran-04: all 0.4s ease;
+  --tran-05: all 0.5s ease;
+}
+
+/* ===== Card Principal ===== */
+.CardTextPrincipal{ 
+  margin-top: 8px !important;
+  margin-bottom: 8px !important;
+  background-color: #FFFFFF !important;
+}
+
+.TextPrincipal{
+  color: var(--primary-color);
+  padding: 3px;
+  font-size: 24px;
+  margin-left: 8px;
+  align-items: center;
+  font-weight: bold;
+}
+
+.CardPrincipal{
+  background-color: #FFFFFF;
+}
+
+.obrigatorio{
+  color: red;
+  font-weight: bold;
+}
+
+/* =========================== */
+
+/* ===== Botões ===== */
+
+.btn-excluir {
+  background-color: #dc3545; /* Vermelho */
+  color: white;
+  border: none;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-excluir:hover {
+  background-color: #b52a37; /* Vermelho mais escuro */
+}
+
+.btn-salvar {
+  background-color: #28a745; /* Verde */
+  color: white;
+  border: none;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-salvar:hover {
+  background-color: #218838; /* Verde mais escuro */
+}
+
+.btn-limpar {
+  background-color: #5bc0de;  /* Azul claro */
+  color: white;  /* Cor do texto */
+  border: none;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-limpar:hover {
+  background-color: #31b0d5; /* Amarelo mais escuro */
+}
+
+.btn-fechar {
+  background-color: #d9534f;  /* Vermelho claro */
+  color: white;  /* Cor do texto */
+  border: none;  /* Sem borda */
+}
+
+.btn-fechar:hover {
+  
+ 
+background-color: #c9302c;  /* Vermelho mais escuro ao passar o mouse */
+}
+
+.btn-excluir,
+.btn-salvar,
+.btn-limpar,
+.btn-fechar {
+  margin-right: 10px; /* Espaçamento à direita */
+}
+
+/* =========================== */
+
+/* ===== File ===== */
+.BotaoFile{
+  color: #FFFFFF;
+  background-color: var(--primary-color);
+  font-weight: bold;
+}
+
+.BotaoFile:hover{
+  background-color: #FFFFFF;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  font-weight: bold;
+}
+
+.CardPrincipalAnexo{
+  background-color: #FFFFFF;
+  color: #222E3A;
+}
+
+.CardInputAnexo{
+  background-color: #FFFFFF;
+  border: 1px solid var(--sidebar-color);
+  color: var(--sidebar-color);
+}
+/* =========================== */
+
+/* ===== Novo Contrato ===== */
+.CardInputNovoContrato{
+  background-color: #FFFFFF !important;
+  border: 1px solid var(--sidebar-color) !important;
+  color: var(--sidebar-color) !important;
+}
+.CardInputNovoContrato:hover{
+  border: 1px solid var(--sidebar-color) !important;
+}
+.CardInputNovoContrato2{
+  background-color: #FFFFFF;
+  color: var(--sidebar-color);
+}
+.textNovoContrato{
+  color: var(--sidebar-color);
+  font-size: 16px;
+  font-weight: bold;
+}
+.CardInputNovoContrato::-webkit-calendar-picker-indicator {
+  filter: invert(18%) sepia(26%) saturate(605%) hue-rotate(162deg) brightness(95%) contrast(91%);
+  cursor: pointer;
+}
+/* =========================== */
+
+/* ===== Contratos ===== */
+.busca-contratos {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.busca-item {
+  flex: 1 1 25%;
+}
+
+.busca-botoes {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ButtonIcon{
+  background-color: #FFFFFF !important;
+  border: none;
+  color: #222E3A !important;
+  text-decoration: none !important;
+}
+.IconDetalhes{
+  font-size: 18px;
+  margin: 0 auto;
+  text-decoration: none !important;
+  color: var(--sidebar-color);
+  justify-items: center;
+
+}
+.textoResunt{
+  color: var(--sidebar-color);
+  font-size: 16px;
+}
+.CardInputContratos{
+  background-color: #FFFFFF !important;
+  border: 1px solid var(--sidebar-color) !important;
+  color: var(--sidebar-color) !important;
+}
+.CardInputContratos:hover{
+  background-color: #FFFFFF;
+  border: 1px solid var(--sidebar-color);
+  color: var(--sidebar-color);
+}
+.textContratosCard2{
+  color: var(--primary-color);
+  font-size: 22px;
+  font-weight: bold;
+}
+.textContratos{
+  color: var(--primary-color);
+  font-size: 16px;
+  font-weight: bold;
+}
+@media (max-width: 768px) {
+  .busca-item {
+    flex: 1 1 100%;
+  }
+}
+
+/* =========================== */
+
+/* ===== Detalhes do Contrato ===== */
+.textDetalhesContratos2{
+  color: var(--primary-color);
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.textDetalhesContratosResult{
+  color: var(--sidebar-color);
+  font-size: 16px;
+}
+
+.BorderDetalhesContratos{
+  border-bottom: 2px solid var(--toggle-color);
+}
+
+.LinkDetalhesContratos{
+  cursor: pointer;
+}
+
+.CardInputDetalhesContratos{
+  background-color: #FFFFFF;
+  border: 1px solid var(--sidebar-color);
+  color: var(--sidebar-color);
+}
+
+.textDetalhesContratos{
+  color: var(--sidebar-color);
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.active-tab {
+  color: var(--sidebar-color) !important;
+  font-weight: bold;
+  text-decoration: underline;
+}
+/* =========================== */
+
+/* ===== Documentos ===== */
+.CardInputDocumentos{
+  background-color: #FFFFFF !important;
+  border: 1px solid var(--sidebar-color) !important;
+  color: var(--sidebar-color) !important;
+}
+
+.text{
+  color: var(--sidebar-color);
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.BuscaDocumentos{
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.BuscaItemDocumentos {
+  flex: 1 1 25%;
+}
+
+.BuscaBotoesDocumentos {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+/* =========================== */
+
+/* ===== Municipios ===== */
+/* Estilo do botão de remoção */
+.municipio-card {
+  padding: 8px;
+  position: relative; /* Permite que o botão X seja posicionado em relação ao cartão */
+  border: 1px solid var(--primary-color) !important; /* Borda do cartão */
+  border-radius: 5px; /* Cantos arredondados */
+  margin-left: 15px;
+  background-color: #f8f9fa; /* Cor de fundo do cartão */
+  width: 315px; /* Ajuste a largura do cartão conforme necessário */
+  height: 40px;
+  margin-bottom: 15px;
+  display: flex; /* Usa flexbox para layout */
+  align-items: center; /* Centraliza verticalmente */
+  justify-content: space-between; /* Espaça o conteúdo */
+}
+
+.municipio-card2 {
+  padding: 5px;
+  position: relative; /* Permite que o botão X seja posicionado em relação ao cartão */
+  border: 1px solid var(--primary-color) !important; /* Borda do cartão */
+  border-radius: 5px; /* Cantos arredondados */
+  margin-left: 15px;
+  background-color: #f8f9fa; /* Cor de fundo do cartão */
+  width: 315px; /* Ajuste a largura do cartão conforme necessário */
+  height: 40px;
+  margin-bottom: 15px;
+  display: flex; /* Usa flexbox para layout */
+  align-items: center; /* Centraliza verticalmente */
+  margin-left: 15px;
+}
+
+.InputMunicipio{
+  margin-right: 5px;
+  margin-left: 5px;
+}
+
+.remove-btn {
+  background-color: transparent; /* Fundo transparente para o botão */
+  border: none; /* Sem borda */
+  color: #dc3545; /* Cor do texto do botão */
+  font-size: 12px; /* Tamanho da fonte do botão */
+  cursor: pointer; /* Muda o cursor ao passar o mouse */
+}
+
+/* Estilo do botão de remoção ao passar o mouse */
+.remove-btn:hover {
+  color: #FFFFFF; /* Cor do texto ao passar o mouse */
+  border: 1px solid #dc3545;
+}
+
+.CardInputMunicipios{
+  background-color: #FFFFFF;
+  border: 1px solid var(--sidebar-color);
+  color: var(--sidebar-color);
+  
+}
+
+.TextMunicipios{
+  color: var(--primary-color);
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 15px;
+}
+
+.municipios-container {
+  max-height: 400px; 
+  overflow-y: auto;  
+} 
+
+.nav-link {
+  cursor: pointer;
+  background-color: white;
+  color: var(--primary-color);
+  transition: background-color 0.3s, color 0.3s;
+}
+.nav-link:hover{
+  border: 1px solid var(--primary-color) !important;
+  color: var(--primary-color) !important;
+}
+.nav-link.active {
+  background-color: var(--primary-color) !important;
+  color: white;
+  border: 1px solid var(--primary-color) !important;
+}
+
+.nav-link.active:hover {
+  background-color: var(--primary-color) !important;
+  color: white !important;
+}
+.txtBorder{
+  border: 1px solid #FFFFFF !important;
+}
+/* =========================== */
+
+/* ===== Licitações ===== */
+.textoPrinc{
+  color: var(--primary-color);
+  font-size: 15px;
+}
+.textoResunt{
+  color: var(--sidebar-color);
+  font-size: 15px;
+}
+.CardInput{
+  background-color: #FFFFFF;
+  /* border: 1px solid var(--sidebar-color); */
+  color: var(--sidebar-color);
+}
+
+.icon-save {
+  margin: 0;
+  color: #28a745; /* Cor verde para indicar sucesso */
+  font-size: 22px; /* Tamanho do ícone */
+  transition: color 0.3s, transform 0.3s; /* Transição suave para hover */
+}
+
+.icon-save:hover {
+  color: #218838; /* Cor mais escura de verde */
+  transform: scale(1.1); /* Aumenta o ícone quando o mouse passa por cima */
+}
+.icon-ver {
+  margin: 0;
+  color: var(--primary-color); /* Cor verde para indicar sucesso */
+  font-size: 22px; /* Tamanho do ícone */
+  transition: color 0.3s, transform 0.3s; /* Transição suave para hover */
+}
+
+.icon-ver:hover {
+  color: #C03045; /* Cor mais escura de verde */
+  transform: scale(1.1); /* Aumenta o ícone quando o mouse passa por cima */
+}
+
+.icon-edit {
+  color: #4A90E2; /* Azul personalizado */
+  font-size: 1.2rem; /* Ajusta o tamanho do ícone */
+  transition: color 0.3s ease;
+}
+
+.icon-edit:hover {
+  color: #256ba0; /* Tom mais escuro no hover */
+}
+
+.icon-excluir {
+  color: #d9534f; /* Vermelho padrão */
+  font-size: 1.2rem; /* Ajusta o tamanho do ícone */
+  transition: color 0.3s ease;
+}
+  
+.icon-excluir:hover {
+  color: #c9302c; /* Vermelho mais escuro no hover */
+}
+/* ===== Licitacoes Salvas ===== */
+.TableHeaderCell{
+  background-color: #FFFFFF !important;
+  color: var(--primary-color) !important;
+  border-bottom: 1px solid var(--toggle-color) !important;
+}
+.TableDataCell{
+  background-color: #FFFFFF !important;
+  color: var(--sidebar-color) !important;
+  border: none !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+/* =========================== */
+
+
+  
+/* =========================== */
+
+
+
+
+
+
+
+
+
+
+/*FooterDev*/
 .FooterDev {
   position: relative; /* o absolute */
   background-color: var(--corlogo);

@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { CSpinner, useColorModes } from '@coreui/react';
 import './scss/style.scss';
-import { AuthProvider } from './components/AuthContext';
+import { AuthProvider, useAuth } from './components/AuthContext';
 import PrivateRoute from './components/PrivateRoute';
 
 const DefaultLayout = React.lazy(() => import('./layout/DefaultLayout'));
@@ -13,6 +13,28 @@ const Login = React.lazy(() => import('./views/pages/login/Login'));
 const Register = React.lazy(() => import('./views/pages/register/Register'));
 const Page404 = React.lazy(() => import('./views/pages/page404/Page404'));
 const Page500 = React.lazy(() => import('./views/pages/page500/Page500'));
+
+const AppContent = () => {
+  const { isLoading } = useAuth();
+
+  if (isLoading) {
+    return <div className="pt-3 text-center"><CSpinner color="primary" variant="grow" /></div>;
+  }
+
+  return (
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/404" element={<Page404 />} />
+      <Route path="/500" element={<Page500 />} />
+      <Route 
+        path="/*" 
+        element={<PrivateRoute element={<DefaultLayout />} />} 
+      />
+      <Route path="*" element={<Navigate to="/login" />} />
+    </Routes>
+  );
+};
 
 const App = () => {
   const { isColorModeSet, setColorMode } = useColorModes('coreui-free-react-admin-template-theme');
@@ -36,17 +58,7 @@ const App = () => {
     <AuthProvider>
       <BrowserRouter>
         <Suspense fallback={<div className="pt-3 text-center"><CSpinner color="primary" variant="grow" /></div>}>
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/404" element={<Page404 />} />
-            <Route path="/500" element={<Page500 />} />
-            <Route 
-              path="/*" 
-              element={<PrivateRoute element={<DefaultLayout />} />} 
-            />
-            <Route path="*" element={<Navigate to="/login" />} />
-          </Routes>
+          <AppContent />
         </Suspense>
       </BrowserRouter>
     </AuthProvider>

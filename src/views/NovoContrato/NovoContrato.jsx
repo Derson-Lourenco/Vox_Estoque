@@ -15,7 +15,8 @@ import {
   CButton,
   CFormCheck,
 } from "@coreui/react";
-import './novoContrato.css';
+import '../../css/style.css';
+
 const apiUrl = import.meta.env.VITE_API_URL; // Certifique-se de que esta variável está correta e corresponde à URL do backend
 
 import File from "./File";
@@ -101,7 +102,7 @@ const NovoContrato = () => {
   return (
     <CForm
       id="contractForm"
-      className="row g-3 needs-validation"
+      className="needs-validation"
       noValidate
       validated={validated}
       onSubmit={handleSubmit}
@@ -112,20 +113,20 @@ const NovoContrato = () => {
 
       <CCard className="CardPrincipal">
         <CCardHeader> 
-          <span className="text">
+          <span className="textNovoContrato">
             Campos obrigatórios
           </span>
-          <span className="text">(</span> <span className="p">*</span> <span className="text">)</span> 
+          <span className="textNovoContrato">(</span><span className="obrigatorio">*</span><span className="textNovoContrato">)</span> 
           
         </CCardHeader>
           
         <CCardBody>
           <CRow className="g-2 mb-3">
             <CCol sm={4}>
-              <CFormLabel htmlFor="processoAno" className='text required'>Nº do processo adm/Ano<span className="p">*</span></CFormLabel>
+              <CFormLabel htmlFor="processoAno" className='textNovoContrato required'>Nº do processo adm/Ano<span className="obrigatorio">*</span></CFormLabel>
               <CInputGroup>
                 <CFormInput
-                  className='CardInput2'
+                  className='CardInputNovoContrato'
                   id="processoAno"
                   type="text"
                   required
@@ -133,9 +134,9 @@ const NovoContrato = () => {
                   onChange={(e) => setNumeroProcesso(e.target.value)}
                   tooltipFeedback
                 />
-                <CInputGroupText className='CardInput2'>/</CInputGroupText>
+                <CInputGroupText className='CardInputNovoContrato'>/</CInputGroupText>
                 <CFormInput
-                  className='CardInput2'
+                  className='CardInputNovoContrato'
                   type="number"
                   defaultValue={now.getFullYear()}
                   readOnly
@@ -144,10 +145,10 @@ const NovoContrato = () => {
             </CCol>
 
             <CCol sm={4}>
-              <CFormLabel htmlFor="numeroContrato" className='text required'>Nº do contrato/Ano<span className="p">*</span></CFormLabel>
+              <CFormLabel htmlFor="numeroContrato" className='textNovoContrato required'>Nº do contrato/Ano<span className="obrigatorio">*</span></CFormLabel>
               <CInputGroup>
                 <CFormInput
-                  className='CardInput'
+                  className='CardInputNovoContrato'
                   id="numeroContrato"
                   type="text"
                   required
@@ -155,9 +156,9 @@ const NovoContrato = () => {
                   onChange={(e) => setNumeroContrato(e.target.value)}
                   tooltipFeedback
                 />
-                <CInputGroupText className='CardInput2'>/</CInputGroupText>
+                <CInputGroupText className='CardInputNovoContrato'>/</CInputGroupText>
                 <CFormInput
-                  className='CardInput2'
+                  className='CardInputNovoContrato'
                   type="number"
                   defaultValue={now.getFullYear()}
                   readOnly
@@ -166,11 +167,11 @@ const NovoContrato = () => {
             </CCol>
 
             <CCol sm={2}>
-              <CFormLabel htmlFor="modalidade" className="text required">
-                Modalidade<span className="p">*</span>
+              <CFormLabel htmlFor="modalidade" className="textNovoContrato required">
+                Modalidade<span className="obrigatorio">*</span>
               </CFormLabel>
               <CFormSelect
-                className='CardInput2'
+                className='CardInputNovoContrato'
                 id="modalidade"
                 value={modalidade}
                 onChange={(e) => setModalidade(e.target.value)}
@@ -185,12 +186,12 @@ const NovoContrato = () => {
             </CCol>
 
             <CCol sm={2} xs={12} className="mb-3">
-              <CFormLabel htmlFor="registroPreco" className="text required">
-                Registro de Preço<span className="p">*</span>
+              <CFormLabel htmlFor="registroPreco" className="textNovoContrato required">
+                Registro de Preço<span className="obrigatorio">*</span>
               </CFormLabel>
               <div className="d-flex justify-content-start">
                 <CFormCheck
-                  className="CardInput3"
+                  className="CardInputNovoContrato2"
                   inline
                   checked={registro === 'Sim'}
                   onChange={() => setRegistro('Sim')}
@@ -198,7 +199,7 @@ const NovoContrato = () => {
                   label="Sim"
                 />
                 <CFormCheck
-                  className="CardInput3"
+                  className="CardInputNovoContrato2"
                   inline
                   checked={registro === 'Não'}
                   onChange={() => setRegistro('Não')}
@@ -212,11 +213,11 @@ const NovoContrato = () => {
 
           <CRow className="g-2 mb-3">
             <CCol sm={6}>
-              <CFormLabel htmlFor="orgao" className="text required">
-                Orgão<span className="p">*</span>
+              <CFormLabel htmlFor="orgao" className="textNovoContrato required">
+                Orgão<span className="obrigatorio">*</span>
               </CFormLabel>
               <CFormInput
-                className='CardInput'
+                className='CardInputNovoContrato'
                 id="orgao"
                 type="text"
                 required
@@ -226,11 +227,11 @@ const NovoContrato = () => {
               />
             </CCol>
             <CCol>
-              <CFormLabel className="text" htmlFor="cnpjContratante">
+              <CFormLabel className="textNovoContrato" htmlFor="cnpjContratante">
                 CNPJ do Contratante
               </CFormLabel>
               <CFormInput
-                className='CardInput'
+                className='CardInputNovoContrato'
                 id="cnpjContratante"
                 type="text"
                 value={cnpjContratante}
@@ -239,11 +240,11 @@ const NovoContrato = () => {
               />
             </CCol>
             <CCol>
-              <CFormLabel htmlFor="valorContratado" className="text required">
-                Valor do Contratado<span className="p">*</span>
+              <CFormLabel htmlFor="valorContratado" className="textNovoContrato required">
+                Valor do Contratado<span className="obrigatorio">*</span>
               </CFormLabel>
               <CFormInput
-                className='CardInput'
+                className='CardInputNovoContrato'
                 id="valorContratado"
                 type="text"
                 required
@@ -260,11 +261,11 @@ const NovoContrato = () => {
 
           <CRow className='g-2 mb-3'>
             <CCol sm={2}>
-              <CFormLabel htmlFor="dataAssinatura" className="text required">
-                Data da Assinatura<span className="p">*</span>
+              <CFormLabel htmlFor="dataAssinatura" className="textNovoContrato required">
+                Data da Assinatura<span className="obrigatorio">*</span>
               </CFormLabel>
               <CFormInput
-                className='CardInput2'
+                className='CardInputNovoContrato'
                 id="dataAssinatura"
                 type='date'
                 required
@@ -274,11 +275,11 @@ const NovoContrato = () => {
               />
             </CCol>
             <CCol sm={2}>
-              <CFormLabel htmlFor="dataInicio" className="text required">
-                Data de Início<span className="p">*</span>
+              <CFormLabel htmlFor="dataInicio" className="textNovoContrato required">
+                Data de Início<span className="obrigatorio">*</span>
               </CFormLabel>
               <CFormInput
-                className='CardInput2'
+                className='CardInputNovoContrato'
                 id="dataInicio"
                 type='date'
                 required
@@ -288,11 +289,11 @@ const NovoContrato = () => {
               />
             </CCol>
             <CCol sm={2}>
-              <CFormLabel htmlFor="dataFinalizacao" className="text required">
-                Data de Finalização<span className="p">*</span>
+              <CFormLabel htmlFor="dataFinalizacao" className="textNovoContrato required">
+                Data de Finalização<span className="obrigatorio">*</span>
               </CFormLabel>
               <CFormInput
-                className='CardInput2'
+                className='CardInputNovoContrato'
                 id="dataFinalizacao"
                 type='date'
                 required
@@ -302,11 +303,11 @@ const NovoContrato = () => {
               />
             </CCol>
             <CCol>
-              <CFormLabel htmlFor="secretarias" className="text required">
-                Secretarias<span className="p">*</span>
+              <CFormLabel htmlFor="secretarias" className="textNovoContrato required">
+                Secretarias<span className="obrigatorio">*</span>
               </CFormLabel>
               <CFormTextarea
-                className='CardInput'
+                className='CardInputNovoContrato'
                 id="secretarias"
                 rows={1}
                 required
@@ -318,11 +319,11 @@ const NovoContrato = () => {
           </CRow>
           <CRow>
             <CCol sm={8}>
-              <CFormLabel htmlFor="objetoContrato" className="text required">
-                Objeto do Contrato<span className="p">*</span>
+              <CFormLabel htmlFor="objetoContrato" className="textNovoContrato required">
+                Objeto do Contrato<span className="obrigatorio">*</span>
               </CFormLabel>
               <CFormTextarea
-                className="CardInput"
+                className="CardInputNovoContrato"
                 id="objetoContrato"
                 rows={3}
                 required
@@ -339,10 +340,10 @@ const NovoContrato = () => {
 
             <CRow className="justify-content-end">
               <CCol sm={2}>
-                <CButton type="submit" color="primary">Salvar</CButton>
+                <CButton type="submit" className="btn-salvar">Salvar</CButton>
               </CCol>
               <CCol sm={2}>
-                <CButton type="button" color="secondary">Limpar</CButton>
+                <CButton type="button" className="btn-limpar">Limpar</CButton>
               </CCol>
             </CRow>
 

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useAuth } from '../../../components/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
+import { Link } from 'react-router-dom';
 import TelaConstrucao from '../../../img/LogoInicio.png';
 
 const apiUrl = import.meta.env.VITE_API_URL;
@@ -60,7 +61,7 @@ const LoginForm = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 placeholder="exemplo@email.com"
-                className="w-100" // Adiciona 100% de largura para o campo de entrada
+                className="w-100 input-custom" // Adiciona 100% de largura para o campo de entrada
               />
             </div>
             <div className="Login-textCard">
@@ -71,7 +72,7 @@ const LoginForm = () => {
                 onChange={(e) => setSenha(e.target.value)}
                 required
                 placeholder="senha"
-                className="w-100" // Adiciona 100% de largura para o campo de entrada
+                className="w-100 input-custom" // Adiciona 100% de largura para o campo de entrada
               />
             </div>
 
@@ -81,10 +82,18 @@ const LoginForm = () => {
             >
               Entrar
             </button>
+            {/* Link para a página de registro */}
+            <div className="text-center mt-3">
+              <Link to="/register">Não tem uma conta? Registre-se aqui</Link>
+            </div>
           </div>
         </div>
-
-        {error && <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>}
+        {error && (
+          <div className="error-toast">
+            <p>{error}</p>
+          </div>
+        )}
+        
       </form>
     </div>
   );

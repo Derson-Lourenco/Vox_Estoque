@@ -1,16 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { CCard, CCardBody, CCardHeader, CNavbar, CNavbarNav, CNavLink, CNavItem } from "@coreui/react";
-import { CCol, CFormLabel, CRow, CFormInput } from "@coreui/react";
-import Button from 'react-bootstrap/Button';
-import { useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import { 
+  CCard, 
+  CCardBody, 
+  CNav, 
+  CNavItem, 
+  CNavLink, 
+  CRow, 
+  CCol, 
+  CFormLabel, 
+  CFormInput, 
+  CButton 
+} from "@coreui/react";
+import '../../css/style.css';
+
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const DetalheContrato = () => {
-  const [activeTab, setActiveTab] = useState('detalhes'); // Define qual aba está ativa
+  const [activeTab, setActiveTab] = useState('detalhes'); // Aba ativa
   const { id } = useParams();
   const [contrato, setContrato] = useState(null);
-  const [editandoContrato, setEditandoContrato] = useState(null); // Estado para editar os dados
+  const [editandoContrato, setEditandoContrato] = useState(null); // Estado de edição
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchDetalhesContrato = async () => {
@@ -18,7 +29,7 @@ const DetalheContrato = () => {
         const response = await fetch(`${apiUrl}/contratos/detalheContrato/${id}`);
         if (response.ok) {
           const data = await response.json();
-          setContrato(data.contrato); // Acessa o objeto contrato
+          setContrato(data.contrato);
           setEditandoContrato(data.contrato); // Inicializa o estado para edição
         } else {
           console.error('Erro ao buscar detalhes do contrato:', response.statusText);
@@ -27,12 +38,9 @@ const DetalheContrato = () => {
         console.error('Erro ao buscar detalhes do contrato:', error);
       }
     };
-
     fetchDetalhesContrato();
   }, [id]);
-  const navigate = useNavigate();
 
-  // Função para lidar com as mudanças nos inputs de edição
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setEditandoContrato((prevContrato) => ({
@@ -41,7 +49,6 @@ const DetalheContrato = () => {
     }));
   };
 
-  // Função para enviar as alterações para o backend
   const handleUpdateContrato = async () => {
     try {
       const response = await fetch(`${apiUrl}/contratos/atualizarContrato/${id}`, {
@@ -51,7 +58,6 @@ const DetalheContrato = () => {
         },
         body: JSON.stringify(editandoContrato),
       });
-
       if (response.ok) {
         alert('Contrato atualizado com sucesso!');
         window.location.reload();
@@ -64,16 +70,15 @@ const DetalheContrato = () => {
       alert('Erro ao atualizar contrato.');
     }
   };
-  // Função para excluir o contrato
-  const handleExcluirContrato = async (id) => {
+
+  const handleExcluirContrato = async () => {
     try {
       const response = await fetch(`${apiUrl}/contratos/excluirContrato/${id}`, {
         method: 'DELETE',
       });
-  
       if (response.ok) {
         alert('Contrato excluído com sucesso!');
-        navigate('/contrato'); // Redireciona para a tela de contratos
+        navigate('/contrato');
       } else {
         console.error('Erro ao excluir contrato:', response.statusText);
       }
@@ -81,18 +86,14 @@ const DetalheContrato = () => {
       console.error('Erro ao excluir contrato:', error);
     }
   };
-  
-
-
 
   const renderContent = () => {
     switch (activeTab) {
       case 'detalhes':
-      return (
-        <div>
-          
-          {contrato ? (
-            <CCardBody>
+        return (
+          <div>
+            {contrato ? (
+            <CCardBody className="CardTextPrincipal">
               <CRow className="g-2 mb-3">
                 {/* Exibição para dispositivos móveis */}
                 <CCol xs={12} className="d-md-none">
@@ -114,108 +115,112 @@ const DetalheContrato = () => {
                 </CCol>
 
                 {/* Exibição para telas maiores */}
-                <CCol sm={6} md={3} className="d-none d-md-block">
-                  <CFormLabel>Nº do processo adm/Ano</CFormLabel>
-                  <div>{contrato.processoAno}</div>
+                <CCol sm={6} md={3} className=" d-none d-md-block">
+                  <CFormLabel className="textDetalhesContratos" >Nº do processo adm/Ano</CFormLabel>
+                  <div className="textDetalhesContratosResult">{contrato.processoAno}</div>
                 </CCol>
                 <CCol sm={6} md={3} className="d-none d-md-block">
-                  <CFormLabel>Nº do contrato/Ano</CFormLabel>
-                  <div>{contrato.numeroContrato}</div>
+                  <CFormLabel className="textDetalhesContratos">Nº do contrato/Ano</CFormLabel>
+                  <div className="textDetalhesContratosResult">{contrato.numeroContrato}</div>
                 </CCol>
                 <CCol sm={6} md={3} className="d-none d-md-block">
-                  <CFormLabel>Modalidade</CFormLabel>
-                  <div>{contrato.modalidade}</div>
+                  <CFormLabel className="textDetalhesContratos">Modalidade</CFormLabel>
+                  <div className="textDetalhesContratosResult">{contrato.modalidade}</div>
                 </CCol>
                 <CCol sm={6} md={3} className="d-none d-md-block">
-                  <CFormLabel>Registro de Preço</CFormLabel>
-                  <div>{new Date(contrato.registro).toLocaleDateString()}</div>
-                </CCol>
-              </CRow>
-
-              <CRow className="g-2 mb-3">
-                <CCol sm={6} md={3} className="d-none d-md-block">
-                  <CFormLabel>ÓRGÃO</CFormLabel>
-                  <div>{contrato.orgao}</div>
-                </CCol>
-                <CCol sm={6} md={3} className="d-none d-md-block">
-                  <CFormLabel>CNPJ do Contratante</CFormLabel>
-                  <div>{contrato.cnpjContratante}</div>
-                </CCol>
-                <CCol sm={6} md={3} className="d-none d-md-block">
-                  <CFormLabel>Valor do Contratado</CFormLabel>
-                  <div>R$ {contrato.valorContratado.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</div>
-                </CCol>
-                <CCol sm={6} md={3} className="d-none d-md-block">
-                  <CFormLabel>Valor Atual</CFormLabel>
-                  <div>R$ {contrato.valorContratado.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</div>
+                  <CFormLabel className="textDetalhesContratos">Registro de Preço</CFormLabel>
+                  <div className="textDetalhesContratosResult">{new Date(contrato.registro).toLocaleDateString()}</div>
                 </CCol>
               </CRow>
 
               <CRow className="g-2 mb-3">
                 <CCol sm={6} md={3} className="d-none d-md-block">
-                  <CFormLabel>Data da Assinatura</CFormLabel>
-                  <div>{new Date(contrato.dataAssinatura).toLocaleDateString()}</div>
+                  <CFormLabel className="textDetalhesContratos">Órgão</CFormLabel>
+                  <div className="textDetalhesContratosResult">{contrato.orgao}</div>
                 </CCol>
                 <CCol sm={6} md={3} className="d-none d-md-block">
-                  <CFormLabel>Data de Início</CFormLabel>
-                  <div>{new Date(contrato.dataInicio).toLocaleDateString()}</div>
+                  <CFormLabel className="textDetalhesContratos">Cnpj do Contratante</CFormLabel>
+                  <div className="textDetalhesContratosResult">{contrato.cnpjContratante}</div>
                 </CCol>
                 <CCol sm={6} md={3} className="d-none d-md-block">
-                  <CFormLabel>DATA FINALIZAÇÃO</CFormLabel>
-                  <div>{new Date(contrato.dataFinalizacao).toLocaleDateString()}</div>
+                  <CFormLabel className="textDetalhesContratos">Valor do Contratado</CFormLabel>
+                  <div className="textDetalhesContratosResult">R$ {contrato.valorContratado.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</div>
                 </CCol>
                 <CCol sm={6} md={3} className="d-none d-md-block">
-                  <CFormLabel>Secretarias</CFormLabel>
-                  <div>{contrato.secretarias}</div>
+                  <CFormLabel className="textDetalhesContratos">Valor Atual</CFormLabel>
+                  <div className="textDetalhesContratosResult">R$ {contrato.valorContratado.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</div>
+                </CCol>
+              </CRow>
+
+              <CRow className="g-2 mb-3">
+                <CCol sm={6} md={3} className="d-none d-md-block">
+                  <CFormLabel className="textDetalhesContratos">Data da Assinatura</CFormLabel>
+                  <div className="textDetalhesContratosResult">{new Date(contrato.dataAssinatura).toLocaleDateString()}</div>
+                </CCol>
+                <CCol sm={6} md={3} className="d-none d-md-block">
+                  <CFormLabel className="textDetalhesContratos">Data de Início</CFormLabel>
+                  <div className="textDetalhesContratosResult">{new Date(contrato.dataInicio).toLocaleDateString()}</div>
+                </CCol>
+                <CCol sm={6} md={3} className="d-none d-md-block">
+                  <CFormLabel className="textDetalhesContratos">Data FInalização</CFormLabel>
+                  <div className="textDetalhesContratosResult">{new Date(contrato.dataFinalizacao).toLocaleDateString()}</div>
+                </CCol>
+                <CCol sm={6} md={3} className="d-none d-md-block">
+                  <CFormLabel className="textDetalhesContratos">Secretarias</CFormLabel>
+                  <div className="textDetalhesContratosResult">{contrato.secretarias}</div>
                 </CCol>
               </CRow>
 
               <CRow className="g-2 mb-3">
                 <CCol sm={6} md={12} className="d-none d-md-block">
-                  <CFormLabel>Objeto do Contrato</CFormLabel>
-                  <div>{contrato.objetoContrato}</div>
+                  <CFormLabel className="textDetalhesContratos">Objeto do Contrato</CFormLabel>
+                  <div className="textDetalhesContratosResult">{contrato.objetoContrato}</div>
                 </CCol>
               </CRow>
             </CCardBody>
           ) : (
-            <p>Carregando...</p>
-          )}
-        </div>
-      );
-
+              <p>Carregando...</p>
+            )}
+          </div>
+        );
       case 'editar':
         return (
           <div>
             {editandoContrato ? (
-              <CCardBody>
+              
+              <CCardBody className="CardTextPrincipal">
                 <CRow className="g-2 mb-3">
                   <CCol sm={6} md={3}>
-                    <CFormLabel>Nº do processo adm/Ano</CFormLabel>
+                    <CFormLabel className="textDetalhesContratos">Nº do processo adm/Ano</CFormLabel>
                     <CFormInput
+                      className="CardInputDetalhesContratos"
                       name="processoAno"
                       value={editandoContrato.processoAno}
                       onChange={handleInputChange}
                     />
                   </CCol>
                   <CCol sm={6} md={3}>
-                    <CFormLabel>Nº do contrato/Ano</CFormLabel>
+                    <CFormLabel className="textDetalhesContratos">Nº do contrato/Ano</CFormLabel>
                     <CFormInput
+                      className="CardInputDetalhesContratos"
                       name="numeroContrato"
                       value={editandoContrato.numeroContrato}
                       onChange={handleInputChange}
                     />
                   </CCol>
                   <CCol sm={6} md={3}>
-                    <CFormLabel>Modalidade</CFormLabel>
+                    <CFormLabel className="textDetalhesContratos">Modalidade</CFormLabel>
                     <CFormInput
+                      className="CardInputDetalhesContratos"
                       name="modalidade"
                       value={editandoContrato.modalidade}
                       onChange={handleInputChange}
                     />
                   </CCol>
                   <CCol sm={6} md={3}>
-                    <CFormLabel>Registro de Preço</CFormLabel>
+                    <CFormLabel className="textDetalhesContratos">Registro de Preço</CFormLabel>
                     <CFormInput
+                      className="CardInputDetalhesContratos"
                       name="registro"
                       type="date"
                       value={editandoContrato.registro}
@@ -226,32 +231,36 @@ const DetalheContrato = () => {
 
                 <CRow className="g-2 mb-3">
                   <CCol sm={6} md={3}>
-                    <CFormLabel>ORGÃO</CFormLabel>
+                    <CFormLabel className="textDetalhesContratos">Orgão</CFormLabel>
                     <CFormInput
+                      className="CardInputDetalhesContratos"
                       name="orgao"
                       value={editandoContrato.orgao}
                       onChange={handleInputChange}
                     />
                   </CCol>
                   <CCol sm={6} md={3}>
-                    <CFormLabel>CNPJ do Contratante</CFormLabel>
+                    <CFormLabel className="textDetalhesContratos">Cnpj do Contratante</CFormLabel>
                     <CFormInput
+                      className="CardInputDetalhesContratos"
                       name="cnpjContratante"
                       value={editandoContrato.cnpjContratante}
                       onChange={handleInputChange}
                     />
                   </CCol>
                   <CCol sm={6} md={3}>
-                    <CFormLabel>Valor do Contratado</CFormLabel>
+                    <CFormLabel className="textDetalhesContratos">Valor do Contratado</CFormLabel>
                     <CFormInput
+                      className="CardInputDetalhesContratos"
                       name="valorContratado"
                       value={editandoContrato.valorContratado}
                       onChange={handleInputChange}
                     />
                   </CCol>
                   <CCol sm={6} md={3}>
-                    <CFormLabel>Valor Atual</CFormLabel>
+                    <CFormLabel className="textDetalhesContratos">Valor Atual</CFormLabel>
                     <CFormInput
+                      className="CardInputDetalhesContratos"
                       name="valorAtual"
                       value={editandoContrato.valorAtual}
                       onChange={handleInputChange}
@@ -261,8 +270,9 @@ const DetalheContrato = () => {
 
                 <CRow className="g-2 mb-3">
                   <CCol sm={6} md={3}>
-                    <CFormLabel>Data da Assinatura</CFormLabel>
+                    <CFormLabel className="textDetalhesContratos">Data da Assinatura</CFormLabel>
                     <CFormInput
+                      className="CardInputDetalhesContratos"
                       name="dataAssinatura"
                       type="date"
                       value={editandoContrato.dataAssinatura}
@@ -270,8 +280,9 @@ const DetalheContrato = () => {
                     />
                   </CCol>
                   <CCol sm={6} md={3}>
-                    <CFormLabel>Data de Início</CFormLabel>
+                    <CFormLabel className="textDetalhesContratos">Data de Início</CFormLabel>
                     <CFormInput
+                      className="CardInputDetalhesContratos"
                       name="dataInicio"
                       type="date"
                       value={editandoContrato.dataInicio}
@@ -279,8 +290,9 @@ const DetalheContrato = () => {
                     />
                   </CCol>
                   <CCol sm={6} md={3}>
-                    <CFormLabel>Data Finalização</CFormLabel>
+                    <CFormLabel className="textDetalhesContratos">Data Finalização</CFormLabel>
                     <CFormInput
+                      className="CardInputDetalhesContratos"
                       name="dataFinalizacao"
                       type="date"
                       value={editandoContrato.dataFinalizacao}
@@ -288,8 +300,9 @@ const DetalheContrato = () => {
                     />
                   </CCol>
                   <CCol sm={6} md={3}>
-                    <CFormLabel>Secretarias</CFormLabel>
+                    <CFormLabel className="textDetalhesContratos">Secretarias</CFormLabel>
                     <CFormInput
+                      className="CardInputDetalhesContratos"
                       name="secretarias"
                       value={editandoContrato.secretarias}
                       onChange={handleInputChange}
@@ -299,8 +312,9 @@ const DetalheContrato = () => {
 
                 <CRow className="g-2 mb-3">
                   <CCol sm={6} md={12}>
-                    <CFormLabel>Objeto do Contrato</CFormLabel>
+                    <CFormLabel className="textDetalhesContratos">Objeto do Contrato</CFormLabel>
                     <CFormInput
+                      className="CardInputDetalhesContratos"
                       name="objetoContrato"
                       value={editandoContrato.objetoContrato}
                       onChange={handleInputChange}
@@ -308,10 +322,10 @@ const DetalheContrato = () => {
                   </CCol>
                 </CRow>
 
-                <Button onClick={handleUpdateContrato}>Salvar</Button>
-                <Button variant="danger" className="ms-3" onClick={() => handleExcluirContrato(contrato.id)}>
+                <CButton className="btn-salvar" onClick={handleUpdateContrato}>Salvar</CButton>
+                <CButton variant="danger" className="btn-excluir" onClick={() => handleExcluirContrato(contrato.id)}>
                 Excluir
-              </Button>
+              </CButton>
               </CCardBody>
             ) : (
               <p>Carregando...</p>
@@ -319,7 +333,7 @@ const DetalheContrato = () => {
           </div>
         );
       default:
-        return null;
+        return <p>Selecione uma aba.</p>;
     }
   };
 
@@ -328,53 +342,45 @@ const DetalheContrato = () => {
       <CCard className="CardTextPrincipal">
         <h2 className="TextPrincipal">Detalhes do Contrato</h2>
       </CCard>
-  
-      <CCard>
-        <CCardHeader>
-          <CNavbar>
-            <CNavbarNav className="w-100">
-              <CRow className="g-0">
-                <CCol xs={4} sm={4} md={2}>
-                  <CNavItem>
-                    <CNavLink
-                      active={activeTab === 'detalhes'}
-                      onClick={() => setActiveTab('detalhes')}
-                    >
-                      Detalhes
-                    </CNavLink>
-                  </CNavItem>
-                </CCol>
-  
-                <CCol xs={4} sm={4} md={2}>
-                  <CNavItem>
-                    <CNavLink
-                      active={activeTab === 'editar'}
-                      onClick={() => setActiveTab('editar')}
-                    >
-                      Editar
-                    </CNavLink>
-                  </CNavItem>
-                </CCol>
-  
-                <CCol xs={4} sm={4} md={2}>
-                  <CNavItem>
-                    <CNavLink>
-                      Espelho
-                    </CNavLink>
-                  </CNavItem>
-                </CCol>
-              </CRow>
-            </CNavbarNav>
-          </CNavbar>
-        </CCardHeader>
-  
-        <CCardBody>
-          {renderContent()}
-        </CCardBody>
+      <CCard className="CardTextPrincipal">
+        <CNav variant="tabs" className="txtBorder">
+          <CNavItem>
+            <CNavLink
+              active={activeTab === 'detalhes'}
+              onClick={() => setActiveTab('detalhes')}
+            >
+              Detalhes
+            </CNavLink>
+          </CNavItem>
+          <CNavItem>
+            <CNavLink
+              active={activeTab === 'editar'}
+              onClick={() => setActiveTab('editar')}
+            >
+              Editar
+            </CNavLink>
+          </CNavItem>
+          <CNavItem>
+            <CNavLink
+              active={activeTab === 'proposta'}
+              onClick={() => setActiveTab('proposta')}
+            >
+              Porposta Readequada
+            </CNavLink>
+          </CNavItem>
+          <CNavItem>
+            <CNavLink
+              active={activeTab === 'espelho'}
+              onClick={() => setActiveTab('espelho')}
+            >
+              Espelho de Proposta
+            </CNavLink>
+          </CNavItem>
+        </CNav>
+        {renderContent()}
       </CCard>
     </>
   );
-  
 };
 
 export default DetalheContrato;

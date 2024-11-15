@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // Importando useNavigate
 import moment from 'moment';
-import './style.css';
+import '../../css/style.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faFileSignature } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faFileSignature, faEdit} from '@fortawesome/free-solid-svg-icons';
 import {
   CCard, CCardBody, CCardHeader, CRow, CCol,
   CFormSelect, CFormLabel, CButton, CModal, CModalHeader, CModalBody, CModalFooter
@@ -12,29 +12,37 @@ import Button from 'react-bootstrap/Button';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
-// Função para formatar data
 const formatarData = (data) => {
   const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
   return new Date(data).toLocaleDateString(undefined, options);
 };
 
-// Função para verificar situação do contrato
 const verificarSituacao = (dataInicio, dataFinalizacao) => {
   const dataInicioObj = moment(dataInicio, 'DD/MM/YYYY');
   const dataFimObj = moment(dataFinalizacao, 'DD/MM/YYYY');
   const dataAtual = moment();
 
+  // Se a data atual for antes da data de início
   if (dataAtual.isBefore(dataInicioObj)) {
     return { texto: 'Ainda não começou', cor: 'blue' };
-  } else if (dataAtual.isSameOrAfter(dataInicioObj) && dataAtual.isBefore(dataFimObj)) {
+  } 
+  // Se a data atual for entre a data de início e a data de finalização
+  else if (dataAtual.isSameOrAfter(dataInicioObj) && dataAtual.isBefore(dataFimObj)) {
     const diferencaMeses = dataFimObj.diff(dataAtual, 'months', true);
+    // Se o término for iminente, dentro de 3 meses
     return diferencaMeses <= 3 ? { texto: 'Término Iminente', cor: 'yellow' } : { texto: 'Em vigência', cor: 'green' };
-  } else {
+  } 
+  // Se a data atual for após a data de finalização
+  else {
     return { texto: 'Está vencido', cor: 'red' };
   }
 };
 
+
 const Contrato = () => {
+  const navigate = useNavigate(); // Inicializando o useNavigate
+  const [userId, setUserid] = useState(null); // Definindo o estado para o ID do usuário
+  const [username, setUsername] = useState(null); // Definindo o estado para o nome do usuário
   const [contrato, setContrato] = useState([]);
   const [detalhesContrato, setDetalhesContrato] = useState(null);
   const [orgaoOptions, setOrgaoOptions] = useState([]);
@@ -44,10 +52,22 @@ const Contrato = () => {
   const [filtroModalidade, setFiltroModalidade] = useState('');
   const [filtroSituacao, setFiltroSituacao] = useState('');
 
-  // Função para buscar contratos
+  // UseEffect para recuperar o ID e nome do usuário do localStorage
+  useEffect(() => {
+    const storedId = localStorage.getItem('userid');
+    const storedName = localStorage.getItem('username');
+    console.log('ID:', storedId); // Debug
+    console.log('Nome do usuário encontrado:', storedName); // Debug
+    
+    if (storedId) setUserid(storedId);
+    if (storedName) setUsername(storedName);
+  }, []);
+
+  // Função para buscar contratos pelo ID do usuário
   const fetchContrato = async () => {
+    if (!userId) return; // Verifica se userId está disponível
     try {
-      const response = await fetch(`${apiUrl}/contratos/getContratos`);
+      const response = await fetch(`${apiUrl}/contratos/getContratos/${userId}`);
       if (response.ok) {
         const data = await response.json();
         if (data.contratos && Array.isArray(data.contratos)) {
@@ -92,8 +112,8 @@ const Contrato = () => {
 
   // UseEffect para carregar os contratos
   useEffect(() => {
-    fetchContrato(); // Carrega os dados inicialmente
-  }, []);
+    fetchContrato();
+  }, [userId]); // Dependendo do userId
 
   return (
     <div>
@@ -104,7 +124,7 @@ const Contrato = () => {
         <CCardHeader>
           <div className="busca-contratos ">
             <div className="busca-item">
-              <CFormSelect className='CardInput2' value={filtroOrgao} onChange={(e) => setFiltroOrgao(e.target.value)}>
+              <CFormSelect className='CardInputContratos' value={filtroOrgao} onChange={(e) => setFiltroOrgao(e.target.value)}>
                 <option value="">Buscar Por Órgão</option>
                 {orgaoOptions.map(orgao => (
                   <option key={orgao} value={orgao}>{orgao}</option>
@@ -113,7 +133,7 @@ const Contrato = () => {
             </div>
 
             <div className="busca-item">
-              <CFormSelect className='CardInput2' value={filtroModalidade} onChange={(e) => setFiltroModalidade(e.target.value)}>
+              <CFormSelect className='CardInputContratos' value={filtroModalidade} onChange={(e) => setFiltroModalidade(e.target.value)}>
                 <option value="">Buscar Por Modalidade</option>
                 {modalidadeOptions.map(modalidade => (
                   <option key={modalidade} value={modalidade}>{modalidade}</option>
@@ -122,7 +142,7 @@ const Contrato = () => {
             </div>
 
             <div className="busca-item">
-              <CFormSelect className='CardInput2' value={filtroSituacao} onChange={(e) => setFiltroSituacao(e.target.value)}>
+              <CFormSelect className='CardInputContratos' value={filtroSituacao} onChange={(e) => setFiltroSituacao(e.target.value)}>
                 <option value="">Buscar Por Situação</option>
                 {situacaoOptions.map(situacao => (
                   <option key={situacao} value={situacao}>{situacao}</option>
@@ -131,7 +151,7 @@ const Contrato = () => {
             </div>
 
             <div className="busca-botoes">
-              <Button variant="info" onClick={() => {
+              <Button className='btn-limpar' variant="info" onClick={() => {
                 setFiltroOrgao('');
                 setFiltroModalidade('');
                 setFiltroSituacao('');
@@ -149,7 +169,7 @@ const Contrato = () => {
             <div key={contrato.id}>
               <CCard className="CardPrincipal">
                 <CCardBody>
-                  <CRow className="g-2 mb-3">
+                  <CRow className="">
                     <CCol xs={12} className="d-md-none">
                       <div>
                         <strong>Órgão:</strong> {contrato.orgao}<br />
@@ -161,71 +181,64 @@ const Contrato = () => {
                     </CCol>
 
                     <CCol xs={12} sm={2} md={3} className="d-none d-md-block">
-                      <CFormLabel className="textoPrinc" >ÓRGÃO</CFormLabel>
+                      <CFormLabel className="textContratos">Órgão</CFormLabel>
                       <div className="textoResunt">{contrato.orgao}</div>
                     </CCol>
-                    <CCol sm={6} md={3} className="d-none d-md-block">
-                      <CFormLabel className="textoPrinc" >MODALIDADE</CFormLabel>
-                      <div className="textoResunt">{contrato.modalidade}</div>
-                    </CCol>
                     <CCol sm={6} md={2} className="d-none d-md-block">
-                      <CFormLabel className="textoPrinc" >VALOR</CFormLabel>
+                      <CFormLabel className="textContratos">Valor</CFormLabel>
                       <div className="textoResunt">R$ {contrato.valorContratado.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</div>
                     </CCol>
-                    <CCol sm={6} md={2} className="d-none d-md-block">
-                      <CFormLabel className="textoPrinc" >SITUAÇÃO</CFormLabel>
-                      <div ><span style={{ color: situacao.cor }}>{situacao.texto}</span></div>
+                    <CCol xs={12} sm={2} md={2} className="d-none d-md-block">
+                      <CFormLabel className="textContratos">Objeto</CFormLabel>
+                      <div className="textoResunt">{contrato.objetoContrato}</div>
                     </CCol>
-
-                    <CCol xs={12} md={1} className="d-flex justify-content-start">
-                      <Button className="ButtonIcon" onClick={() => abrirModalDetalhes(contrato)}>
-                        <FontAwesomeIcon className="IconDetalhes" icon={faEye} />
-                      </Button>
+                    <CCol sm={6} md={3} className="d-none d-md-block">
+                      <CFormLabel className="textContratos">Situação</CFormLabel>
+                      <div className="textoResunt" style={{ color: situacao.cor }}>{situacao.texto}</div>
                     </CCol>
-
-                    <CCol xs={12} md={1} className="d-flex justify-content-start">
+                    <CCol xs={12} sm={2} className="d-none d-md-block text-end">
+                      <CButton onClick={() => abrirModalDetalhes(contrato)}>
+                        <FontAwesomeIcon className="icon-ver" icon={faEye} />
+                      </CButton>
                       <Button className="ButtonIcon">
                         <Link to={`/detalheContrato/${contrato.id}`}>
-                          <FontAwesomeIcon className="IconDetalhes" icon={faFileSignature} />
+                          <FontAwesomeIcon className="icon-edit" icon={faEdit} />
                         </Link>
                       </Button>
                     </CCol>
-
-
-
                   </CRow>
                 </CCardBody>
               </CCard>
+              <br />
             </div>
           );
         })
       ) : (
-        <h5>Nenhum contrato encontrado.</h5>
+        <div className="text-center">
+          <h5>Esse usuário não tem contratos.</h5>
+        </div>
       )}
 
-      {/* Modal para detalhes do contrato */}
-      <CModal visible={detalhesContrato !== null} onClose={() => setDetalhesContrato(null)}>
-        <CModalHeader>
-          <h5 className="modal-title">Detalhes do Contrato</h5>
+      <CModal  visible={!!detalhesContrato} onClose={() => setDetalhesContrato(null)}>
+        <CModalHeader className="CardPrincipalAnexo">
+          <h5 className="textContratosCard2">Detalhes do Contrato</h5>
         </CModalHeader>
-        <CModalBody>
+        <CModalBody className="CardPrincipalAnexo">
           {detalhesContrato && (
             <div>
-              <p><strong>ID:</strong> {detalhesContrato.id}</p>
-              <p><strong>Órgão:</strong> {detalhesContrato.orgao}</p>
-              <p><strong>Modalidade:</strong> {detalhesContrato.modalidade}</p>
-              <p><strong>Valor:</strong> R$ {detalhesContrato.valorContratado.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
-              <p><strong>Objeto:</strong> {detalhesContrato.objetoContrato}</p>
-              <p><strong>Data de Início:</strong> {detalhesContrato.dataInicio}</p>
-              <p><strong>Data de Finalização:</strong> {detalhesContrato.dataFinalizacao}</p>
-              <p><strong>Situação:</strong> <span style={{ color: verificarSituacao(detalhesContrato.dataInicio, detalhesContrato.dataFinalizacao).cor }}>
-                {verificarSituacao(detalhesContrato.dataInicio, detalhesContrato.dataFinalizacao).texto}
-              </span></p>
+              <p className="textoResunt"><span className="textContratos">Órgão:</span> {detalhesContrato.orgao}</p>
+              <p className="textoResunt"><span className="textContratos">Modalidade:</span> {detalhesContrato.modalidade}</p>
+              <p className="textoResunt"><span className="textContratos">Valor:</span> R$ {detalhesContrato.valorContratado.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</p>
+              <p className="textoResunt"><span className="textContratos">Objeto:</span> {detalhesContrato.objetoContrato}</p>
+              <p className="textoResunt"><span className="textContratos">Data de Início:</span> {detalhesContrato.dataInicio}</p>
+              <p className="textoResunt"><span className="textContratos">Data de Finalização:</span> {detalhesContrato.dataFinalizacao}</p>
             </div>
           )}
         </CModalBody>
-        <CModalFooter>
-          <Button variant="secondary" onClick={() => setDetalhesContrato(null)}>Fechar</Button>
+        <CModalFooter className="CardPrincipalAnexo">
+          <Button className="btn-fechar" onClick={() => setDetalhesContrato(null)}>
+            Fechar
+          </Button>
         </CModalFooter>
       </CModal>
     </div>

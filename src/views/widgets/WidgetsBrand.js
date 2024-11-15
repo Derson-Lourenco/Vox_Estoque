@@ -6,7 +6,6 @@ import { cilWarning, cilTask, cilBan } from '@coreui/icons';
 import { CChart } from '@coreui/react-chartjs';
 import moment from 'moment';
 
-// Use a variável de ambiente para a URL da API
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const WidgetsBrand = (props) => {
@@ -15,62 +14,79 @@ const WidgetsBrand = (props) => {
     iminentes: 0,
     vencidos: 0,
   });
+  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
-    const fetchContratos = async () => {
-      try {
-        const response = await fetch(`${apiUrl}/contratos/getContratos`);
-        if (response.ok) {
-          const data = await response.json();
+    const storedId = localStorage.getItem('userid');
+    console.log('ID do usuário logado:', storedId);
+    if (storedId) setUserId(storedId);
+  }, []);
 
-          let novos = 0;
-          let iminentes = 0;
-          let vencidos = 0;
+  const fetchContratos = async () => {
+    if (!userId) return;
 
-          data.contratos.forEach(contrato => {
-            const situacao = verificarSituacao(contrato.dataInicio, contrato.dataFinalizacao);
-            console.log(`Contrato ID ${contrato.id}: ${situacao.texto}`);
+    try {
+      const response = await fetch(`${apiUrl}/contratos/getContratos/${userId}`);
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Dados da resposta da API:', data);
 
-            if (situacao.texto === 'Em vigência') {
-              novos += 1;
-            } else if (situacao.texto === 'Término Iminente') {
-              iminentes += 1;
-            } else if (situacao.texto === 'Está vencido') {
-              vencidos += 1;
-            }
-          });
+        let novos = 0;
+        let iminentes = 0;
+        let vencidos = 0;
 
-          console.log(`Novos: ${novos}, Iminentes: ${iminentes}, Vencidos: ${vencidos}`);
-          setDadosContrato({ novos, iminentes, vencidos });
-        } else {
-          console.error('Erro na solicitação:', response.statusText);
-        }
-      } catch (error) {
-        console.error('Erro na solicitação:', error);
+        data.contratos.forEach(contrato => {
+          const situacao = verificarSituacao(contrato.dataInicio, contrato.dataFinalizacao);
+          console.log(`Contrato ID ${contrato.id}: ${situacao.texto}`);
+
+          if (situacao.texto === 'Em vigência') {
+            novos += 1;
+          } else if (situacao.texto === 'Término Iminente') {
+            iminentes += 1;
+          } else if (situacao.texto === 'Está vencido') {
+            vencidos += 1;
+          }
+        });
+
+        console.log(`Novos: ${novos}, Iminentes: ${iminentes}, Vencidos: ${vencidos}`);
+        setDadosContrato({ novos, iminentes, vencidos });
+      } else {
+        console.error('Erro na solicitação:', response.statusText);
       }
-    };
+    } catch (error) {
+      console.error('Erro na solicitação:', error);
+    }
+  };
+
+  useEffect(() => {
+    if (!userId) return;
 
     fetchContratos();
-  }, []);
+
+    const intervalId = setInterval(() => {
+      fetchContratos();
+    }, 10000); // Atualizando a cada 10 segundos
+
+    return () => clearInterval(intervalId);
+  }, [userId]);
 
   const verificarSituacao = (dataInicio, dataFinalizacao) => {
     const dataInicioObj = moment(dataInicio, 'YYYY-MM-DD');
     const dataFimObj = moment(dataFinalizacao, 'YYYY-MM-DD');
     const dataAtual = moment();
-
+  
     console.log(`Data Atual: ${dataAtual.format('YYYY-MM-DD')}`);
     console.log(`Data Início: ${dataInicioObj.format('YYYY-MM-DD')}`);
     console.log(`Data Finalização: ${dataFimObj.format('YYYY-MM-DD')}`);
-
+  
     if (dataAtual.isBefore(dataInicioObj)) {
       return { texto: 'Ainda não começou', cor: 'blue' };
     } else if (dataAtual.isSameOrAfter(dataInicioObj) && dataAtual.isBefore(dataFimObj)) {
       const diferencaDias = dataFimObj.diff(dataAtual, 'days');
-      const diferencaMeses = dataFimObj.diff(dataAtual, 'months', true);
-
-      if (diferencaDias <= 10) {
-        return { texto: 'Está Vencido', cor: 'red' };
-      } else if (diferencaMeses <= 3) {
+      
+      if (diferencaDias <= 1) {
+        return { texto: 'Está vencido', cor: 'red' };
+      } else if (diferencaDias <= 60) {
         return { texto: 'Término Iminente', cor: 'yellow' };
       } else {
         return { texto: 'Em vigência', cor: 'green' };
@@ -79,6 +95,7 @@ const WidgetsBrand = (props) => {
       return { texto: 'Está vencido', cor: 'red' };
     }
   };
+  
 
   const chartOptions = {
     elements: {
@@ -108,8 +125,66 @@ const WidgetsBrand = (props) => {
     },
   };
 
+  const barChartOptions = {
+    maintainAspectRatio: false,
+    indexAxis: 'y',  // Altera a orientação das barras para horizontal
+    plugins: {
+      legend: {
+        display: true,
+      },
+    },
+    scales: {
+      x: {
+        beginAtZero: true,
+      },
+    },
+  };
+
+  const pieChartOptions = {
+    maintainAspectRatio: false,
+    plugins: {
+      legend: {
+        position: 'bottom',
+      },
+    },
+  };
+
   return (
     <CRow className={props.className} xs={{ gutter: 4 }}>
+      <CCol sm={6} xl={6}>
+        <CChart
+          type="bar"
+          data={{
+            labels: ['Novos', 'Iminentes', 'Vencidos'],
+            datasets: [
+              {
+                label: 'Contratos',
+                data: [dadosContrato.novos, dadosContrato.iminentes, dadosContrato.vencidos],
+                backgroundColor: ['#1b9e3e', '#f9b115', '#e55353'],
+              },
+            ],
+          }}
+          options={barChartOptions}
+        />
+      </CCol>
+
+      <CCol sm={6} xl={6}>
+        <CChart
+          type="pie"
+          data={{
+            labels: ['Novos', 'Iminentes', 'Vencidos'],
+            datasets: [
+              {
+                label: 'Contratos',
+                data: [dadosContrato.novos, dadosContrato.iminentes, dadosContrato.vencidos],
+                backgroundColor: ['#1b9e3e', '#f9b115', '#e55353'],
+              },
+            ],
+          }}
+          options={pieChartOptions}
+        />
+      </CCol>
+
       {dadosContrato.novos > 0 && (
         <CCol sm={5} xl={4} xxl={3}>
           <CWidgetStatsD
@@ -180,8 +255,8 @@ const WidgetsBrand = (props) => {
       )}
 
       {dadosContrato.novos === 0 && dadosContrato.iminentes === 0 && dadosContrato.vencidos === 0 && (
-        <CCol sm={12} xl={12} xxl={12}>
-          <div>Sem contratos para exibir</div>
+        <CCol xs={12}>
+          <h5>Sem contratos para exibir</h5>
         </CCol>
       )}
     </CRow>

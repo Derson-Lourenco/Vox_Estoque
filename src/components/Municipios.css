@@ -1,24 +1,14 @@
-.CardInput2{
-  background-color: #FFFFFF;
-  border: 1px solid var(--sidebar-color);
-  color: var(--sidebar-color);
-}
+:root {
+  /* ===== Colors ===== */
+  --body-color: #e4e9f7;
+  --sidebar-color: #222E3A;
+  --primary-color: #E8465D;
+  --primary-color-light: #f6f5ff;
+  --toggle-color: #ddd;
+  --text-color: #EEEDF5;
 
-.text{
-  color: var(--sidebar-color);
-  font-size: 16px;
-  font-weight: bold;
-}
-.CardTextPrincipal{
-  margin-top: 8px !important;
-  margin-bottom: 8px !important;
-  background-color: #FFFFFF !important;
-}
-.TextPrincipal{
-  color: var(--primary-color);
-  padding: 3px;
-  font-size: 24px;
-  margin-left: 8px;
-  align-items: center;
-  font-weight: bold;
+  /* ====== Transition ====== */
+  --tran-03: all 0.3s ease;
+  --tran-04: all 0.4s ease;
+  --tran-05: all 0.5s ease;
 }
