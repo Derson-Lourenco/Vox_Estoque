@@ -166,7 +166,7 @@ body.dark {
   font-weight: 500;
   white-space: nowrap;
   opacity: 1;
-  color: var(--text-color);
+  color: #ffff !important;
   transition: var(--tran-03);
   text-decoration: none !important;
 }
