@@ -172,12 +172,30 @@ const Contrato = () => {
                   <CRow className="">
                     <CCol xs={12} className="d-md-none">
                       <div>
-                        <strong>Órgão:</strong> {contrato.orgao}<br />
-                        <strong>Modalidade:</strong> {contrato.modalidade}<br />
-                        <strong>Valor:</strong> R$ {contrato.valorContratado.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}<br />
-                        <strong>Objeto:</strong> {contrato.objetoContrato}<br />
-                        <strong>Situação:</strong> <span style={{ color: situacao.cor }}>{situacao.texto}</span>
+                        <strong className="textContratos" >Órgão:</strong> 
+                        <span className="textoResunt">{contrato.orgao}</span><br />
+
+                        <strong className="textContratos" >Modalidade:</strong> 
+                        <span className="textoResunt">{contrato.modalidade}</span><br />
+
+                        <strong className="textContratos">Valor:</strong> 
+                        <span className="textoResunt">R$ {contrato.valorContratado.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span><br />
+
+                        <strong className="textContratos" >Objeto:</strong> 
+                        <span className="textoResunt">{contrato.objetoContrato}</span><br />
+
+                        <strong className="textContratos" >Situação:</strong> <span style={{ color: situacao.cor }}>{situacao.texto}</span>
                       </div>
+                      <CCol xs={12} className=" text-end">
+                        <CButton onClick={() => abrirModalDetalhes(contrato)}>
+                          <FontAwesomeIcon className="icon-ver" icon={faEye} />
+                        </CButton>
+                        <Button className="ButtonIcon">
+                          <Link to={`/detalheContrato/${contrato.id}`}>
+                            <FontAwesomeIcon className="icon-edit" icon={faEdit} />
+                          </Link>
+                        </Button>
+                      </CCol>
                     </CCol>
 
                     <CCol xs={12} sm={2} md={3} className="d-none d-md-block">

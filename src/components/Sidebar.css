@@ -158,6 +158,15 @@ body.dark {
   padding: 3px;
   text-decoration: none !important; 
 }
+.toggle {
+  font-size: 24px !important; /* Ajuste o tamanho do ícone */
+  color: var(--primary-color) !important;  /* Ajuste a cor do ícone */
+}
+
+.toggle:hover {
+  color: var(--primary-color);  /* Cor ao passar o mouse */
+}
+
 
 .textMenu .text{
   /* border: 1px solid red; */
