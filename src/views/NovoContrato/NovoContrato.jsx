@@ -19,7 +19,7 @@ import '../../css/style.css';
 
 const apiUrl = import.meta.env.VITE_API_URL; // Certifique-se de que esta variável está correta e corresponde à URL do backend
 
-import File from "./File";
+// import File from "./File";
 
 const NovoContrato = () => {
   const [userid, setUserid] = useState(null);
@@ -333,9 +333,9 @@ const NovoContrato = () => {
               />
             </CCol>
 
-            <CCol sm={4} className="d-flex justify-content-center align-items-center">
+            {/* <CCol sm={4} className="d-flex justify-content-center align-items-center">
               <File /> 
-            </CCol>
+            </CCol> */}
           </CRow>
 
             <CRow className="justify-content-end">

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   CButton,
   CModal,
@@ -9,21 +9,113 @@ import {
   CRow,
   CCol,
   CFormSelect,
-  CFormTextarea,
   CFormInput,
 } from "@coreui/react";
 import '../../css/style.css';
 import CIcon from "@coreui/icons-react";
 import { cilLink } from "@coreui/icons";
+import * as XLSX from 'xlsx'; // Importa a biblioteca XLSX
+const apiUrl = import.meta.env.VITE_API_URL;
 
-const File = () => {
+const File = ({ contratoId }) => {
   const [visible, setVisible] = useState(false);
+  const [file, setFile] = useState(null);
+  const [fileData, setFileData] = useState(null);
+  const [selectedOption, setSelectedOption] = useState("");
+  const [userId, setUserId] = useState(null);
+  const [username, setUsername] = useState("");
 
-  const downloadTemplate = () => {
-    // Adicione a lógica para iniciar o download do modelo de planilha aqui
-    // Pode ser uma chamada de API ou uma simples abertura de uma nova janela com o link direto
-    // No exemplo abaixo, um link direto é aberto em uma nova janela
-    window.open('http://localhost:5000/download-template', '_blank');
+  useEffect(() => {
+    const storedId = localStorage.getItem('userid');
+    const storedName = localStorage.getItem('username');
+    console.log('ID:', storedId); // Debug
+    console.log('Nome do usuário encontrado:', storedName); // Debug
+    
+    if (storedId) setUserId(storedId);
+    if (storedName) setUsername(storedName);
+  }, []); // Executa uma vez quando o componente for montado
+
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setFile(file);
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const binaryString = event.target.result;
+        const workbook = XLSX.read(binaryString, { type: "binary" });
+        const sheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[sheetName];
+        const data = XLSX.utils.sheet_to_json(worksheet, { header: 1, range: 1 });
+        setFileData(data);
+      };
+      reader.readAsBinaryString(file);
+    }
+  };
+
+  const handleSave = async () => {
+    if (selectedOption !== "1") {
+      alert("Por favor, selecione 'Proposta Readequada'.");
+      return;
+    }
+  
+    if (!fileData) {
+      alert("Faça o upload de um arquivo.");
+      return;
+    }
+  
+    if (!userId) {
+      alert("Usuário não encontrado.");
+      return;
+    }
+
+    const fileDataFormatted = fileData.map(row => ({
+      codProd: row[0],
+      itens: row[1],
+      descricao: row[2],
+      und: row[3],
+      qnt: row[4],
+      marca: row[5],
+      fabricante: row[6],
+      valor_unit: row[7],
+      valor_total: row[8],
+    }));
+  
+    const requestData = {
+      usuarioId: userId,  // Usando o userId recuperado
+      contratoId,  // Passando o contratoId
+      data: fileDataFormatted,
+      tipo: selectedOption,
+    };
+  
+    try {
+      const response = await fetch(`${apiUrl}/contratos/upload-proposta/${userId}/${contratoId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestData),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Erro na resposta da API: ' + response.status);
+      }
+  
+      const result = await response.json();
+  
+      if (!result) {
+        throw new Error('A resposta da API está vazia.');
+      }
+  
+      if (result.success) {
+        alert("Arquivo salvo com sucesso!");
+        setVisible(false);
+      } else {
+        alert("Erro ao salvar o arquivo.");
+      }
+    } catch (error) {
+      console.error('Erro ao enviar dados:', error);
+      alert("Erro ao enviar dados.");
+    }
   };
 
   return (
@@ -47,51 +139,27 @@ const File = () => {
               <CFormSelect
                 className='CardInputAnexo'
                 label="Tipo"
+                value={selectedOption}
+                onChange={(e) => setSelectedOption(e.target.value)}
                 options={[
                   "",
                   { label: "Proposta Readequada", value: "1" },
-                  { label: "Contrato", value: "2" },
-                  { label: "Extrato de Contrato", value: "3" },
-                  { label: "Aditivo", value: "4" },
+                  { label: "Proposta Readequada PDF", value: "2" },
                 ]}
               />
             </CCol>
-            <CCol sm={4}>
-              <span>
-                Modelo de Planilha{" "}
-                <a
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    downloadTemplate();
-                  }}
-                >
-                  (Download)
-                </a>
-              </span>
-            </CCol>
-          </CRow>
-          <CRow className="mb-3">
-            <CCol>
-              <CFormTextarea
-                className='CardInputAnexo'
-                id="exampleFormControlTextarea1"
-                label="Descrição"
-                rows={3}
-              ></CFormTextarea>
-            </CCol>
-          </CRow>
-          <CRow className="mb-3">
-            <CCol>
-              <CFormInput className='CardInputAnexo' type="file" id="formFile" label="Arquivo" />
+            <CCol sm={8}>
+              <CFormInput 
+                type="file" 
+                onChange={handleFileUpload} 
+                label="Escolha o arquivo Excel"
+              />
             </CCol>
           </CRow>
         </CModalBody>
-        <CModalFooter className="CardPrincipalAnexo">
-          <CButton className="btn-fechar" onClick={() => setVisible(false)}>
-            Fechar
-          </CButton>
-          <CButton className="btn-salvar">Salvar</CButton>
+        <CModalFooter>
+          <CButton color="secondary" onClick={() => setVisible(false)}>Fechar</CButton>
+          <CButton color="primary" onClick={handleSave}>Salvar</CButton>
         </CModalFooter>
       </CModal>
     </>

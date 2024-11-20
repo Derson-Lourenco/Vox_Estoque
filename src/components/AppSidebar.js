@@ -153,7 +153,7 @@ const SidebarMenu = ({ isSidebarClosed, toggleSidebar }) => {
           
           <div className="sidebar-footer">
             <CButton onClick={handleLogout} className="w-100 text-start d-flex align-items-center buttonMenu">
-              <span ><i className='bx bx-log-out IconAbrir'></i></span>
+              <span><i className='bx bx-log-out iconMenuSair'></i></span>
               <span className="text nav-text">Sair</span>
             </CButton>
           </div>

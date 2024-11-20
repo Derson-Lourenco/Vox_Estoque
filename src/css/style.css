@@ -131,8 +131,8 @@ background-color: #c9302c;  /* Vermelho mais escuro ao passar o mouse */
 }
 
 .CardPrincipalAnexo{
-  background-color: #FFFFFF;
-  color: #222E3A;
+  background-color: #FFFFFF !important;
+  color: #222E3A !important;
 }
 
 .CardInputAnexo{
@@ -267,6 +267,49 @@ background-color: #c9302c;  /* Vermelho mais escuro ao passar o mouse */
   font-weight: bold;
   text-decoration: underline;
 }
+/* =========================== */
+
+/* ===== Proposta Readequada ===== */
+.TextPrincipalReadequada{
+  color: var(--primary-color);
+  padding: 3px;
+  font-size: 22px;
+  margin-left: 8px;
+  align-items: center;
+}
+
+.TextPrincipalReadequadaTabela{
+  color: var(--sidebar-color);
+  font-size: 18px;
+  text-align: center;
+  font-weight: bold;
+  border: 1px solid var(--toggle-color);
+}
+
+.TextPrincipalReadequadaTabelaText{
+  color: var(--sidebar-color);
+  font-size: 18px;
+  text-align: center;
+  border: 1px solid var(--toggle-color);
+}
+
+.tabelaCentralizada {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+  border: 1px solid var(--toggle-color);
+}
+
+.CardPrincipalAnexoReadequada{
+  background-color: #FFFFFF !important;
+  color: #222E3A !important;
+  border: none !important;
+  width: 153px;
+  text-align: center;
+}
+
+
+
 /* =========================== */
 
 /* ===== Documentos ===== */

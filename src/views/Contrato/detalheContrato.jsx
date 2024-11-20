@@ -10,9 +10,14 @@ import {
   CCol, 
   CFormLabel, 
   CFormInput, 
-  CButton 
+  CButton,
+  CCardHeader,
+  CFormSelect
 } from "@coreui/react";
 import '../../css/style.css';
+import File from "../NovoContrato/File";
+import PropostasTable from "./PropostasTable"
+import PropostaReadequada from "./PropostaReadequada"
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -21,9 +26,19 @@ const DetalheContrato = () => {
   const { id } = useParams();
   const [contrato, setContrato] = useState(null);
   const [editandoContrato, setEditandoContrato] = useState(null); // Estado de edição
+  const [userid, setUserid] = useState(null);  // Estado para o ID do usuário
+  const [username, setUsername] = useState(null);  // Estado para o nome do usuário
   const navigate = useNavigate();
-
+    
   useEffect(() => {
+    const storedId = localStorage.getItem('userid');
+    const storedName = localStorage.getItem('username');
+    console.log('ID:', storedId); // Debug
+    console.log('Nome do usuário encontrado:', storedName); // Debug
+    
+    if (storedId) setUserid(storedId);
+    if (storedName) setUsername(storedName);
+
     const fetchDetalhesContrato = async () => {
       try {
         const response = await fetch(`${apiUrl}/contratos/detalheContrato/${id}`);
@@ -31,6 +46,9 @@ const DetalheContrato = () => {
           const data = await response.json();
           setContrato(data.contrato);
           setEditandoContrato(data.contrato); // Inicializa o estado para edição
+
+          console.log('ID do contrato:', data.contrato.id);
+          
         } else {
           console.error('Erro ao buscar detalhes do contrato:', response.statusText);
         }
@@ -332,6 +350,44 @@ const DetalheContrato = () => {
             )}
           </div>
         );
+
+        case 'arquivos':
+        return (
+          <div>
+            <CCard className='CardTextPrincipal'>
+              <CCardHeader>
+                <div className="BuscaDocumentos">
+                  <div className="BuscaItemDocumentos">
+                    <File userId={userid} contratoId={contrato?.id} /> 
+                  </div>
+
+                  <div className="BuscaItemDocumentos">
+                    <CFormSelect className='CardInputDocumentos'>
+                      <option value="">Buscar Por Situação</option>
+                    </CFormSelect>
+                  </div>
+                  <div className="BuscaBotoesDocumentos">
+                    <CButton className="btn-limpar" variant="info">Limpar</CButton>
+                  </div>
+                </div>
+              </CCardHeader>
+            </CCard>
+          </div>
+        );
+
+        case 'proposta':
+        return (
+          <div>
+            <PropostasTable userId={userid} contratoId={contrato?.id} />
+          </div>
+        );
+
+        case 'espelho':
+        return (
+          <div>
+            <PropostaReadequada userId={userid} contratoId={contrato?.id} />
+          </div>
+        );
       default:
         return <p>Selecione uma aba.</p>;
     }
@@ -344,6 +400,7 @@ const DetalheContrato = () => {
       </CCard>
       <CCard className="CardTextPrincipal">
         <CNav variant="tabs" className="txtBorder">
+
           <CNavItem>
             <CNavLink
               active={activeTab === 'detalhes'}
@@ -352,6 +409,7 @@ const DetalheContrato = () => {
               Detalhes
             </CNavLink>
           </CNavItem>
+
           <CNavItem>
             <CNavLink
               active={activeTab === 'editar'}
@@ -360,6 +418,16 @@ const DetalheContrato = () => {
               Editar
             </CNavLink>
           </CNavItem>
+
+          <CNavItem>
+            <CNavLink
+              active={activeTab === 'arquivos'}
+              onClick={() => setActiveTab('arquivos')}
+            >
+              Arquivos
+            </CNavLink>
+          </CNavItem>
+          
           <CNavItem>
             <CNavLink
               active={activeTab === 'proposta'}
@@ -368,14 +436,16 @@ const DetalheContrato = () => {
               Porposta Readequada
             </CNavLink>
           </CNavItem>
+
           <CNavItem>
             <CNavLink
               active={activeTab === 'espelho'}
               onClick={() => setActiveTab('espelho')}
             >
-              Espelho de Proposta
+              Espelho da Proposta
             </CNavLink>
           </CNavItem>
+
         </CNav>
         {renderContent()}
       </CCard>
