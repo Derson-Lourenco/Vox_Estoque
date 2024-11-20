@@ -86,48 +86,83 @@ const LicitacoesSalvas = () => {
       </CCard>
 
       <CCard className="CardTextPrincipal">
-        <CCardBody >
+        <CCardBody>
           {licitacoesSalvas.length === 0 ? (
             <CAlert color="info">Nenhuma licitação salva disponível.</CAlert>
           ) : (
-            <CTable striped hover responsive>
-              <CTableHead >
-                <CTableRow className="CardTextPrincipal">
-                  <CTableHeaderCell className="TableHeaderCell">ÓRGÃO</CTableHeaderCell>
-                  <CTableHeaderCell className="TableHeaderCell">MODALIDADE</CTableHeaderCell>
-                  <CTableHeaderCell className="TableHeaderCell">VALOR PREVISTO</CTableHeaderCell>
-                  <CTableHeaderCell className="TableHeaderCell">DATA</CTableHeaderCell>
-                  <CTableHeaderCell className="TableHeaderCell">LINK</CTableHeaderCell>
-                  <CTableHeaderCell className="TableHeaderCell">AÇÕES</CTableHeaderCell>
-                </CTableRow>
-              </CTableHead>
-              <CTableBody>
-                {licitacoesSalvas.map((licitacao) => (
-                  <CTableRow key={licitacao.id}>
-                    <CTableDataCell className="TableDataCell">{licitacao.orgao}</CTableDataCell>
-                    <CTableDataCell className="TableDataCell">{licitacao.modalidade}</CTableDataCell>
-                    <CTableDataCell className="TableDataCell">
-                      R$ {licitacao.valor_previsto.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                    </CTableDataCell>
-                    <CTableDataCell className="TableDataCell">
-                      {new Date(licitacao.data).toLocaleDateString('pt-BR')}
-                    </CTableDataCell>
-                    <CTableDataCell className="TableDataCell iconB">
+            <>
+              <CTable striped hover responsive className="d-none d-md-table">
+                <CTableHead>
+                  <CTableRow className="CardTextPrincipal">
+                    <CTableHeaderCell className="TableHeaderCell">ÓRGÃO</CTableHeaderCell>
+                    <CTableHeaderCell className="TableHeaderCell">MODALIDADE</CTableHeaderCell>
+                    <CTableHeaderCell className="TableHeaderCell">VALOR PREVISTO</CTableHeaderCell>
+                    <CTableHeaderCell className="TableHeaderCell">DATA</CTableHeaderCell>
+                    <CTableHeaderCell className="TableHeaderCell">LINK</CTableHeaderCell>
+                    <CTableHeaderCell className="TableHeaderCell">AÇÕES</CTableHeaderCell>
+                  </CTableRow>
+                </CTableHead>
+                <CTableBody>
+                  {licitacoesSalvas.map((licitacao) => (
+                    <CTableRow key={licitacao.id}>
+                      <CTableDataCell className="TableDataCell">{licitacao.orgao}</CTableDataCell>
+                      <CTableDataCell className="TableDataCell">{licitacao.modalidade}</CTableDataCell>
+                      <CTableDataCell className="TableDataCell">
+                        R$ {licitacao.valor_previsto.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                      </CTableDataCell>
+                      <CTableDataCell className="TableDataCell">
+                        {new Date(licitacao.data).toLocaleDateString('pt-BR')}
+                      </CTableDataCell>
+                      <CTableDataCell className="TableDataCell iconB">
+                        <a href={licitacao.link} target="_blank" rel="noopener noreferrer">
+                          <FontAwesomeIcon className="icon-ver" title="Ver" icon={faEye} />
+                        </a>
+                      </CTableDataCell>
+                      <CTableDataCell className="TableDataCell">
+                        <CButton size="sm" onClick={() => handleDelete(licitacao.id)}>
+                          <FontAwesomeIcon className="icon-excluir" title="Excluir" icon={faTrash} />
+                        </CButton>
+                      </CTableDataCell> 
+                    </CTableRow>
+                  ))}
+                </CTableBody>
+              </CTable>
+                  
+              {licitacoesSalvas.map((licitacao) => (
+                <CCol xs={12} className="d-md-none mb-3" key={licitacao.id}>
+                  <div className="CaixaLicita p-3">
+                    <strong className="TableHeaderCell">ÓRGÃO:</strong> 
+                    <span className="TableDataCell">{licitacao.orgao}</span><br />
+                    
+                    <strong className="TableHeaderCell">MODALIDADE:</strong> 
+                    <span className="TableDataCell">{licitacao.modalidade}</span><br />
+              
+
+                    <strong className="TableHeaderCell">VALOR PREVISTO:</strong> 
+                    <span className="TableDataCell"> R$ {licitacao.valor_previsto.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span><br />
+                    
+
+                    <strong className="TableHeaderCell">DATA:</strong> 
+                    <span className="TableDataCell">{new Date(licitacao.data).toLocaleDateString('pt-BR')}</span><br />
+                    
+
+                    <div className="d-flex justify-content-end align-items-center gap-2">
                       <a href={licitacao.link} target="_blank" rel="noopener noreferrer">
                         <FontAwesomeIcon className="icon-ver" title="Ver" icon={faEye} />
                       </a>
-                    </CTableDataCell>
-                    <CTableDataCell className="TableDataCell">
                       <CButton size="sm" onClick={() => handleDelete(licitacao.id)}>
-                        <FontAwesomeIcon className="icon-excluir" title="Excluir"  icon={faTrash} />
+                        <FontAwesomeIcon className="icon-excluir" title="Excluir" icon={faTrash} />
                       </CButton>
-                    </CTableDataCell> 
-                  </CTableRow>
-                ))}
-              </CTableBody>
-            </CTable>
+                    </div>
+
+                  </div>
+                </CCol>
+              ))}
+            </>
           )}
+
         </CCardBody>
+          
       </CCard>
     </div>
   );

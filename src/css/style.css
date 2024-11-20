@@ -510,6 +510,10 @@ background-color: #c9302c;  /* Vermelho mais escuro ao passar o mouse */
   justify-content: center !important;
   align-items: center !important;
 }
+
+.CaixaLicita{
+  border: 1px solid var(--toggle-color);
+}
 /* =========================== */
 
 
