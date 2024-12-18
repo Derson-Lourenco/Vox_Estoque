@@ -82,7 +82,7 @@ const LicitacoesSalvas = () => {
   return (
     <div>
       <CCard className="CardTextPrincipal">
-        <h2 className="TextPrincipal">Licitações Salvas</h2>
+        <h2 className="TextPrincipal">Licitações Salvas </h2>
       </CCard>
 
       <CCard className="CardTextPrincipal">
