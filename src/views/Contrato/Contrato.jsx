@@ -30,11 +30,11 @@ const verificarSituacao = (dataInicio, dataFinalizacao) => {
   else if (dataAtual.isSameOrAfter(dataInicioObj) && dataAtual.isBefore(dataFimObj)) {
     const diferencaMeses = dataFimObj.diff(dataAtual, 'months', true);
     // Se o término for iminente, dentro de 3 meses
-    return diferencaMeses <= 3 ? { texto: 'Término Iminente', cor: 'yellow' } : { texto: 'Em vigência', cor: 'green' };
+    return diferencaMeses <= 3 ? { texto: 'Término Iminente', cor: '#FF5722' } : { texto: 'Em vigência', cor: '#28A745' };
   } 
   // Se a data atual for após a data de finalização
   else {
-    return { texto: 'Está vencido', cor: 'red' };
+    return { texto: 'Está vencido', cor: '#C82333' };
   }
 };
 

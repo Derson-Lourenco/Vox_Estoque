@@ -160,7 +160,7 @@ const WidgetsBrand = (props) => {
               {
                 label: 'Contratos',
                 data: [dadosContrato.novos, dadosContrato.iminentes, dadosContrato.vencidos],
-                backgroundColor: ['#1b9e3e', '#f9b115', '#e55353'],
+                backgroundColor: ['#28A745', '#FF5722', '#C82333'],
               },
             ],
           }}
@@ -177,7 +177,7 @@ const WidgetsBrand = (props) => {
               {
                 label: 'Contratos',
                 data: [dadosContrato.novos, dadosContrato.iminentes, dadosContrato.vencidos],
-                backgroundColor: ['#1b9e3e', '#f9b115', '#e55353'],
+                backgroundColor: ['#28A745', '#FF5722', '#C82333'],
               },
             ],
           }}
@@ -202,7 +202,7 @@ const WidgetsBrand = (props) => {
               { title: 'Novos Contratos', value: dadosContrato.novos },
             ]}
             style={{
-              '--cui-card-cap-bg': '#1b9e3e',
+              '--cui-card-cap-bg': '#28A745',
             }}
           />
         </CCol>
@@ -225,7 +225,7 @@ const WidgetsBrand = (props) => {
               { title: 'Contratos Iminentes', value: dadosContrato.iminentes },
             ]}
             style={{
-              '--cui-card-cap-bg': '#f9b115',
+              '--cui-card-cap-bg': '#FF5722',
             }}
           />
         </CCol>
@@ -248,7 +248,7 @@ const WidgetsBrand = (props) => {
               { title: 'Contratos Vencidos', value: dadosContrato.vencidos },
             ]}
             style={{
-              '--cui-card-cap-bg': '#e55353',
+              '--cui-card-cap-bg': '#C82333',
             }}
           />
         </CCol>

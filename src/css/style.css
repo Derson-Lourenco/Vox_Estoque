@@ -24,6 +24,168 @@ body {
   --tran-05: all 0.5s ease;
 }
 
+/* ===== Sidebar Styles ===== */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 250px;
+  padding: 10px 14px;
+  background: var(--sidebar-color);
+  transition: var(--tran-05);
+  z-index: 100;
+  /* text-align: center; */
+}
+
+.sidebar.close {
+  width: 100px;
+}
+
+/* ===== Sidebar Items ===== */ 
+/* .sidebar li {
+  height: 50px;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  margin-left: -30px;
+} */
+
+.textMenu{
+  margin-top: 18px;
+  margin-left: -35px;
+  list-style: none;
+  padding: 3px;
+  text-decoration: none !important; 
+}
+
+.textMenuSair{
+  margin-top: 18px;
+  list-style: none;
+  padding: 3px;
+  text-decoration: none ; 
+}
+
+.textMenu .text{
+  display: flex ;
+  font-size: 17px;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 1;
+  color: #ffff ;
+  transition: var(--tran-03);
+  text-decoration: none ;
+}
+
+
+
+.textMenuSair .text{
+  display: flex ;
+  font-size: 17px;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 1;
+  color: #ffff ;
+  transition: var(--tran-03);
+  text-decoration: none ;
+}
+
+.toggle {
+  font-size: 24px !important; /* Ajuste o tamanho do ícone */
+  color: var(--sidebar-color) !important;  /* Ajuste a cor do ícone */
+}
+
+.toggle:hover {
+  color: var(--primary-color);  /* Cor ao passar o mouse */
+}
+
+
+
+
+/* .textMenu .TextSair{
+  border: 1px solid red;
+  display: flex ;
+  font-size: 17px;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 1;
+  color: #ffff ;
+  transition: var(--tran-03);
+  text-decoration: none ;
+} */
+
+.buttonMenu:hover, .o:hover, .f:hover{
+  border-radius: 6px;
+  background-color: var(--primary-color);
+  cursor: pointer;
+  border: 1px solid var(--primary-color) !important;
+  /* transition: var(--tran-05);  */
+}
+.t{
+  margin-top: 15px;
+  margin-left: -35px;
+  list-style: none;
+  padding: 3px;
+  /* text-align:right; */
+  text-decoration: none !important; 
+}
+
+.iconMenuSair{
+  display: flex !important;
+  font-size: 25px !important;
+  color: #ffff !important;
+  transition: var(--tran-03) !important;
+  min-width: 50px !important;
+  text-decoration: none;
+  margin: -4px;
+  padding: 5px;
+}
+
+.iconMenu {
+  display: flex !important;
+  font-size: 25px !important;
+  color: #ffff !important;
+  transition: var(--tran-03) !important;
+  min-width: 50px !important;
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: center !important;
+  text-decoration: none;
+  margin: -4px;
+  padding: 5px;
+  /* height: 100% !important; */
+}
+.i{
+
+  font-size: 25px !important;
+  color: var(--text-color) !important;
+  transition: var(--tran-03) !important;
+  min-width: 50px !important;
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: center !important;
+  text-decoration: none;
+  margin: -4px;
+  padding: 5px;
+}
+.h{
+  /* border: 1px solid red; */
+  display: flex;
+  text-decoration: none !important;
+  width: 100%;
+  padding: 3px;
+}
+.o{
+  /* border: 1px solid red; */
+  color: var(--text-color) !important;
+  width: 100%;
+  padding: 4px;
+  list-style: none;
+  text-align:left ;
+}
+
+
 /* ===== Card Principal ===== */
 .CardTextPrincipal{ 
   margin-top: 8px !important;
@@ -521,14 +683,6 @@ background-color: #c9302c;  /* Vermelho mais escuro ao passar o mouse */
 /* =========================== */
 
 
-
-
-
-
-
-
-
-
 /*FooterDev*/
 .FooterDev {
   position: relative; /* o absolute */
@@ -541,17 +695,19 @@ background-color: #c9302c;  /* Vermelho mais escuro ao passar o mouse */
 a{
   text-decoration: none;
 }
+
 .Vox2024{
   font-size: 15px;
 }
+
 .cap{
   font-size: 15px;
-  color: var(--carcapivara);
+  color: var(--primary-color);
   font-weight: bold;
 }
 .dev{
   font-size: 15px;
-  color: var(--cordefundo);
+  color: var(--toggle-color);
   font-weight: bold;
 }
 

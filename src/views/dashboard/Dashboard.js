@@ -203,12 +203,6 @@ const Dashboard = () => {
             <h1>Documentos</h1>
           </CCardBody>
         </CCard>
-        <CCard className='CardTextPrincipal'>
-            <CCardTitle className='TextCard'>Graficos</CCardTitle>
-          <CCardBody>
-            <h1>Graficos</h1>
-          </CCardBody>
-        </CCard>
       </CCard>
       
       {/* <WidgetsDropdown className="mb-4" /> */}

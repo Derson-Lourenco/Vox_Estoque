@@ -3,7 +3,8 @@ import { useDispatch } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { CBadge, CNavItem, CNavGroup, CCollapse, CButton, CFooter } from '@coreui/react';
 import navigation from '../_nav';
-import './Sidebar.css';
+// import './Sidebar.css';
+import '../css/style.css';
 import 'boxicons/css/boxicons.min.css';
 import LogoImage from '../img/LogoSidebar.png'; // Caminho da imagem
 import { AppContent, AppSidebar, AppFooter } from '../components/index';
@@ -27,26 +28,7 @@ const SidebarMenu = ({ isSidebarClosed, toggleSidebar }) => {
     if (storedId) setUserid(storedId);
     if (storedName) setUsername(storedName);
   }, []);
-
-  // useEffect(() => {
-  //   const user = localStorage.getItem('userid');
-  //   console.log('ID:', user); 
-  //   if (user) {
-
-  // setUserid(user);
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   const user = localStorage.getItem('username');
-  //   console.log('Nome do usuário encontrado:', user); 
-  //   if (user) {
-  //     setUsername(user);
-  //   }
-  // }, []);
-
-
-  
+ 
   
   const handleLogout = () => {
     localStorage.removeItem('authToken');
@@ -151,7 +133,7 @@ const SidebarMenu = ({ isSidebarClosed, toggleSidebar }) => {
             </ul>
           </div>
           
-          <div className="sidebar-footer">
+          <div className="sidebar-footer textMenuSair">
             <CButton onClick={handleLogout} className="w-100 text-start d-flex align-items-center buttonMenu">
               <span><i className='bx bx-log-out iconMenuSair'></i></span>
               <span className="text nav-text">Sair</span>
@@ -224,9 +206,9 @@ const SidebarMenu = ({ isSidebarClosed, toggleSidebar }) => {
                 return null;
               })}
             </ul>
-            <div className="sidebar-footer">
+            <div className="sidebar-footer textMenuSair">
               <CButton onClick={handleLogout} className="w-100 text-start d-flex align-items-center buttonMenu">
-                <span><i className='bx bx-log-out iconMenu'></i></span>
+                <span><i className='bx bx-log-out iconMenuSair'></i></span>
                 <span className="text nav-text">Sair</span>
               </CButton>
             </div>
