@@ -123,11 +123,11 @@ const LicitacoesPage = () => {
                     {/* Exibição para dispositivos móveis */}
                     <CCol xs={12} className="d-md-none">
                       <div>
-                        <strong>ÓRGÃO:</strong> {licitacao.unidadeOrcamentaria}<br />
-                        <strong>MODALIDADE:</strong> {licitacao.modalidade}<br />
-                        <strong>VALOR PREVISTO:</strong> R$ {licitacao.previsto.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}<br />
-                        <strong>DATA:</strong> {formatarData(licitacao.data)}<br /> {/* Aqui você formata a data */}
-                        <strong>OBJETO:</strong> {licitacao.objeto}<br />
+                        <strong className="textoPrinc">ÓRGÃO:</strong> <span className="textoResunt">{licitacao.unidadeOrcamentaria}</span><br />
+                        <strong className="textoPrinc">MODALIDADE:</strong> <span className="textoResunt">{licitacao.modalidade}</span><br />
+                        <strong className="textoPrinc">VALOR PREVISTO:</strong> <span className="textoResunt">R$ {licitacao.previsto.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span><br />
+                        <strong className="textoPrinc">DATA:</strong> <span className="textoResunt">{formatarData(licitacao.data)} </span><br /> {/* Aqui você formata a data */}
+                        <strong className="textoPrinc">OBJETO:</strong> <span className="textoResunt">{licitacao.objeto}</span><br />
                       </div>
                     </CCol>
 
@@ -149,21 +149,33 @@ const LicitacoesPage = () => {
                       <div className="textoResunt">{formatarData(licitacao.data)}</div> {/* Aqui você formata a data */}
                     </CCol>
                   </CRow>
+
+
+
+
                   <CRow className="g-2 mb-3">
                     <CCol sm={10} className="d-none d-md-block">
                       <CFormLabel className="textoPrinc">OBJETO</CFormLabel>
                       <div className="textoResunt">{licitacao.objeto}</div>
                     </CCol>
-                    <CCol sm={1} className="d-flex align-items-center justify-content-end">
-                      <a href={licitacao.mural} target="_blank" rel="noopener noreferrer" className="d-flex justify-content-center">
-                        <FontAwesomeIcon icon={faEye} className="icon-ver"/>
+                    <CCol xs={12} sm={2} className="d-flex align-items-center justify-content-end">
+                      <a
+                        href={licitacao.mural}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="d-flex justify-content-center"
+                        style={{ marginRight: '16px' }}
+                      >
+                        <FontAwesomeIcon icon={faEye} className="icon-ver" />
                       </a>
-                    </CCol>
-                    <CCol sm={1} className="d-flex align-items-center justify-content-end">
-                      <CButton onClick={() => salvarLicitacao(licitacao)}>
-                        <FontAwesomeIcon icon={faSave} className="icon-save"/>
+                      <CButton
+                        onClick={() => salvarLicitacao(licitacao)}
+                        className="d-flex justify-content-center"
+                      >
+                        <FontAwesomeIcon icon={faSave} className="icon-save" />
                       </CButton>
                     </CCol>
+
                   </CRow>
                 </CCardBody>
               </CCard>
